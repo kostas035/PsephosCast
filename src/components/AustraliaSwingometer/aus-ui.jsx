@@ -1,12 +1,12 @@
-// ─── aus-ui.jsx ───────────────────────────────────────────────────────────────
+// aus-ui.jsx
 import { memo } from "react";
 
-// ── Easing constants ───────────────────────────────────────────────────────────
+// Easing constants
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
 export const EASE_OUT    = "cubic-bezier(0, 0, 0.2, 1)";
 export const EASE_SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 
-// ── Global CSS ─────────────────────────────────────────────────────────────────
+// Global CSS
 export const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900&display=swap');
 
@@ -141,7 +141,7 @@ export const STYLES = `
   }
 `;
 
-// ── Style primitives (JS object) ───────────────────────────────────────────────
+// Style primitives (JS object)
 export const S = {
   card:      { background: "var(--bg-card)", borderRadius: 10, border: "1px solid var(--border)", padding: 14 },
   cardSmall: { background: "var(--bg-card)", borderRadius: 8,  border: "1px solid var(--border)", padding: 10 },
@@ -162,7 +162,7 @@ export const S = {
   },
 };
 
-// ── Icons ──────────────────────────────────────────────────────────────────────
+// Icons
 export const IconGear = memo(({ size = 12 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3"/>
@@ -244,7 +244,7 @@ export const IconMap = memo(({ size = 13 }) => (
   </svg>
 ));
 
-// ── Meander decorative divider ─────────────────────────────────────────────────
+// Meander decorative divider
 export const MeanderBar = memo(({ margin = "12px 0" }) => (
   <svg width="100%" height="6" viewBox="0 0 200 6" preserveAspectRatio="xMidYMid meet"
     style={{ display: "block", margin }}>
@@ -258,7 +258,7 @@ export const MeanderBar = memo(({ margin = "12px 0" }) => (
   </svg>
 ));
 
-// ── Reusable labelled slider ───────────────────────────────────────────────────
+// Reusable labelled slider
 export const Slider = memo(function Slider({ label, value, min = 0, max = 100, step = 0.1, onChange, color, disabled }) {
   const pct = ((value - min) / (max - min)) * 100;
   const valColor = Math.abs(value) < 0.05 ? "var(--text-dim)" : "var(--text-title)";

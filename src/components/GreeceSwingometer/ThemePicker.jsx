@@ -66,7 +66,7 @@ export default function ThemePicker({ current, onSelect, currentPalette, onSelec
           <button className="icon-btn" onClick={onClose} style={{ ...S.ghostBtn, border: "none", fontSize: 18 }}>✕</button>
         </div>
 
-        {/* ── THEME (chrome) ─────────────────────────────────────────── */}
+        {/* THEME (chrome) */}
         <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1.5, textTransform: "uppercase", fontFamily: "var(--ff-body)", margin: "14px 0 10px" }}>{t("Theme")}</div>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr 1fr", gap: 10 }}>
           {THEME_ORDER.map(id => (
@@ -74,7 +74,7 @@ export default function ThemePicker({ current, onSelect, currentPalette, onSelec
           ))}
         </div>
 
-        {/* ── PALETTE (data / colour-blind) ──────────────────────────── */}
+        {/* PALETTE (data / colour-blind) */}
         <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1.5, textTransform: "uppercase", fontFamily: "var(--ff-body)", margin: "22px 0 8px" }}>{t("Colour-blind palette")}</div>
         <p style={{ margin: "0 0 10px", fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--ff-body)", lineHeight: 1.5 }}>
           {t("Recolours the map, parliament and tables. Red–green deficiency affects ~1 in 12 men, where a red and a green party can read as the same muddy tone — these palettes separate every party by luminance so that can't happen.")}

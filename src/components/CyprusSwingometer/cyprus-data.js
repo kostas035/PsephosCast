@@ -104,7 +104,7 @@ export const CY_DEM_CONTROLS = [
 
 export const DEM_RESET = { youth:0, seniors:0, urban:0, education:0, migration:0, gender:0 };
 
-// ── Baseline Engine (Matches Greece Architecture) ─────────────────────────────
+// Baseline Engine (Matches Greece Architecture)
 export const CY_PARTY_LINEAGE = {
   volt: "kosp", alma: "disy", adk: "others", neo: "disy", sypol: "edek" 
 };
@@ -157,7 +157,7 @@ function generateDerivedBaseline(scenarioId) {
 CY_DISTRICT_BASELINES["2026"] = generateDerivedBaseline("2026");
 CY_DISTRICT_BASELINES["2016"] = generateDerivedBaseline("2016");
 
-// ── SVG map geometry ─────────────────────────────────────────────────────────
+// SVG map geometry
 export const CY_ROW_COUNTS = [12, 14, 15, 15];
 export const CY_ROW_RADII  = [90, 115, 140, 165];
 export const CY_HEMI_CX = 240;

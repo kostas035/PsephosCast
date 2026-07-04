@@ -1,4 +1,4 @@
-// ─── cyprus-coalition.jsx ─────────────────────────────────────────────────────
+// cyprus-coalition.jsx
 import { useState, useCallback, memo } from "react";
 import { CY } from "./cyprus-data.js";
 import { S, EASE_OUT, EASE_SPRING, EASE_STD } from "./cyprus-ui.jsx";

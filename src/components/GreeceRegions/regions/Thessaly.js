@@ -1,5 +1,5 @@
 const THESSALY_DETAILS_2023 = {
-  // ── LARISSA DISTRICT ─────────────────────────────────────────────────────────
+  // LARISSA DISTRICT
   "Larissa": {
     pop: 164000,
     baseTurnout: 58.55,
@@ -50,7 +50,7 @@ const THESSALY_DETAILS_2023 = {
     baseVote: { agorastos: 41.80, kouretas: 33.20, tsiaples: 10.90, tzanakouli: 11.80, talachoupis: 2.30 }
   },
 
-  // ── TRIKALA DISTRICT ─────────────────────────────────────────────────────────
+  // TRIKALA DISTRICT
   "Trikala": {
     pop: 78000,
     baseTurnout: 56.4,
@@ -80,7 +80,7 @@ const THESSALY_DETAILS_2023 = {
     baseVote: { agorastos: 40.40, kouretas: 35.80, tsiaples: 11.30, tzanakouli: 10.40, talachoupis: 2.10 }
   },
 
-  // ── KARDITSA DISTRICT ────────────────────────────────────────────────────────
+  // KARDITSA DISTRICT
   "Karditsa": {
     pop: 55000,
     baseTurnout: 55.9,
@@ -124,7 +124,7 @@ const THESSALY_DETAILS_2023 = {
     baseVote: { agorastos: 42.30, kouretas: 34.80, tsiaples: 9.90, tzanakouli: 10.80, talachoupis: 2.20 }
   },
 
-  // ── MAGNESIA DISTRICT ────────────────────────────────────────────────────────
+  // MAGNESIA DISTRICT
   "Volos": {
     pop: 139000,
     baseTurnout: 54.8,
@@ -161,7 +161,7 @@ const THESSALY_DETAILS_2023 = {
     baseVote: { agorastos: 42.30, kouretas: 32.80, tsiaples: 12.10, tzanakouli: 10.60, talachoupis: 2.20 }
   },
 
-  // ── SPORADES DISTRICT ────────────────────────────────────────────────────────
+  // SPORADES DISTRICT
   "Alonnisos": {
     pop: 2000,
     baseTurnout: 52.0,
@@ -186,25 +186,25 @@ const THESSALY_DETAILS_2023 = {
 };
 
 export default {
-  // ── Identity ──────────────────────────────────────────────────────────────
+  // Identity
   id: "thessaly",
   name: "Thessaly",
   icon: "🌾", 
   color: "#10B981", 
   available: true, 
 
-  // ── Council Seat Rules ────────────────────────────────────────────────────
+  // Council Seat Rules
   seatsTotal: 45,
   bonusSeats: 27,          
   distributableSeats: 18,
   threshold: 3,
   winThreshold: 50,  // Greek law: 50%+1 needed to win round 1
 
-  // ── Turnout & Population ──────────────────────────────────────────────────
+  // Turnout & Population
   baseTurnout: 58.55,
   referencePop: 30000,
 
-  // ── Map Setup ─────────────────────────────────────────────────────────────
+  // Map Setup
   mapType: "inline",
   svgContent: `
   <svg viewBox="0 0 1600 873" xmlns="http://www.w3.org/2000/svg" style="background: transparent;">
@@ -273,7 +273,7 @@ export default {
 
   details: THESSALY_DETAILS_2023,
 
-  // ── Baseline Scenario (Loaded immediately - Actual 2023 First Round Results) ──
+  // Baseline Scenario (Loaded immediately - Actual 2023 First Round Results)
   candidates: [
     { id: "agorastos",   name: "Agorastos Konstantinos",  party: "SYMMACHIA YPER TON POLITON",       color: "#0284C7", percent: 41.37, ideology:  1, isLocked: false },
     { id: "kouretas",    name: "Kouretas Dimitrios",      party: "PROTOVOULIA",                      color: "#F97316", percent: 34.11, ideology: -1, isLocked: false },
@@ -282,7 +282,7 @@ export default {
     { id: "talachoupis", name: "Talachoupis Nikolaos",    party: "ARISTERI PAREMVASI GIA ANATROPI",  color: "#7F1D1D", percent:  2.24, ideology: -4, isLocked: false }
   ],
 
-  // ── Scenarios Dropdown (Historical Timelines) ─────────────────────────────
+  // Scenarios Dropdown (Historical Timelines)
   scenarios: {
     "2023-R2": {
       name: "October 2023 (2nd Round)",

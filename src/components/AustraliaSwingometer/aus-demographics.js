@@ -1,4 +1,4 @@
-// ─── aus-demographics.js ──────────────────────────────────────────────────────
+// aus-demographics.js
 // Demographic profiles for Australian electoral divisions.
 // Data sourced from ABS Census 2021 and AEC enrollment data.
 //
@@ -15,7 +15,7 @@
 //   pastVote        – 2022 primary vote estimates { alp, lnp, grn, onp, uap, ind }
 
 export const AUS_DEMOGRAPHICS = {
-  // ── New South Wales ────────────────────────────────────────────────────────
+  // New South Wales
   sydney: {
     population: 108420,
     medianAge: "37 years",
@@ -100,7 +100,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 24,
     pastVote:    { alp: 36, lnp: 22, grn: 7, onp: 3, ind: 27 },
   },
-  // ── Victoria ───────────────────────────────────────────────────────────────
+  // Victoria
   "melbourne": {
     population: 109400,
     medianAge: "32 years",
@@ -161,7 +161,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 34,
     pastVote:    { alp: 48, lnp: 20, grn: 14, onp: 3, ind: 6 },
   },
-  // ── Queensland ─────────────────────────────────────────────────────────────
+  // Queensland
   "brisbane": {
     population: 106800,
     medianAge: "33 years",
@@ -210,7 +210,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 82,
     pastVote:    { alp: 18, lnp: 22, grn: 4, onp: 12, ind: 38 },
   },
-  // ── Western Australia ──────────────────────────────────────────────────────
+  // Western Australia
   "fremantle": {
     population: 107600,
     medianAge: "39 years",
@@ -235,7 +235,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 72,
     pastVote:    { alp: 30, lnp: 40, grn: 10, onp: 6, ind: 8 },
   },
-  // ── South Australia ────────────────────────────────────────────────────────
+  // South Australia
   "sturt": {
     population: 105400,
     medianAge: "43 years",
@@ -260,7 +260,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 78,
     pastVote:    { alp: 32, lnp: 38, grn: 14, onp: 4, ind: 9 },
   },
-  // ── Tasmania ───────────────────────────────────────────────────────────────
+  // Tasmania
   "clark": {
     population: 72400,
     medianAge: "40 years",
@@ -285,7 +285,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 92,
     pastVote:    { alp: 36, lnp: 32, grn: 14, onp: 6, ind: 8 },
   },
-  // ── ACT ────────────────────────────────────────────────────────────────────
+  // ACT
   "canberra": {
     population: 104800,
     medianAge: "37 years",
@@ -310,7 +310,7 @@ export const AUS_DEMOGRAPHICS = {
     speaksEnglishOnly: 68,
     pastVote:    { alp: 40, lnp: 21, grn: 22, onp: 2, ind: 10 },
   },
-  // ── NT ─────────────────────────────────────────────────────────────────────
+  // NT
   "lingiari": {
     population: 62400,
     medianAge: "34 years",

@@ -1,4 +1,4 @@
-// ─── cyprus-control.jsx ───────────────────────────────────────────────────────
+// cyprus-control.jsx
 // Left swing-control panel and its per-party row.
 import { useState, useMemo, useEffect, useCallback, useRef, memo } from "react";
 import { CY_IDEOLOGY_LABELS, CY_DEM_CONTROLS } from "./cyprus-data.js";

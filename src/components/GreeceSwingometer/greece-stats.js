@@ -1,5 +1,4 @@
 // greece-stats.js
-// ─────────────────────────────────────────────────────────────────────────────
 //  Deterministic statistics engine for PsephosCast.gr "Correlations & Trends".
 //  Pure JavaScript, ZERO dependencies. Every function validated against
 //  scipy 1.17 / statsmodels 0.14 (Shapiro–Wilk, KS, Pearson/Spearman/Kendall,
@@ -9,9 +8,8 @@
 //
 //  Export names & return shapes are kept compatible with the existing app
 //  (GreeceCorrelations / GreecePlots / greece-stats-export consume these).
-// ─────────────────────────────────────────────────────────────────────────────
 
-/* ═══ 1 · special functions & distribution tails ═══ */
+/* 1 · special functions & distribution tails */
 function gammaln(xx) {
   // Published Lanczos-approximation constants (Numerical Recipes) — more digits than
   // float64 holds, but JS rounds to the same nearest double either way. Safe as-is.
@@ -68,7 +66,7 @@ export function chiSqP(x, df) { return x <= 0 ? 1 : 1 - gammap(df / 2, x / 2); }
 export function fP(F, d1, d2) { return (!isFinite(F) || F <= 0) ? 1 : betai(d2 / 2, d1 / 2, d2 / (d2 + d1 * F)); }
 const _poly = (c, x) => { let s = 0; for (let i = c.length - 1; i >= 0; i--) s = s * x + c[i]; return s; };
 
-/* ═══ 2 · basic helpers ═══ */
+/* 2 · basic helpers */
 const _num = v => typeof v === "number" && isFinite(v);
 export function pairwiseClean(x, y) { const xs = [], ys = [], n = Math.min(x.length, y.length); for (let i = 0; i < n; i++) { if (_num(x[i]) && _num(y[i])) { xs.push(x[i]); ys.push(y[i]); } } return [xs, ys]; }
 export function cleanRow(row) { return row.filter(_num); }
@@ -85,7 +83,7 @@ export function averageRanks(a) {
 }
 function tieGroups(a) { const m = {}; for (const v of a) m[v] = (m[v] || 0) + 1; return Object.values(m).filter(c => c > 1); }
 
-/* ═══ 3 · descriptive moments ═══ */
+/* 3 · descriptive moments */
 export function skewness(a) {            // G1 (scipy bias=False) — matches Excel/SPSS
   const v = cleanRow(a), n = v.length; if (n < 3) return NaN;
   const m = mean(v); let m2 = 0, m3 = 0; for (const x of v) { const d = x - m; m2 += d * d; m3 += d * d * d; } m2 /= n; m3 /= n;
@@ -111,7 +109,7 @@ export function describe(raw) {
 }
 export function frequencyTable(values) { const map = new Map(); for (const v of values) map.set(v, (map.get(v) || 0) + 1); const n = values.length; return [...map.entries()].sort((a, b) => b[1] - a[1]).map(([k, c]) => ({ value: k, count: c, pct: n ? (c / n) * 100 : 0 })); }
 
-/* ═══ 4 · normality & outliers ═══ */
+/* 4 · normality & outliers */
 export function shapiroWilk(raw) {                 // Royston AS R94, 3 ≤ n ≤ 5000
   const a = cleanRow(raw).slice().sort((p, q) => p - q), n = a.length; if (n < 3) return { W: NaN, p: NaN, n };
   const mI = []; for (let i = 1; i <= n; i++) mI.push(normInv((i - 0.375) / (n + 0.25)));
@@ -146,7 +144,7 @@ export function outliers(raw, labels = [], method = "iqr", z = 3) {
   return out;
 }
 
-/* ═══ 5 · bivariate association ═══ */
+/* 5 · bivariate association */
 export function pearson(x, y) { const [xs, ys] = pairwiseClean(x, y), n = xs.length; if (n < 2) return { r: NaN, n }; const mx = mean(xs), my = mean(ys); let sxy = 0, sxx = 0, syy = 0; for (let i = 0; i < n; i++) { const dx = xs[i] - mx, dy = ys[i] - my; sxy += dx * dy; sxx += dx * dx; syy += dy * dy; } return (sxx === 0 || syy === 0) ? { r: NaN, n } : { r: sxy / Math.sqrt(sxx * syy), n }; }
 export function spearman(x, y) { const [xs, ys] = pairwiseClean(x, y), n = xs.length; if (n < 2) return { rho: NaN, n }; return { rho: pearson(averageRanks(xs), averageRanks(ys)).r, n }; }
 export function kendallTau(x, y) {
@@ -183,7 +181,7 @@ export function chiSquareTable(table) {
   return { chiSquare, df, p: chiSqP(chiSquare, df), cramersV: Math.sqrt(chiSquare / (N * Math.min(R - 1, C - 1))), total: N };
 }
 
-/* ═══ 6 · group comparison ═══ */
+/* 6 · group comparison */
 export function tTest(g1, g2, { welch = true } = {}) {
   const a = cleanRow(g1), b = cleanRow(g2), na = a.length, nb = b.length; if (na < 2 || nb < 2) return { t: NaN, p: NaN, df: NaN };
   const ma = mean(a), mb = mean(b), va = variance(a), vb = variance(b), sp2 = ((na - 1) * va + (nb - 1) * vb) / (na + nb - 2);
@@ -236,7 +234,7 @@ export function kruskalWallis(groups) {
   return { H, df: k - 1, p: chiSqP(H, k - 1), N, k };
 }
 
-/* ═══ 7 · regression (multiple OLS) ═══ */
+/* 7 · regression (multiple OLS) */
 function matT(A) { return A[0].map((_, j) => A.map(r => r[j])); }
 function matMul(A, B) { return A.map(r => B[0].map((_, j) => r.reduce((s, v, k) => s + v * B[k][j], 0))); }
 function matInv(M) {
@@ -278,7 +276,7 @@ export function olsFit(x, y) {
   const slope = sxy / sxx; return { slope, intercept: my - slope * mx, r2: syy === 0 ? NaN : (sxy * sxy) / (sxx * syy), n };
 }
 
-/* ═══ 8 · bivariate bundle + reporting ═══ */
+/* 8 · bivariate bundle + reporting */
 export function corrTest(x, y, labels = []) {
   const xs = [], ys = [], pts = [], n0 = Math.min(x.length, y.length);
   for (let i = 0; i < n0; i++) { if (_num(x[i]) && _num(y[i])) { xs.push(x[i]); ys.push(y[i]); pts.push({ label: labels[i] ?? "", x: x[i], y: y[i] }); } }

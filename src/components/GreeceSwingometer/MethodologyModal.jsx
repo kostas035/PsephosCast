@@ -48,7 +48,7 @@ export default function MethodologyModal({ onClose, lang }) {
             />
           </p>
 
-          {/* ── PART A — NATIONAL SEAT TOTALS ─────────────────────────── */}
+          {/* PART A — NATIONAL SEAT TOTALS */}
           <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)", borderBottom: "1px solid var(--divider)", paddingBottom: 6 }}>{t("Part A · National seat totals")}</div>
 
           <Section step="A1" title={t("Electoral threshold")}>
@@ -120,7 +120,7 @@ export default function MethodologyModal({ onClose, lang }) {
             </Mono>
           </Section>
 
-          {/* ── PART B — CONSTITUENCY DISTRIBUTION ────────────────────── */}
+          {/* PART B — CONSTITUENCY DISTRIBUTION */}
           <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)", borderBottom: "1px solid var(--divider)", paddingBottom: 6 }}>{t("Part B · Constituency distribution (arts. 99–100)")}</div>
 
           <p style={{ margin: 0, color: "var(--text-muted)" }}>
@@ -185,7 +185,7 @@ export default function MethodologyModal({ onClose, lang }) {
             </p>
           </Section>
 
-          {/* ── PART C — SWING MODELS ─────────────────────────────────── */}
+          {/* PART C — SWING MODELS */}
           <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)", borderBottom: "1px solid var(--divider)", paddingBottom: 6 }}>{t("Part C · How the vote shares are set")}</div>
 
           <Section step="C1" title={t("Demographic swing model")}>
@@ -233,7 +233,7 @@ export default function MethodologyModal({ onClose, lang }) {
             </p>
           </Section>
 
-          {/* ── PART D — MONTE CARLO ──────────────────────────────────── */}
+          {/* PART D — MONTE CARLO */}
           <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)", borderBottom: "1px solid var(--divider)", paddingBottom: 6 }}>{t("Part D · Monte Carlo forecast")}</div>
 
           <p style={{ margin: 0, color: "var(--text-muted)" }}>
@@ -273,7 +273,7 @@ export default function MethodologyModal({ onClose, lang }) {
             </Mono>
           </Section>
 
-          {/* ── Scenarios & sources ───────────────────────────────────── */}
+          {/* Scenarios & sources */}
           <Section title={t("Scenarios & data sources")}>
             <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
               <T lang={lang}
@@ -291,7 +291,7 @@ export default function MethodologyModal({ onClose, lang }) {
             </ul>
           </Section>
 
-          {/* ── Limitations (corrected) ───────────────────────────────── */}
+          {/* Limitations */}
           <section style={{ padding: 16, background: "rgba(239, 68, 68, 0.05)", border: "1px solid rgba(239, 68, 68, 0.2)", borderRadius: 8 }}>
             <h4 style={{ margin: "0 0 8px", color: "#EF4444", fontSize: 14, textTransform: "uppercase", letterSpacing: 1 }}>{t("⚠ Known limitations")}</h4>
             <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6, fontSize: 13, color: "var(--text-muted)" }}>

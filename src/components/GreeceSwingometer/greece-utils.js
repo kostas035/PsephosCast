@@ -75,7 +75,7 @@ export function grComputeFeatureSeatData(geoFeatures, districtResults, parties, 
       const dist = matched[j];
       totalSeats += dist.seats; totalLean += dist.lean;
       
-      // FIXED: Strictly use the engine's globally-balanced allocatedSeats
+      // Use the engine's globally-balanced allocatedSeats, not a local re-derivation
       const alloc = dist.allocatedSeats || {};
       
       Object.keys(alloc).forEach(k => { 
@@ -175,10 +175,9 @@ export function finalisePolls(polls) {
   for (let i=1; i<polls.length; i++) if (polls[i].timestamp <= polls[i-1].timestamp) polls[i].timestamp = polls[i-1].timestamp + 1;
   return polls;
 }
-/* ─── Live polling → dynamic baseline ──────────────────────────────────────
+/* Live polling → dynamic baseline
  * Shared Wikipedia fetch (used by both OpinionPolls and the live 2026 baseline),
- * plus a rolling per-party average that feeds the "May 2026 Polling" scenario.
- * ------------------------------------------------------------------------- */
+ * plus a rolling per-party average that feeds the "May 2026 Polling" scenario. */
 
 // Number of most-recent polls to average for the dynamic baseline.
 // 10 ≈ ~3–4 weeks of Greek polling: enough to absorb a single rogue poll / house

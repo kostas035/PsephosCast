@@ -1,5 +1,4 @@
 // GreeceThemes.js
-// ─────────────────────────────────────────────────────────────────────────────
 //  Two independent axes:
 //
 //   • THEME    — the UI chrome (backgrounds, borders, text). dark / light / contrast.
@@ -18,9 +17,8 @@
 //
 //  Decoupling them means you can run, say, Monochrome on a dark chrome, or the
 //  Red–Green palette on the soft light chrome, in any combination.
-// ─────────────────────────────────────────────────────────────────────────────
 
-/* ───────────────────────── THEMES (chrome) ──────────────────────────────── */
+/* THEMES (chrome) */
 
 // Default dark theme is a PASS-THROUGH: it sets NO variables, so the app inherits
 // the page shell's original dark palette exactly — including the district border
@@ -65,7 +63,7 @@ export const THEME_ORDER = ["dark", "light", "contrast"];
 export const DEFAULT_THEME = "dark";
 export function resolveTheme(id) { return THEMES[id] || THEMES[DEFAULT_THEME]; }
 
-/* ───────────────────────── PALETTES (data colours) ──────────────────────── */
+/* PALETTES (data colours) */
 
 // Red–Green safe (Deuteranopia / Protanopia ≈ 1 in 12 men).
 // Reds pushed DARK or toward magenta (which keeps a blue component CVD users can
@@ -118,7 +116,7 @@ export const PALETTE_ORDER = ["default", "redgreen", "blueyellow", "mono"];
 export const DEFAULT_PALETTE = "default";
 export function resolvePalette(id) { return PALETTES[id] || PALETTES[DEFAULT_PALETTE]; }
 
-/* ───────────────────────── helper ───────────────────────────────────────── */
+/* helper */
 
 // Remap an array of parties to the active data palette. `default` is a cheap
 // no-op that preserves authored/edited colours. Mono additionally attaches a

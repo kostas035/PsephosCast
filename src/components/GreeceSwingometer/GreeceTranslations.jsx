@@ -1,5 +1,4 @@
 // GreeceTranslations.jsx
-// ─────────────────────────────────────────────────────────────────────────────
 //  English → Greek dictionary + helpers for the Greek swingometer's UI
 //  (GreeceApp, ControlPanel, ResultsTable, Hemicycle, MonteCarloPanel,
 //  OpinionPolls, ThemePicker, Map, MethodologyModal).
@@ -20,7 +19,6 @@
 //  Paragraphs that mix plain text with inline <strong>/<em> JSX (mostly in the
 //  Methodology modal) use the <T> component, which just switches between the
 //  original English JSX and a hand-written Greek replacement.
-// ─────────────────────────────────────────────────────────────────────────────
 
 export const GR_LANGUAGES = { en: "EN", el: "ΕΛ" };
 
@@ -35,12 +33,12 @@ export function T({ lang, en, el }) {
   return lang === "el" ? (el ?? en) : en;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    Party names — keyed by party id (greece-data.js GR_PARTY_DICT), not by the
    English string, since users can rename a party in the edit panel. A
    renamed/custom party has no Greek translation available and simply falls
    back to whatever the user typed, in either language.
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 export const GR_PARTY_NAMES_EL = {
   nd:       { name: "ΝΔ",        fullName: "Νέα Δημοκρατία" },
   syriza:   { name: "ΣΥΡΙΖΑ",    fullName: "ΣΥΡΙΖΑ - Προοδευτική Συμφωνία" },
@@ -90,12 +88,12 @@ export function tPartyNameById(lang, id, fallback) {
   return (lang === "el" && GR_PARTY_NAMES_EL[id]) ? GR_PARTY_NAMES_EL[id].name : fallback;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    Electoral district / constituency names — keyed by id (greece-data.js
    GR_RAW_DISTRICTS). The map's own GeoJSON files separately carry a
    `name_greek` property per feature (see grExtractNameLocalized in
    greece-utils.js) for the polygon labels themselves.
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 export const GR_DISTRICT_NAMES_EL = {
   athens_a: "Α' Αθηνών", athens_b1: "Β1' Αθηνών (Βόρειος Τομέας)", athens_b2: "Β2' Αθηνών (Δυτικός Τομέας)",
   athens_b3: "Β3' Αθηνών (Νότιος Τομέας)", athens_b: "Β' Αθηνών", piraeus_a: "Α' Πειραιώς", piraeus_b: "Β' Πειραιώς",
@@ -119,10 +117,10 @@ export function tDistrictName(lang, district) {
   return (lang === "el" && GR_DISTRICT_NAMES_EL[district.id]) ? GR_DISTRICT_NAMES_EL[district.id] : district.name;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    Party ideology labels (greece-data.js GR_IDEOLOGY_LABELS) — used in the
    ControlPanel "edit party" dropdown.
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 export const GR_IDEOLOGY_LABELS_EL = {
   "-5": "Αναρχικός (-5)", "-4": "Κομμουνιστής (-4)", "-3": "Δημοκρατικός Σοσιαλιστής (-3)",
   "-2": "Ήπια Αριστερά (-2)", "-1": "Σοσιαλδημοκρατικός (-1)", "0": "Κεντρώος (0)",
@@ -133,9 +131,9 @@ export function tIdeologyLabel(lang, value, fallback) {
   return (lang === "el" && GR_IDEOLOGY_LABELS_EL[value]) ? GR_IDEOLOGY_LABELS_EL[value] : fallback;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    GreeceApp.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const GREECE_APP = {
   "All Countries": "Όλες οι Χώρες",
   "Layout": "Διάταξη",
@@ -154,7 +152,7 @@ const GREECE_APP = {
   "How to Use the Swingometer": "Πώς να Χρησιμοποιήσετε το Σουίνγκομετρο",
   "Let's Go!": "Πάμε!",
 
-  // ── HOWTO modal: section headers ──
+  // HOWTO modal: section headers
   "Getting started": "Ξεκινώντας",
   "Demographic swings": "Δημογραφικές Μετατοπίσεις",
   "The map": "Ο Χάρτης",
@@ -162,7 +160,7 @@ const GREECE_APP = {
   "Forecasting tools": "Εργαλεία Πρόβλεψης",
   "Share & settings": "Κοινή Χρήση & Ρυθμίσεις",
 
-  // ── HOWTO modal: item titles ──
+  // HOWTO modal: item titles
   "Pick a scenario": "Επιλέξτε ένα σενάριο",
   "Change the vote": "Αλλάξτε την ψήφο",
   "Lock a party": "Κλειδώστε ένα κόμμα",
@@ -182,7 +180,7 @@ const GREECE_APP = {
   "Export an image": "Εξαγωγή εικόνας",
   "Theme & colours": "Θέμα & χρώματα",
 
-  // ── HOWTO modal: item body text ──
+  // HOWTO modal: item body text
   "Top-left dropdown. Start from a real election — July 2019, the actual June 2023 result, or the May 2026 polling average. Every number begins from that election’s real data.":
     "Πάνω αριστερά. Ξεκινήστε από μια πραγματική εκλογή — τον Ιούλιο 2019, το πραγματικό αποτέλεσμα του Ιουνίου 2023, ή τον μέσο όρο δημοσκοπήσεων Μαΐου 2026. Κάθε αριθμός ξεκινά από τα πραγματικά δεδομένα αυτής της εκλογής.",
   "On the Parties tab, drag any party’s slider to set its national %. The engine instantly recomputes all 300 seats and 59 districts, and the other parties rebalance so the total stays 100%.":
@@ -223,9 +221,9 @@ const GREECE_APP = {
     "Ανοίγει την πλήρη βήμα-προς-βήμα ανάλυση του πώς οι ψήφοι γίνονται έδρες σύμφωνα με την ελληνική νομοθεσία — τον ακριβή αλγόριθμο πίσω από κάθε αριθμό.",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    ControlPanel.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const CONTROL_PANEL = {
   "Youth Turnout (18–34)": "Προσέλευση Νέων (18–34)",
   "Negative = youth abstain · Positive = youth mobilised": "Αρνητικό = αποχή νέων · Θετικό = κινητοποίηση νέων",
@@ -257,9 +255,9 @@ const CONTROL_PANEL = {
   "Reset to Baseline": "Επαναφορά στη Βάση",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    ResultsTable.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const RESULTS_TABLE = {
   "First Place": "Πρώτο Κόμμα",
   "None": "Κανένα",
@@ -285,9 +283,9 @@ const RESULTS_TABLE = {
   "redistributed": "αναδιανέμονται",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    Hemicycle.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const HEMICYCLE = {
   "Coalition Builder": "Δημιουργός Συνασπισμού",
   "Clear": "Καθαρισμός",
@@ -301,9 +299,9 @@ const HEMICYCLE = {
   "parties": "κόμματα",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    MonteCarloPanel.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const MONTE_CARLO = {
   "🎲 Probabilistic Forecast": "🎲 Πιθανοκρατική Πρόβλεψη",
   "runs": "εκτελέσεις",
@@ -339,9 +337,9 @@ const MONTE_CARLO = {
   "Hung parliament:": "Ακυβέρνητη Βουλή:",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    OpinionPolls.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const OPINION_POLLS = {
   "Loading live polls…": "Φόρτωση δημοσκοπήσεων…",
   "Fallback data": "Εφεδρικά δεδομένα",
@@ -361,9 +359,9 @@ const OPINION_POLLS = {
   "📥 Copy for the projection": "📥 Αντιγραφή στην προβολή",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    ThemePicker.jsx + GreeceThemes.js labels
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const THEME_PICKER = {
   "Appearance": "Εμφάνιση",
   "Colour-blind palette": "Παλέτα για Αχρωματοψία",
@@ -388,9 +386,9 @@ const THEME_PICKER = {
   "Greyscale by luminance (+ map patterns).": "Κλίμακα του γκρι ανά φωτεινότητα (+ μοτίβα χάρτη).",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    Map.jsx
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const MAP = {
   "Electoral Map": "Εκλογικός Χάρτης",
   "🗳️ Swingometer": "🗳️ Σουίνγκομετρο",
@@ -446,10 +444,10 @@ const MAP = {
   "≈ estimated from constituency average (no 2023 row)": "≈ εκτίμηση από τον μέσο όρο της περιφέρειας (χωρίς στοιχεία 2023)",
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    MethodologyModal.jsx — section titles & short labels (long mixed-JSX
    paragraphs are translated inline with <T>, not here)
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 const METHODOLOGY = {
   "🇬🇷 METHODOLOGY": "🇬🇷 ΜΕΘΟΔΟΛΟΓΙΑ",
   "Part A · National seat totals": "Μέρος Α · Εθνικά σύνολα εδρών",
@@ -497,10 +495,10 @@ export const GR_EL = {
   ...MONTE_CARLO, ...OPINION_POLLS, ...THEME_PICKER, ...MAP, ...METHODOLOGY, ...SEAT_DIFF,
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/*
    Parametrized sentences (a number/variable sits inside the sentence, so it
    can't be a flat dictionary key). One small function per template.
-   ═══════════════════════════════════════════════════════════════════════════ */
+   */
 
 // GreeceApp.jsx (empty hemicycle) + ResultsTable.jsx (empty results table)
 export function fmtNoPartiesThreshold(lang, threshold) {

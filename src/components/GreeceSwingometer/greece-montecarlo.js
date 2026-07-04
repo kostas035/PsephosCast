@@ -6,7 +6,7 @@
 import { GR } from "./greece-data.js";
 import { grRunElection } from "./greece-engine.js";
 
-// ── Random helpers ────────────────────────────────────────────────────────
+// Random helpers
 // Standard normal via Box–Muller.
 function randn() {
   let u = 0, v = 0;

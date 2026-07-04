@@ -8,7 +8,7 @@ import { useGreeceT, tPartyNameById } from "./GreeceTranslations.jsx";
 // Prevents white-box browser focus flash on button click
 const BTN_BASE = { outline: "none", WebkitTapHighlightColor: "transparent", userSelect: "none" };
 
-/* ── LOESS (locally-weighted regression) for the poll trend line ────────────
+/* LOESS (locally-weighted regression) for the poll trend line
  * Local linear fit with a tri-cube kernel, run in the time domain so clusters
  * of polls don't over-weight a period. `span` = fraction of points in each
  * local neighbourhood (smaller = wigglier, larger = smoother). Evaluated only
@@ -105,7 +105,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
   const [popup,       setPopup]       = useState(null);
   const chartBoxRef = useRef(null);
 
-  // FIX: Properly compute strings and guarantee chronological order
+  // Localized date strings, sorted chronologically for the chart axis
   const chartData = useMemo(() => {
     if (!polls?.length) return [];
     return [...polls]

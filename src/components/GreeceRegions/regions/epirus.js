@@ -1,15 +1,10 @@
-// ─── Epirus Region ────────────────────────────────────────────────────────────
+// Epirus Region
 // Oct 2023 Round 1 — Kachrimanis won outright (>50%).
 //
-// Fixes vs original:
-//   • Candidate IDs renamed from "1","2",... → meaningful names
-//   • baseVote added to every municipality (was missing → zero geographic variation)
-//   • isLocked added to candidates
-//   • 2019 scenario added
-//
+// Every municipality carries a baseVote entry so the swing model has real
+// geographic variation to work with, instead of a flat national swing.
 // baseVote keys must match candidate IDs: kachrimanis, stefos, zoumpas,
 //   prentzas, rizopoulos, georgopoulos, galatas
-// ─────────────────────────────────────────────────────────────────────────────
 
 export default {
   id: "epirus",
@@ -34,7 +29,7 @@ export default {
     "Ziros", "Arta", "Nikolaos Skoufas", "Georgios Karaiskakis", "Central Tzoumerka",
   ],
 
-  // ── Municipality Demographics + Geographic Vote Baselines ──────────────────
+  // Municipality Demographics + Geographic Vote Baselines
   // baseVote reflects 2023 Round 1 geographic distribution.
   // Mountain communities lean more strongly toward Kachrimanis (ND/center-right).
   // Urban areas (Ioannina City, Preveza, Arta, Igoumenitsa) are more competitive.
@@ -117,7 +112,7 @@ export default {
     },
   },
 
-  // ── Candidates — 2023 Round 1 ──────────────────────────────────────────────
+  // Candidates — 2023 Round 1
   candidates: [
     { id: "kachrimanis",  name: "A. Kachrimanis",    party: "Aksiopioti Ipirou",     color: "#3B82F6", percent: 54.72, ideology:  1, isLocked: false },
     { id: "stefos",       name: "I. Stefos",          party: "Koino ton Ipiroton",    color: "#EF4444", percent: 12.52, ideology: -2, isLocked: false },
@@ -128,7 +123,7 @@ export default {
     { id: "galatas",      name: "Z. Galatas",         party: "ARISTERA",              color: "#D946EF", percent:  1.89, ideology: -3, isLocked: false },
   ],
 
-  // ── SVG Map ────────────────────────────────────────────────────────────────
+  // SVG Map
   svgMap: {
     path3845: "Ioannina", path3843: "Ioannina City", path3899: "Dodoni", path3801: "Konitsa",
     path3839: "Metsovo", path3814: "Pogoni", path3896: "North Tzoumerka", path3836: "Zagori",
@@ -137,7 +132,7 @@ export default {
     path3941: "Parga", path3939: "Parga", path3947: "Igoumenitsa", path3944: "Souli", path3981: "Filiates",
   },
 
-  // ── Scenarios ──────────────────────────────────────────────────────────────
+  // Scenarios
   scenarios: {
     "2019": {
       name: "May 2019 (Round 1)",

@@ -236,7 +236,7 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
             </div>
           </div>
 
-          {/* ----- NEW COUNTRY SWITCHER BAR ----- */}
+          {/* Country switcher bar */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexGrow: 1, padding: "0 10px" }}>
             <button 
               onClick={() => navigate('/greece')}

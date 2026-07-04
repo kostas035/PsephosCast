@@ -1,7 +1,6 @@
 import { CAVEATS } from "./greece-stats.js";
 import { BLOCS } from "./greece-analysis-data.js";
 
-// --- Helpers ---
 function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -36,7 +35,7 @@ function getDownloadConsent(defaultName, extension) {
   return `${userInput}${extension}`;
 }
 
-// NEW: Converts the image to Base64 so MS Word doesn't block it
+// Converts the image to Base64 so MS Word doesn't block it
 async function getBase64ImageFromUrl(imageUrl) {
   try {
     const res = await fetch(imageUrl);
@@ -53,7 +52,6 @@ async function getBase64ImageFromUrl(imageUrl) {
   }
 }
 
-// --- Data Transformer ---
 export function buildExportSheets(report) {
   if (!report) return {};
   const sheets = {};
@@ -147,7 +145,6 @@ export function buildExportSheets(report) {
   return sheets;
 }
 
-// --- Exports ---
 export function exportCSV(report) {
   const finalName = getDownloadConsent(`psephos_analytics_${fileStamp()}`, ".csv");
   if (!finalName) return;

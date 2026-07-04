@@ -15,12 +15,10 @@ export const IconCamera = ({ size=14 }) => (<svg width={size} height={size} view
 export const IconPalette = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>);
 export const IconCheck = ({ size=12 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>);
 
-// ───────────────────────────────────────────────────────────────────────────
 //  Added icons — replacements for the emoji glyphs used across the Greece app
 //  and the Correlations engine. All inherit colour via `currentColor` and
 //  share the 2px round-stroke language of the originals (except the two flags,
 //  which carry their official colours).
-// ───────────────────────────────────────────────────────────────────────────
 
 // Classical / parliament building (was 🏛️)
 export const IconBuilding = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3 2 8h20L12 3z"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="5" y1="11" x2="5" y2="19"/><line x1="9.5" y1="11" x2="9.5" y2="19"/><line x1="14.5" y1="11" x2="14.5" y2="19"/><line x1="19" y1="11" x2="19" y2="19"/><line x1="3" y1="19" x2="21" y2="19"/><line x1="2" y1="22" x2="22" y2="22"/></svg>);
@@ -109,7 +107,7 @@ export const IconDocument = ({ size=14 }) => (<svg width={size} height={size} vi
 // Database / archive (was 🗄️ — CSV matrix)
 export const IconDatabase = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 5v6c0 1.66-4 3-9 3s-9-1.34-9-3V5"/><path d="M21 11v6c0 1.66-4 3-9 3s-9-1.34-9-3v-6"/></svg>);
 
-// ── Flags (official colours, not currentColor) ──────────────────────────────
+// Flags (official colours, not currentColor)
 
 // Hellenic Republic flag (was 🇬🇷)
 export const IconFlagGR = ({ size=20 }) => (<svg width={size} height={size*0.667} viewBox="0 0 27 18" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="grflag"><rect width="27" height="18" rx="2"/></clipPath></defs><g clipPath="url(#grflag)"><rect width="27" height="18" fill="#0D5EAF"/><rect y="2" width="27" height="2" fill="#fff"/><rect y="6" width="27" height="2" fill="#fff"/><rect y="10" width="27" height="2" fill="#fff"/><rect y="14" width="27" height="2" fill="#fff"/><rect width="10" height="10" fill="#0D5EAF"/><rect x="4" width="2" height="10" fill="#fff"/><rect y="4" width="10" height="2" fill="#fff"/></g><rect width="27" height="18" rx="2" fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="1"/></svg>);

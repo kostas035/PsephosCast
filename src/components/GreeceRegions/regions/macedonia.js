@@ -165,7 +165,7 @@ export default {
     mun_Urban_6: "Neapoli-Sykies",
   },
 
-  // ── Scenarios ─────────────────────────────────────────────────────────────
+  // Scenarios
   // 2023 = base (top-level candidates). winThreshold 50 means 2023 won in R1.
   scenarios: {
     "2019": {

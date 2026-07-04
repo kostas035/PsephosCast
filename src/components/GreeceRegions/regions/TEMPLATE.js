@@ -5,24 +5,24 @@
  * and add `myRegion` to the REGIONS_DB object.
  */
 export default {
-  // ── Identity ──────────────────────────────────────────────────────────────
+  // Identity
   id: "template",          // Unique slug, used in URL hash and state keys (no spaces)
   name: "Region Name",     // Display name in the header and selector
   icon: "🏛️",              // Emoji for the region selector card
   color: "#60A5FA",        // Accent color for selector card border/icon
   available: false,        // Set to true to make it selectable in the UI
 
-  // ── Council Seat Rules ────────────────────────────────────────────────────
+  // Council Seat Rules
   seatsTotal: 61,          // Total council seats including bonus
   bonusSeats: 37,          // Seats given to the first-round or runoff winner
   distributableSeats: 24,  // Seats distributed proportionally to opposition
   threshold: 3,            // Minimum % to qualify for any seats
   winThreshold: 43,        // % needed to win outright (avoid runoff)
 
-  // ── Turnout ───────────────────────────────────────────────────────────────
+  // Turnout
   baseTurnout: 52.4,       // Historical average turnout % for this region
 
-  // ── Swing Model ───────────────────────────────────────────────────────────
+  // Swing Model
   referencePop: 30000,     // Population reference for noise scaling. 
                            // Use median municipality population.
   baseShift: 9.0,          // Urban/rural swing intensity.
@@ -30,22 +30,22 @@ export default {
                            // Medium (6-8) for mixed regions (Epirus, W. Macedonia).
                            // Low (4-6) for small homogeneous regions.
 
-  // ── Map Source ────────────────────────────────────────────────────────────
+  // Map Source
   mapType: "url",          // "url" fetches from mapUrl; "inline" uses svgContent
   mapUrl: "https://...",   // Wikimedia Commons SVG URL (use "url" mapType)
   // svgContent: `...`,    // Raw SVG string (use "inline" mapType for custom SVGs)
 
-  // ── SVG ID → Municipality Name Mapping ───────────────────────────────────
+  // SVG ID → Municipality Name Mapping
   // Open the SVG in a browser, inspect each <path> element, note its id attribute.
   svgMap: {
     path1234: "Municipality Name",    // One entry per colored region in the SVG.
   },
 
-  // ── Municipality List ─────────────────────────────────────────────────────
+  // Municipality List
   // Must match keys in svgMap values AND keys in details below.
   munis: ["Municipality Name"],
 
-  // ── Municipality Demographics ─────────────────────────────────────────────
+  // Municipality Demographics
   details: {
     "Municipality Name": {
       pop: 50000,          // Population (use latest census)
@@ -55,7 +55,7 @@ export default {
     },
   },
 
-  // ── Starting Candidates ───────────────────────────────────────────────────
+  // Starting Candidates
   // These are the baseline scenario loaded when the region is first selected.
   // Use most recent election results as starting percentages.
   candidates: [
@@ -70,7 +70,7 @@ export default {
     },
   ],
 
-  // ── Virtual Districts (optional) ─────────────────────────────────────────
+  // Virtual Districts (optional)
   // Use when multiple small SVG shapes should be aggregated into one named district.
   // Common use: city-centre subdivisions that should show as "City X (Total)" in the panel.
   virtualDistricts: [

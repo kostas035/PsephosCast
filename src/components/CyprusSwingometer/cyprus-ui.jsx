@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-/* ─── Easing constants ──────────────────────────────────────── */
+/* Easing constants */
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
 export const EASE_OUT    = "cubic-bezier(0, 0, 0.2, 1)";
 export const EASE_SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
@@ -52,7 +52,7 @@ export const S = {
   tooltip:   { position: "fixed", pointerEvents: "none", background: "var(--tooltip-bg)", border: "1px solid var(--tooltip-border)", padding: "12px 14px", borderRadius: 8, zIndex: 1000, minWidth: 170, boxShadow: "0 16px 40px rgba(0,0,0,0.5)", backdropFilter: "blur(8px)" }
 };
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
+// Icons
 export const IconGear      = memo(({ size=12 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>));
 export const IconColumns   = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg>));
 export const IconPeople    = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>));
@@ -79,7 +79,7 @@ export const IconLock      = memo(({ locked, size = 11 }) => (
   </svg>
 ));
 
-// ── Decorative meander divider ─────────────────────────────────────────────────
+// Decorative meander divider
 export const MeanderBar = memo(() => (
   <svg width="100%" height="6" viewBox="0 0 200 6" preserveAspectRatio="xMidYMid meet" style={{ display: "block" }}>
     <defs>
@@ -91,7 +91,7 @@ export const MeanderBar = memo(() => (
   </svg>
 ));
 
-// ── Reusable range slider with label ──────────────────────────────────────────
+// Reusable range slider with label
 export const Slider = memo(function Slider({ label, value, min=-10, max=10, step=0.5, onChange, color }) {
   const pct      = ((value - min) / (max - min)) * 100;
   const valColor = Math.abs(value) < 0.1 ? "var(--text-dim)" : value > 0 ? "#34D399" : "#F87171";

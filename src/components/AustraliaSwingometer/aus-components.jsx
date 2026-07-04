@@ -1,4 +1,4 @@
-// ─── aus-components.jsx ───────────────────────────────────────────────────────
+// aus-components.jsx
 import { memo, useState, useCallback } from "react";
 import {
   S, EASE_STD, EASE_SPRING,
@@ -10,7 +10,7 @@ import {
 } from "./aus-engine.js";
 import { AUS_PARTIES } from "./aus-data.js";
 
-// ── Seat Tally ─────────────────────────────────────────────────────────────────
+// Seat Tally
 export const SeatTally = memo(function SeatTally({ counts, majority = 76 }) {
   if (!counts) return null;
   const { alp = 0, lnp = 0, grn = 0, ind = 0, total = 150 } = counts;
@@ -60,7 +60,7 @@ export const SeatTally = memo(function SeatTally({ counts, majority = 76 }) {
   );
 });
 
-// ── National 2PP display ───────────────────────────────────────────────────────
+// National 2PP display
 export const National2PP = memo(function National2PP({ current2PP, base2PP }) {
   if (current2PP == null) return null;
   const swing = current2PP - (base2PP ?? 50);
@@ -87,7 +87,7 @@ export const National2PP = memo(function National2PP({ current2PP, base2PP }) {
   );
 });
 
-// ── Hemicycle ──────────────────────────────────────────────────────────────────
+// Hemicycle
 // Simple, clean seat bar — like the original. No arc nonsense.
 export const AusHemicycle = memo(function AusHemicycle({ projected, counts, majority = 76 }) {
   if (!projected?.length) return null;
@@ -166,7 +166,7 @@ export const AusHemicycle = memo(function AusHemicycle({ projected, counts, majo
   );
 });
 
-// ── Metrics Cards ──────────────────────────────────────────────────────────────
+// Metrics Cards
 export const AusMetricsCards = memo(function AusMetricsCards({ counts, national2PP, scenario, base2PP }) {
   const { alp = 0, lnp = 0, grn = 0, ind = 0 } = counts || {};
   const majority = scenario?.majority ?? 76;
@@ -193,7 +193,7 @@ export const AusMetricsCards = memo(function AusMetricsCards({ counts, national2
   );
 });
 
-// ── Results Table ──────────────────────────────────────────────────────────────
+// Results Table
 export const AusResultsTable = memo(function AusResultsTable({ counts, primaries, scenario }) {
   const { alp = 0, lnp = 0, grn = 0, ind = 0, total = 150 } = counts || {};
   const majority = scenario?.majority ?? 76;
@@ -255,7 +255,7 @@ export const AusResultsTable = memo(function AusResultsTable({ counts, primaries
   );
 });
 
-// ── State Breakdown ────────────────────────────────────────────────────────────
+// State Breakdown
 export const AusStateBreakdown = memo(function AusStateBreakdown({ stateData }) {
   if (!stateData?.length) return null;
   return (
@@ -286,7 +286,7 @@ export const AusStateBreakdown = memo(function AusStateBreakdown({ stateData }) 
   );
 });
 
-// ── Sliders Panel ──────────────────────────────────────────────────────────────
+// Sliders Panel
 export const AusSlidersPanel = memo(function AusSlidersPanel({
   primaries, lockedParties, onPrimaryChange, onToggleLock,
   prefFlows, onPrefChange, national2PP, base2PP, scenario,
@@ -403,7 +403,7 @@ export const AusSlidersPanel = memo(function AusSlidersPanel({
   );
 });
 
-// ── Seats on a Line ────────────────────────────────────────────────────────────
+// Seats on a Line
 export const AusSeatsOnLine = memo(function AusSeatsOnLine({ marginals }) {
   const [showAll, setShowAll] = useState(false);
   if (!marginals?.length) return null;
@@ -440,7 +440,7 @@ export const AusSeatsOnLine = memo(function AusSeatsOnLine({ marginals }) {
   );
 });
 
-// ── Legacy named exports (keep backward compat) ─────────────────────────────────
+// Legacy named exports (keep backward compat)
 export const StateBreakdown = AusStateBreakdown;
 export const MarginalSeats = AusSeatsOnLine;
 export const PrimarySliders = AusSlidersPanel;

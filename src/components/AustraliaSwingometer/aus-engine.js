@@ -1,4 +1,4 @@
-// ─── aus-engine.js ────────────────────────────────────────────────────────────
+// aus-engine.js
 // Preferential voting engine — simulates actual Australian count per division.
 //
 // Model:
@@ -19,7 +19,7 @@ import { AUS_DIVISION_DEMOGRAPHICS } from "./aus-demographics-adapter.js";
 const DEMOG_BY_ID = {};
 AUS_DIVISION_DEMOGRAPHICS.forEach(d => { DEMOG_BY_ID[d.id] = d; });
 
-// ── Demographic vote-lean weights ─────────────────────────────────────────────
+// Demographic vote-lean weights
 // base = starting primary %, then each field adds (weight × census%) points.
 // Derived from Australian cross-tabs (religion, education, tenure, age, ancestry).
 const DEMOGRAPHIC_LEANS = {
@@ -79,7 +79,7 @@ AUS_DIVISIONS.forEach(div => {
   CALIBRATION[div.id] = est ? (div.alp2PP - impliedAlp2PP(est)) : 0;
 });
 
-// ── Preference distribution matrix ────────────────────────────────────────────
+// Preference distribution matrix
 // How voters of party X distribute their preferences when X is eliminated.
 // Format: prefMatrix[eliminated][receiving] = fraction (0–1), sums to 1.0 across row.
 // These are the default "exhaust-adjusted" historical flows from AEC data.
@@ -116,7 +116,7 @@ function distributePrefs(eliminated, votes, remaining, prefMatrix) {
   return result;
 }
 
-// ── Simulated preferential count for one division ─────────────────────────────
+// Simulated preferential count for one division
 // localPrimaries: { alp, lnp, grn, ... } summing to 100
 // prefMatrix: override matrix (merged with DEFAULT_PREFS)
 // Returns { winner, runnerUp, winnerVotes, runnerUpVotes, margin }
@@ -172,7 +172,7 @@ export function simulateCount(localPrimaries, prefMatrix = {}) {
   };
 }
 
-// ── Local primary profile per division ────────────────────────────────────────
+// Local primary profile per division
 // Each division has a local primary lean that deviates from the national figure.
 // The national swing shifts these proportionally, but local kings only move at
 // a "drag factor" (0 = perfectly safe, 1 = full national swing sensitivity).
@@ -185,7 +185,7 @@ export function simulateCount(localPrimaries, prefMatrix = {}) {
 // Divisions with local personalities / strong regional parties have explicit entries.
 
 const LOCAL_PROFILES = {
-  // ── Andrew Wilkie — Clark (TAS) ────────────────────────────────────────────
+  // Andrew Wilkie — Clark (TAS)
   "clark": {
     ind: { base: 38, drag: 0.10 },  // Wilkie: very strong personal vote
     alp: { base: 30, drag: 0.7  },
@@ -194,7 +194,7 @@ const LOCAL_PROFILES = {
     onp: { base: 2,  drag: 0.5  },
   },
 
-  // ── Fowler (NSW) — Dai Le independent ──────────────────────────────────────
+  // Fowler (NSW) — Dai Le independent
   "fowler": {
     ind: { base: 34, drag: 0.10 },
     alp: { base: 32, drag: 0.7  },
@@ -204,7 +204,7 @@ const LOCAL_PROFILES = {
     uap: { base: 2,  drag: 0.4  },
   },
 
-  // ── Warringah / North Sydney / Wentworth / Mackellar / Goldstein / Kooyong / Indi / Curtin
+  // Warringah / North Sydney / Wentworth / Mackellar / Goldstein / Kooyong / Indi / Curtin
   // Teal independents — strong local brand, drag ~0.2 on national LNP swing
   "warringah": {
     ind: { base: 38, drag: 0.15 }, lnp: { base: 26, drag: 0.7 },
@@ -239,13 +239,13 @@ const LOCAL_PROFILES = {
     alp: { base: 18, drag: 0.6  }, grn: { base: 12, drag: 0.7 }, onp: { base: 3, drag: 0.5 }, uap: { base: 3, drag: 0.4 },
   },
 
-  // ── Melbourne — Adam Bandt / Greens stronghold ─────────────────────────────
+  // Melbourne — Adam Bandt / Greens stronghold
   "melbourne": {
     grn: { base: 52, drag: 0.6  }, alp: { base: 26, drag: 0.7 },
     lnp: { base: 12, drag: 0.6  }, onp: { base: 2,  drag: 0.4 }, uap: { base: 2, drag: 0.3 }, ind: { base: 6, drag: 0.5 },
   },
 
-  // ── Brisbane & Ryan — competitive GRN/LNP/ALP three-way ───────────────────
+  // Brisbane & Ryan — competitive GRN/LNP/ALP three-way
   "brisbane": {
     grn: { base: 36, drag: 0.7  }, lnp: { base: 28, drag: 0.7 },
     alp: { base: 24, drag: 0.7  }, onp: { base: 5,  drag: 0.7 }, uap: { base: 3, drag: 0.5 }, ind: { base: 4, drag: 0.5 },
@@ -255,7 +255,7 @@ const LOCAL_PROFILES = {
     alp: { base: 24, drag: 0.7  }, onp: { base: 5,  drag: 0.7 }, uap: { base: 3, drag: 0.5 }, ind: { base: 10, drag: 0.5 },
   },
 
-  // ── ONP-heavy regional QLD ─────────────────────────────────────────────────
+  // ONP-heavy regional QLD
   "hinkler": {
     onp: { base: 18, drag: 0.8 }, lnp: { base: 38, drag: 0.8 },
     alp: { base: 26, drag: 0.8 }, kap: { base: 4,  drag: 0.4 }, uap: { base: 6, drag: 0.6 }, grn: { base: 5, drag: 0.6 }, ff: { base: 3, drag: 0.4 },
@@ -277,14 +277,14 @@ const LOCAL_PROFILES = {
     alp: { base: 14, drag: 0.5  }, onp: { base: 10, drag: 0.7 }, grn: { base: 4, drag: 0.5 }, uap: { base: 2, drag: 0.4 }, ind: { base: 2, drag: 0.3 },
   },
 
-  // ── SA — Centre Alliance (Rebekha Sharkie, Mayo) ────────────────────────────
+  // SA — Centre Alliance (Rebekha Sharkie, Mayo)
   "mayo": {  // very safe CA seat
     ca:  { base: 48, drag: 0.05 }, lnp: { base: 28, drag: 0.7 },
     alp: { base: 12, drag: 0.6  }, grn: { base: 8,  drag: 0.6 }, onp: { base: 2, drag: 0.5 }, ind: { base: 2, drag: 0.5 },
   },
 };
 
-// ── Compute local primaries for a division ────────────────────────────────────
+// Compute local primaries for a division
 // Blends the division's local profile with the national primary swing.
 function computeLocalPrimaries(div, nationalPrimaries, basePrimaries) {
   const profile = LOCAL_PROFILES[div.id];
@@ -320,7 +320,7 @@ function computeLocalPrimaries(div, nationalPrimaries, basePrimaries) {
   return result;
 }
 
-// ── National 2PP (headline) ───────────────────────────────────────────────────
+// National 2PP (headline)
 // Still computed directly from national primaries for the headline display —
 // this is the simple weighted flow version used in the UI top bar.
 export function ausComputeNational2PP(primaries, prefOverrides = {}) {
@@ -353,7 +353,7 @@ export function ausComputeNational2PP(primaries, prefOverrides = {}) {
   return twoPartyTotal > 0 ? (alpVote / twoPartyTotal) * 100 : 50;
 }
 
-// ── Build preference matrix from user overrides ────────────────────────────────
+// Build preference matrix from user overrides
 // User overrides only specify the ALP/LNP split for each minor party.
 // We blend these into the full matrix proportionally.
 function buildMatrix(prefOverrides) {
@@ -385,7 +385,7 @@ function buildMatrix(prefOverrides) {
   return matrix;
 }
 
-// ── Seat projection ────────────────────────────────────────────────────────────
+// Seat projection
 // Simulates a full preferential count for every division.
 export function ausProjectSeats(divisions, nationalPrimaries, basePrimaries, prefOverrides = {}) {
   const prefMatrix = buildMatrix(prefOverrides);
@@ -400,7 +400,7 @@ export function ausProjectSeats(divisions, nationalPrimaries, basePrimaries, pre
     let winner   = count.winner;
     let runnerUp = count.runnerUp;
 
-    // ── Local king protection ────────────────────────────────────────────────
+    // Local king protection
     // If this division has a profiled "king" party (KAP/CA/IND/GRN incumbent)
     // that leads on local primary vote, incumbency + name recognition means they
     // hold the 2CP. Override the count winner to that party.
@@ -460,7 +460,7 @@ function lowestDragSafe(profile, kingId) {
   return profile && profile[kingId] && profile[kingId].drag <= 0.2;
 }
 
-// ── Aggregate seat counts ──────────────────────────────────────────────────────
+// Aggregate seat counts
 export function ausSeatCounts(projected) {
   const counts = { alp: 0, lnp: 0, grn: 0, ind: 0 };
   projected.forEach(d => {
@@ -473,7 +473,7 @@ export function ausSeatCounts(projected) {
   return { ...counts, total: projected.length };
 }
 
-// ── State-by-state breakdown ───────────────────────────────────────────────────
+// State-by-state breakdown
 export function ausStateBreakdown(projected) {
   const map = {};
   projected.forEach(d => {
@@ -486,14 +486,14 @@ export function ausStateBreakdown(projected) {
   return ORDER.map(st => map[st]).filter(Boolean);
 }
 
-// ── Marginal seats ─────────────────────────────────────────────────────────────
+// Marginal seats
 export function ausMarginalSeats(projected, n = 20) {
   return [...projected]
     .sort((a, b) => a.flipDistance - b.flipDistance)
     .slice(0, n);
 }
 
-// ── Party colour / label ──────────────────────────────────────────────────────
+// Party colour / label
 export function ausPartyColor(partyId) {
   const map = {
     alp: "#E13940", lnp: "#1C4F9C", grn: "#009C3D", ind: "#40C0C0",
@@ -510,7 +510,7 @@ export function ausPartyLabel(partyId) {
   return map[partyId] ?? partyId.toUpperCase();
 }
 
-// ── Format helpers ─────────────────────────────────────────────────────────────
+// Format helpers
 export function ausFmt2PP(n) { if (n == null) return "—"; return n.toFixed(1) + "%"; }
 export function ausSwingLabel(current, base) {
   const d = current - base;

@@ -1,4 +1,4 @@
-// ─── cyprus-hemicycle.jsx ─────────────────────────────────────────────────────
+// cyprus-hemicycle.jsx
 import { useState, useMemo, useEffect, memo } from "react";
 import { CY, CY_HEMI_POSITIONS, CY_HEMI_W, CY_HEMI_H, CY_HEMI_CX, CY_HEMI_CY, CY_ROW_RADII } from "./cyprus-data.js";
 import { S, EASE_OUT, EASE_STD } from "./cyprus-ui.jsx";

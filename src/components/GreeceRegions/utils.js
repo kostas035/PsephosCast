@@ -1,4 +1,4 @@
-// ─── utils.js ─────────────────────────────────────────────────────────────────
+// utils.js
 // Core swing engine for the Greece Regional Elections swingometer.
 //
 // KEY UPGRADE: Logit-space swing transformation.
@@ -10,11 +10,11 @@
 // you're at 80% is very different from +10pt when you're at 10%.
 // This matches how political science models geographic vote diffusion.
 
-// ─── Logit Helpers ────────────────────────────────────────────────────────────
+// Logit Helpers
 export const toLogit  = (p) => Math.log(Math.max(0.0001, p) / Math.max(0.0001, 100 - p));
 export const fromLogit = (l) => 100 / (1 + Math.exp(-l));
 
-// ─── Pseudo-random (deterministic) ───────────────────────────────────────────
+// Pseudo-random (deterministic)
 export const getPseudoRandom = (seed) => {
   const x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
@@ -29,7 +29,7 @@ export const getHash = (str) => {
   return hash;
 };
 
-// ─── computeMunicipalData ─────────────────────────────────────────────────────
+// computeMunicipalData
 // Computes per-municipality vote shares given a set of active candidates and
 // a turnout delta, then runs the seat allocation engine.
 //
@@ -48,7 +48,7 @@ export const computeMunicipalData = (config, activeCandidates, turnoutDelta) => 
 
   const finalData = {};
 
-  // ── Per-municipality swing calculation ──────────────────────────────────────
+  // Per-municipality swing calculation
   config.munis.forEach((m) => {
     const d = config.details[m];
     if (!d) return;
@@ -87,7 +87,7 @@ export const computeMunicipalData = (config, activeCandidates, turnoutDelta) => 
       .sort((a, b) => b.localPercent - a.localPercent);
   });
 
-  // ── Virtual District Aggregation ─────────────────────────────────────────────
+  // Virtual District Aggregation
   if (config.virtualDistricts) {
     config.virtualDistricts.forEach((vd) => {
       let totalV  = 0;
@@ -112,7 +112,7 @@ export const computeMunicipalData = (config, activeCandidates, turnoutDelta) => 
     });
   }
 
-  // ── Regional Aggregate ───────────────────────────────────────────────────────
+  // Regional Aggregate
   const agg       = {};
   let grandTotal  = 0;
   activeCandidates.forEach((c) => (agg[c.id] = 0));
@@ -136,7 +136,7 @@ export const computeMunicipalData = (config, activeCandidates, turnoutDelta) => 
     return { ...c, votes, percent, seats: 0 };
   });
 
-  // ── Seat Allocation Engine ────────────────────────────────────────────────────
+  // Seat Allocation Engine
   // Greek regional councils use a bonus-seat system:
   //   – The list with the most first-round votes (or the runoff winner)
   //     receives `bonusSeats` seats automatically.

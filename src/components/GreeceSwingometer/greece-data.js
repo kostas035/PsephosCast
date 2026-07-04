@@ -33,7 +33,7 @@ export const GR_IDEOLOGY_LABELS = {
 };
 
 export const GR_PARTY_DICT = {
-  // --- GREEK PARTIS ---
+  // Greek parties
   nd:         { name:"ND",         fullName:"New Democracy",              color:"#1b5cc7", ideology: 1, sensitivities:{ youth: -0.250, seniors:  0.450, urban:  0.050, education:  0.150, precarity: -0.400, gender:  0.050 } },
   syriza:     { name:"SYRIZA",     fullName:"SYRIZA - PS",                color:"#EF4444", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.250, urban:  0.050, education:  0.150, precarity:  0.200, gender:  0.100 } },
   pasok:      { name:"PASOK",      fullName:"PASOK - KINAL",              color:"#16A34A", ideology:-1, sensitivities:{ youth: -0.200, seniors:  0.350, urban: -0.400, education: -0.050, precarity: -0.100, gender:  0.100 } },
@@ -52,7 +52,7 @@ export const GR_PARTY_DICT = {
   dpk:        { name: "DPK",       fullName:"Democrats Progressive Centre", color:"#ff6600", ideology: 0, sensitivities:{ youth:  0.410, seniors: -0.080, urban:  0.074, education:  0.250, precarity:  0.150, gender: -0.020 } },
 samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"#172554", ideology: 2, sensitivities:{ youth: -0.200, seniors:  0.400, urban: -0.100, education: -0.050, precarity: -0.200, gender: -0.100 } },
 
-  // --- 2015 ERA (not standing in later scenarios) ---
+  // 2015-era parties, not standing in later scenarios
   potami:     { name:"POTAMI",     fullName:"To Potami",                  color:"#9C514A", ideology: 0, sensitivities:{ youth:  0.250, seniors: -0.150, urban:  0.350, education:  0.400, precarity: -0.150, gender:  0.100 } },
   anel:       { name:"ANEL",       fullName:"Independent Greeks",         color:"#38A3E7", ideology: 4, sensitivities:{ youth: -0.150, seniors:  0.300, urban: -0.350, education: -0.300, precarity:  0.350, gender: -0.250 } },
   ek:         { name:"EK",         fullName:"Union of Centrists",         color:"#FF7F50", ideology: 0, sensitivities:{ youth: -0.050, seniors:  0.150, urban: -0.100, education: -0.100, precarity:  0.100, gender: -0.050 } },
@@ -61,7 +61,7 @@ samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"
   kidiso:     { name:"KIDISO",     fullName:"Movement of Democratic Socialists", color:"#E70C21", ideology:-1, sensitivities:{ youth: -0.100, seniors:  0.200, urban:  0.100, education:  0.200, precarity: -0.150, gender:  0.050 } },
   teleia:     { name:"TELEIA",     fullName:"Teleia",                     color:"#64748B", ideology: 2, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.200, education:  0.350, precarity: -0.350, gender: -0.050 } },
 
-  // --- 2012 ONLY (not standing in later scenarios; stood in both May & June 2012) ---
+  // 2012-only parties, stood in both the May and June elections that year
   dimar:      { name:"DIMAR",      fullName:"Democratic Left",            color:"#FF4100", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.050, urban:  0.250, education:  0.350, precarity:  0.050, gender:  0.100 } },
   laos:       { name:"LAOS",       fullName:"Popular Orthodox Rally",     color:"#000080", ideology: 4, sensitivities:{ youth: -0.200, seniors:  0.300, urban: -0.250, education: -0.300, precarity:  0.200, gender: -0.200 } },
   prasinoi:   { name:"OP",         fullName:"Ecologist Greens",           color:"#90EE90", ideology: 0, sensitivities:{ youth:  0.300, seniors: -0.200, urban:  0.300, education:  0.350, precarity: -0.050, gender:  0.150 } },
@@ -73,7 +73,7 @@ samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"
 
   other:      { name:"OTH",        fullName:"Other Parties",              color:"#9CA3AF", ideology: 0, sensitivities:{ youth:  0.000, seniors:  0.000, urban:  0.000, education:  0.000, precarity:  0.000, gender:  0.000 } },
 
-  // --- US EASTER EGGS ---
+  // US easter eggs
   us_dem:     { name:"DEM",        fullName:"Democratic Party (US)",      color:"#1D4ED8", ideology:-1, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.550, education:  0.450, precarity:  0.100, gender:  0.300 } },
   us_rep:     { name:"GOP",        fullName:"Republican Party (US)",      color:"#E11D48", ideology: 3, sensitivities:{ youth: -0.200, seniors:  0.300, urban: -0.500, education: -0.350, precarity:  0.150, gender: -0.250 } }
 };
@@ -144,7 +144,6 @@ export const GR_RAW_DISTRICTS = [
   { id:"zakynthos",         name:"Zakynthos",         seats: 1, lean:-0.8 },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  Pre-2018 boundary map (56 constituencies), used by both 2015 scenarios
 //  (January and September — same apportionment for both).
 //  Athens B (undivided) and Attica (undivided) replace the post-Dec-2018 split
@@ -157,7 +156,6 @@ export const GR_RAW_DISTRICTS = [
 //  Thessaloniki A 16 (now 17), Thessaloniki B 9 (now 6), Arta 3 (now 2),
 //  Achaea 8 (now 9), Kozani 5 (now 4), plus the merged Athens B (44) and
 //  Attica (15).
-// ─────────────────────────────────────────────────────────────────────────────
 export const GR_RAW_DISTRICTS_2015 = [
   { id:"athens_a",          name:"Athens A",          seats:14, lean:-1.5 },
   { id:"athens_b",          name:"Athens B",          seats:44, lean: 0.1 },
@@ -217,7 +215,6 @@ export const GR_RAW_DISTRICTS_2015 = [
   { id:"zakynthos",         name:"Zakynthos",         seats: 1, lean:-0.8 },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  June 2012 apportionment (56 pre-2018 constituencies, same undivided Athens B /
 //  Attica as GR_RAW_DISTRICTS_2015, but a DIFFERENT seat count per constituency:
 //  this is the pre-Π.Δ.4/2013 apportionment (2001 census, Π.Δ. 96/2007), the one
@@ -229,7 +226,6 @@ export const GR_RAW_DISTRICTS_2015 = [
 //  Athens B 42 (vs 44), Attica 12 (vs 15), Piraeus A 6 (same), Thessaloniki A 16
 //  (same), Thessaloniki B 7 (vs 9), Arta 3 (same), Achaea 9 (vs 8), Boeotia 4
 //  (vs 3), Serres 7 (vs 6), Thesprotia 1 (vs 2).
-// ─────────────────────────────────────────────────────────────────────────────
 export const GR_RAW_DISTRICTS_2012 = [
   { id:"athens_a",          name:"Athens A",          seats:17, lean:-1.5 },
   { id:"athens_b",          name:"Athens B",          seats:42, lean: 0.1 },
@@ -404,7 +400,7 @@ export const GR_SCENARIO_LABELS  = { "2026":"May 2026 Polling", "2023":"June 202
 export const GR_SCENARIO_TURNOUT = { "2026":5_500_000, "2023":5_273_699, "2019":5_769_542, "2015":5_433_376, "2015jan":6_180_872, "2012":6_155_464, "2012may":6_324_136 };
 export const GR_TURNOUT_IS_ESTIMATE = { "2026":true };
 
-// NEW DEMOGRAPHICS DATA
+// Per-constituency demographic data (ELSTAT)
 export const GR_DISTRICT_DEMOGRAPHICS = [
   { id: "athens_a", name: "Athens A", age_over_65_pct: 21.5, tertiary_edu_pct: 42.0, unemployment_rate: 9.5, foreign_citizens_pct: 14.5, urbanization_pct: 100.0, primary_economy: "Services" },
   { id: "athens_b1", name: "Athens B1 (North)", age_over_65_pct: 23.0, tertiary_edu_pct: 55.0, unemployment_rate: 7.5, foreign_citizens_pct: 6.0, urbanization_pct: 100.0, primary_economy: "Services & Commerce" },

@@ -1,4 +1,4 @@
-// ── Eastern Macedonia & Thrace ────────────────────────────────────────────────
+// Eastern Macedonia & Thrace
 // 2023 actual: R1 → Metios 42.30%, Topsidis 35.37% (no 50% winner → RUNOFF).
 // Runoff → TOPSIDIS WON, taking the 3/5 majority bonus: 27 of 45 seats.
 // Final seats: Topsidis 27 · Metios 13 · Kangelidis 2 · Iliopoulos 2 · Kladis 1.
@@ -9,7 +9,6 @@
 //
 // Geography (Round 1 map): Topsidis (Drama's mayor) carries the whole Drama district
 // plus Kavala; Metios holds Xanthi, Rhodope (minority vote) and Evros.
-// ─────────────────────────────────────────────────────────────────────────────
 
 const EMTH_SVG_CONTENT = `
 <svg viewBox="0 0 2635.345 1561.5879" xmlns="http://www.w3.org/2000/svg" id="map-svg" style="width:100%; height:100%;">
@@ -43,7 +42,7 @@ const EMTH_SVG_CONTENT = `
 `;
 
 const EMTH_DETAILS_2023 = {
-  // ── DRAMA DISTRICT — Topsidis (Drama mayor) home turf ──
+  // DRAMA DISTRICT — Topsidis (Drama mayor) home turf
   "Drama": {
     pop: 55679, baseTurnout: 52.1, elasticity: 1.10, urbanization: 0.85,
     baseVote: { metios: 36, topsidis: 46, kangelidis: 7.5, iliopoulos: 4, kladis: 5, perentidis: 1.5 }
@@ -64,7 +63,7 @@ const EMTH_DETAILS_2023 = {
     pop: 12199, baseTurnout: 51.5, elasticity: 0.90, urbanization: 0.40,
     baseVote: { metios: 37, topsidis: 45, kangelidis: 8.5, iliopoulos: 4, kladis: 4, perentidis: 1.5 }
   },
-  // ── KAVALA & THASOS — competitive, KKE stronger in port city ──
+  // KAVALA & THASOS — competitive, KKE stronger in port city
   "Kavala": {
     pop: 66376, baseTurnout: 54.0, elasticity: 1.15, urbanization: 0.90,
     baseVote: { metios: 38, topsidis: 39, kangelidis: 8, iliopoulos: 5, kladis: 8, perentidis: 2 }
@@ -81,7 +80,7 @@ const EMTH_DETAILS_2023 = {
     pop: 13104, baseTurnout: 51.8, elasticity: 0.85, urbanization: 0.40,
     baseVote: { metios: 44, topsidis: 36, kangelidis: 8, iliopoulos: 5, kladis: 5, perentidis: 2 }
   },
-  // ── XANTHI DISTRICT — Metios (incumbent + minority vote) ──
+  // XANTHI DISTRICT — Metios (incumbent + minority vote)
   "Xanthi": {
     pop: 66875, baseTurnout: 53.5, elasticity: 1.10, urbanization: 0.85,
     baseVote: { metios: 44, topsidis: 33, kangelidis: 10, iliopoulos: 7, kladis: 4, perentidis: 2 }
@@ -98,7 +97,7 @@ const EMTH_DETAILS_2023 = {
     pop: 9473, baseTurnout: 51.0, elasticity: 0.80, urbanization: 0.25,
     baseVote: { metios: 46, topsidis: 32, kangelidis: 11, iliopoulos: 6, kladis: 3.5, perentidis: 1.5 }
   },
-  // ── RHODOPE DISTRICT — Metios stronghold (minority + Komotini base) ──
+  // RHODOPE DISTRICT — Metios stronghold (minority + Komotini base)
   "Komotini": {
     pop: 65243, baseTurnout: 55.0, elasticity: 1.15, urbanization: 0.85,
     baseVote: { metios: 43, topsidis: 32, kangelidis: 11, iliopoulos: 7, kladis: 5, perentidis: 2 }
@@ -115,7 +114,7 @@ const EMTH_DETAILS_2023 = {
     pop: 11867, baseTurnout: 53.2, elasticity: 0.85, urbanization: 0.30,
     baseVote: { metios: 46, topsidis: 31, kangelidis: 11, iliopoulos: 6, kladis: 4, perentidis: 2 }
   },
-  // ── EVROS DISTRICT — Metios incumbent edge, KKE in Alexandroupoli ──
+  // EVROS DISTRICT — Metios incumbent edge, KKE in Alexandroupoli
   "Alexandroupoli": {
     pop: 71751, baseTurnout: 54.5, elasticity: 1.20, urbanization: 0.90,
     baseVote: { metios: 40, topsidis: 36, kangelidis: 9, iliopoulos: 5, kladis: 7.5, perentidis: 2.5 }

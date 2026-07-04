@@ -1,23 +1,20 @@
-// GreeceExport.jsx
-// Modular export composer for the Greece Swingometer — v2.
+// Modular export composer for the Greece Swingometer.
 //
-// What changed from v1, and why:
-//  • ONE board, not two. v1 rendered the editor at one cell size and the
-//    captured PNG at another (a hidden 1480px copy with different cell heights),
-//    so what you arranged was never what downloaded. Now a single <ExportBoard>
-//    is rendered at native export pixels and the on-screen editor is just that
-//    same node scaled down with a CSS transform (fit-to-viewport via
-//    ResizeObserver). Editor === download. This is the "stick better" fix.
-//  • FORMATS — Landscape / Square / Portrait / Phone. Each carries its own
-//    pixel size AND grid (cols×rows); Phone is a single tall column. Switching
-//    format re-packs the panels into a valid layout (packItems).
-//  • Content-scale slider (per board) shrinks the chunky bits — the odds bars,
-//    labels and legends — without touching the layout. This is the
-//    "make the bars smaller" knob.
-//  • Parliament panel is now wrapped + clipped so the hemicycle's labels can no
-//    longer spill out and cover the map.
-//  • Boards / "slides": you can build several boards and "Download all" emits
-//    one PNG per board. "Download this" emits just the active one.
+// A single <ExportBoard> is rendered at native export pixels, and the
+// on-screen editor is that same node scaled down with a CSS transform
+// (fit-to-viewport via ResizeObserver) — so what you arrange in the editor is
+// exactly what gets captured, at any zoom level.
+//
+// FORMATS — Landscape / Square / Portrait / Phone. Each carries its own pixel
+// size AND grid (cols×rows); Phone is a single tall column. Switching format
+// re-packs the panels into a valid layout (packItems).
+//
+// The content-scale slider (per board) shrinks the chunky bits — odds bars,
+// labels, legends — without touching the layout. The parliament panel is
+// wrapped and clipped so the hemicycle's labels can't spill out over the map.
+//
+// Boards act as "slides": you can build several and "Download all" emits one
+// PNG per board, while "Download this" emits just the active one.
 //
 // Nothing re-runs engine work the page already did, except the Monte-Carlo
 // simulation, computed once and only if any board has an MC panel. Maps reuse
@@ -33,7 +30,7 @@ import { IconCamera } from "./GreeceIcons";
 import Map from "./Map";
 import Hemicycle, { GrCoalitionBuilder } from "./Hemicycle";
 
-/* ────────────────────────────── panel registry ───────────────────────────── */
+/* panel registry */
 
 const PANELS = [
   { type: "greece_map", label: "Map of Greece",            icon: "🗺️", needsMc: false },
@@ -45,7 +42,7 @@ const PANELS = [
 ];
 const PANEL = Object.fromEntries(PANELS.map((p) => [p.type, p]));
 
-/* ─────────────────────────────── formats ─────────────────────────────────── */
+/* formats */
 /* Each format owns its export pixel box AND its grid. w/h are the *native*
  * capture dimensions; the editor scales this down to fit. */
 const FORMATS = {
@@ -56,7 +53,7 @@ const FORMATS = {
 };
 const fmtOf = (key) => FORMATS[key] || FORMATS.landscape;
 
-/* ───────────────────────────────── helpers ───────────────────────────────── */
+/* helpers */
 
 const covered = (items, c, r) => items.some((it) => c >= it.col && c < it.col + it.w && r >= it.row && r < it.row + it.h);
 
@@ -129,7 +126,7 @@ function loess(xs, ys, evalXs, span = 0.12) {
 
 const fmtPct = (p) => `${Math.round(p * 100)}%`;
 
-/* ─────────────────────────── MC: odds & seat range ────────────────────────── */
+/* MC: odds & seat range */
 /* `cs` (content scale) shrinks/grows the bars, labels and fonts without
  * touching the grid layout. */
 
@@ -184,7 +181,7 @@ function McOddsExport({ mc, cs = 1 }) {
   );
 }
 
-/* ──────────────────────── MC: seat-distribution curves ─────────────────────── */
+/* MC: seat-distribution curves */
 
 function McDistExport({ mc, showIds, cs = 1 }) {
   const z = (n) => Math.max(1, Math.round(n * cs));
@@ -270,7 +267,7 @@ function McDistExport({ mc, showIds, cs = 1 }) {
   );
 }
 
-/* ──────────────────────────── opinion-poll chart ──────────────────────────── */
+/* opinion-poll chart */
 
 function PollChartExport({ polls, from, to, hidden, smooth, cs = 1 }) {
   const z = (n) => Math.max(1, Math.round(n * cs));
@@ -352,7 +349,7 @@ function PollChartExport({ polls, from, to, hidden, smooth, cs = 1 }) {
   );
 }
 
-/* ─────────────────────────────── small chrome ─────────────────────────────── */
+/* small chrome */
 
 function Empty({ children }) {
   return <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: 12, fontFamily: "var(--ff-body)", textAlign: "center", padding: 16 }}>{children}</div>;
@@ -407,7 +404,7 @@ function PanelBody({ item, ctx, mc, cs }) {
   }
 }
 
-/* ──────────────────────────── the grid (shared) ───────────────────────────── */
+/* the grid (shared) */
 
 function ExportGrid({ items, ctx, mc, cols, rows, cs, editable, onAdd, onRemove, onResize, onConfig, mcParties }) {
   const empties = [];
@@ -589,7 +586,7 @@ function PartyToggle({ keys, hidden, onToggle }) {
   );
 }
 
-/* ─────────────────────── the board (editor === capture) ───────────────────── */
+/* the board (editor === capture) */
 /* A single board rendered at native export pixels. The editor scales this down
  * with a CSS transform; html2canvas snapshots the un-scaled twin. Same markup,
  * same props → WYSIWYG. */
@@ -629,7 +626,7 @@ function ExportBoard({ board, ctx, mc, scenarioId, editable, onAdd, onRemove, on
   );
 }
 
-/* ───────────────────────────────── modal ──────────────────────────────────── */
+/* modal */
 
 let _uid = 0;
 const nextId = () => `it_${++_uid}`;
@@ -660,7 +657,7 @@ function makeDefaultBoard(pollWindow, mc) {
 
 const ctrl = { background: "var(--bg-mid)", border: "1px solid var(--border)", color: "var(--text-main)", padding: "6px 12px", borderRadius: 6, fontFamily: "var(--ff-body)", cursor: "pointer", fontSize: 13 };
 
-/* ════════════════════════════ POSTER MODE ════════════════════════════════ */
+/* POSTER MODE */
 
 /* Real June 2023 (second election) Hellenic Parliament seats, keyed by the
  * stable party id from greece-data.js (GR_PARTY_DICT). Used only for the +/-
@@ -1225,7 +1222,7 @@ function GridComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
   );
 }
 
-/* ─────────────────────── poster composer (simple UI) ──────────────────────── */
+/* poster composer (simple UI) */
 
 function PosterComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
   const [format, setFormat] = useState("landscape");
@@ -1358,7 +1355,7 @@ function PosterComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
   );
 }
 
-/* ───────────────────────────── mode switch ────────────────────────────────── */
+/* mode switch */
 
 export default function GreeceExportModal(props) {
   const [mode, setMode] = useState("poster");

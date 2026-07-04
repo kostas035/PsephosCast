@@ -1,4 +1,4 @@
-// ─── styles.jsx ───────────────────────────────────────────────────────────────
+// styles.jsx
 import { memo } from "react";
 
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
@@ -6,7 +6,7 @@ export const EASE_OUT    = "cubic-bezier(0, 0, 0.2, 1)";
 export const EASE_IN     = "cubic-bezier(0.4, 0, 1, 1)";
 export const EASE_SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
 
-// ── Static style objects ──────────────────────────────────────────────────────
+// Static style objects
 export const S = {
   card: {
     background:   "var(--bg-mid)",
@@ -64,7 +64,7 @@ export const S = {
   },
 };
 
-// ── Theme variables ────────────────────────────────────────────────────────────
+// Theme variables
 // Applied as an inline-style spread on the page's own root element (same pattern
 // as GreeceSwingometer/GreeceThemes.js) instead of a `data-theme` attribute on
 // <html> — that approach mutated global DOM state on every toggle and re-injected
@@ -85,10 +85,10 @@ export const LIGHT_VARS = {
   "--shadow-lg": "0 20px 48px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06)",
 };
 
-// ── Injected global CSS ───────────────────────────────────────────────────────
+// Injected global CSS
 // Theme-independent: injected once on mount, never re-injected on theme changes.
 export const STYLES = `
-  /* ─── Design tokens (dark baseline — overridden inline for light) ────────── */
+  /* Design tokens (dark baseline — overridden inline for light) */
   :root {
     --bg-up:   #0b1120;
     --bg-mid:  #131e32;
@@ -128,7 +128,7 @@ export const STYLES = `
     --ff-mono: "DM Mono", ui-monospace, monospace;
   }
 
-  /* ─── Global resets ──────────────────────────────────────────────────────── */
+  /* Global resets */
   html, body, #root, #__next {
     width: 100%; max-width: none !important;
     margin: 0 !important; padding: 0 !important;
@@ -136,7 +136,7 @@ export const STYLES = `
   }
   * { box-sizing: border-box; }
 
-  /* ─── Range slider ───────────────────────────────────────────────────────── */
+  /* Range slider */
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
@@ -169,7 +169,7 @@ export const STYLES = `
     opacity: 0.45;
   }
 
-  /* ─── Map styles ─────────────────────────────────────────────────────────── */
+  /* Map styles */
   .map-svg-container svg { width: 100%; height: 100%; }
   .map-svg-container path, .map-svg-container polygon {
     stroke:         var(--map-stroke);
@@ -192,11 +192,11 @@ export const STYLES = `
     pointer-events: none;
   }
 
-  /* ─── Semi-circle arcs ───────────────────────────────────────────────────── */
+  /* Semi-circle arcs */
   .semi-arc { transition: opacity 0.3s ease, d 0.25s ease; }
   .semi-arc:hover { opacity: 0.82; filter: brightness(1.12); cursor: pointer; }
 
-  /* ─── Utility buttons ────────────────────────────────────────────────────── */
+  /* Utility buttons */
   .icon-btn {
     transition: background    0.14s cubic-bezier(0.4,0,0.2,1),
                 border-color  0.14s cubic-bezier(0.4,0,0.2,1),
@@ -216,7 +216,7 @@ export const STYLES = `
     box-shadow:  none !important;
   }
 
-  /* ─── Results state transitions ──────────────────────────────────────────── */
+  /* Results state transitions */
   .results-pending {
     opacity: 0.52;
     transition: opacity 0.16s cubic-bezier(0.4,0,0.2,1);
@@ -229,11 +229,11 @@ export const STYLES = `
     filter: none;
   }
 
-  /* ─── Scroll utilities ───────────────────────────────────────────────────── */
+  /* Scroll utilities */
   .hide-scroll::-webkit-scrollbar { display: none; }
   .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* ─── Animations ─────────────────────────────────────────────────────────── */
+  /* Animations */
   @keyframes tooltipIn {
     from { opacity: 0; transform: scale(0.96) translateY(3px); }
     to   { opacity: 1; transform: scale(1)    translateY(0);   }
@@ -253,7 +253,7 @@ export const STYLES = `
     to   { opacity: 1; transform: translateY(0);    }
   }
 
-  /* ─── Floating card hover ────────────────────────────────────────────────── */
+  /* Floating card hover */
   .floating-card {
     background: var(--bg-mid);
     border-radius: 12px;
@@ -266,7 +266,7 @@ export const STYLES = `
     border-color: var(--map-stroke-hover);
   }
 
-  /* ─── Scenario badge ─────────────────────────────────────────────────────── */
+  /* Scenario badge */
   .scenario-badge {
     display: inline-flex;
     align-items: center;
@@ -284,7 +284,7 @@ export const STYLES = `
   }
 `;
 
-// ── Reusable Slider component ─────────────────────────────────────────────────
+// Reusable Slider component
 export const Slider = memo(function Slider({
   label, value, min = -10, max = 10, step = 0.5, onChange, color, isPct = false,
 }) {
@@ -316,7 +316,7 @@ export const Slider = memo(function Slider({
   );
 });
 
-// ── Greek meander divider ─────────────────────────────────────────────────────
+// Greek meander divider
 export const MeanderBar = memo(() => (
   <svg width="100%" height="6" viewBox="0 0 200 6" preserveAspectRatio="xMidYMid meet"
        style={{ display: "block", opacity: 0.6 }}>

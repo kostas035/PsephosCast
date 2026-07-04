@@ -1,10 +1,10 @@
-// ─── components.jsx ───────────────────────────────────────────────────────────
+// components.jsx
 import { useState, useEffect, useRef, memo } from "react";
 import { S, EASE_STD, EASE_SPRING } from "./styles.jsx";
 import { IconGear, IconTrash, IconLock } from "./icons.jsx";
 import { IDEOLOGIES } from "./data.js";
 
-// ─── PartyRow ────────────────────────────────────────────────────────────────
+// PartyRow
 export const PartyRow = memo(function PartyRow({
   party, isEditingAllowed, onPctChange, onToggleLock, onEdit, onDelete,
 }) {
@@ -168,7 +168,7 @@ export const PartyRow = memo(function PartyRow({
   );
 });
 
-// ─── SemiCircleChart ──────────────────────────────────────────────────────────
+// SemiCircleChart
 export function SemiCircleChart({ data, totalSeats, majorityReq }) {
   const [hovered, setHovered] = useState(null);
   const activeParties = data.filter((c) => c.seats > 0);

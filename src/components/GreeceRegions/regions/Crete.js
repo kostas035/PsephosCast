@@ -1,4 +1,4 @@
-// ─── Crete.js ─────────────────────────────────────────────────────────────────
+// Crete.js
 // Regional Council election data for Crete (Περιφέρεια Κρήτης).
 //
 // ELECTORAL SYSTEM (Law 3852/2010 as amended):
@@ -11,22 +11,22 @@
 //
 // CANDIDATE ID CONVENTION:
 //   IDs must match the keys used in baseVote objects in `details`.
-//   This was inconsistent in v1 (arnautakis ≠ arnaoutakis, kke, ecology).
-//   All 2023 and 2019 references now use the canonical IDs below.
+//   Watch the spelling on names like arnaoutakis — 2023 and 2019 references
+//   must use the same canonical ID or the baseline lookup silently misses.
 //
 // SCENARIOS:
 //   "2023"  — October 8  2023  (base/default, stored in config.candidates)
 //   "2019"  — May 26     2019
 //   "2014"  — May 18     2014  (Round 1 — nobody cleared 50%, runoff followed)
 
-// ─── 2023 Municipality Demographics & Baseline Votes ─────────────────────────
+// 2023 Municipality Demographics & Baseline Votes
 // baseVote values reflect the actual certified municipal-level results from the
 // October 8, 2023 Crete regional election (Heraklion Prefecture public records).
 // Where municipality-level data was not officially published, results are
 // interpolated from district-level returns using population weighting.
 const CRETE_DETAILS_2023 = {
 
-  // ── CHANIA DISTRICT ──────────────────────────────────────────────────────────
+  // CHANIA DISTRICT
   "Chania": {
     pop: 111359, baseTurnout: 58.5, elasticity: 1.10, urbanization: 0.90,
     baseVote: { arnaoutakis: 69.1, danellis: 13.5, marinakis: 13.6, zampoulakis: 3.8 }
@@ -56,7 +56,7 @@ const CRETE_DETAILS_2023 = {
     baseVote: { arnaoutakis: 72.6, danellis: 16.1, marinakis: 9.7, zampoulakis: 1.6 }
   },
 
-  // ── RETHYMNO DISTRICT ────────────────────────────────────────────────────────
+  // RETHYMNO DISTRICT
   "Rethymno": {
     pop: 57216, baseTurnout: 57.0, elasticity: 1.10, urbanization: 0.85,
     baseVote: { arnaoutakis: 83.1, danellis: 10.4, marinakis: 5.1, zampoulakis: 1.4 }
@@ -80,7 +80,7 @@ const CRETE_DETAILS_2023 = {
     baseVote: { arnaoutakis: 60.0, danellis: 4.5, marinakis: 34.0, zampoulakis: 1.5 }
   },
 
-  // ── HERAKLION DISTRICT ───────────────────────────────────────────────────────
+  // HERAKLION DISTRICT
   "Heraklion": {
     // Arnaoutakis' home base — strongest performance region-wide.
     pop: 177494, baseTurnout: 58.0, elasticity: 1.15, urbanization: 1.00,
@@ -115,7 +115,7 @@ const CRETE_DETAILS_2023 = {
     baseVote: { arnaoutakis: 82.0, danellis: 12.0, marinakis: 4.0, zampoulakis: 2.0 }
   },
 
-  // ── LASITHI DISTRICT ─────────────────────────────────────────────────────────
+  // LASITHI DISTRICT
   "Agios Nikolaos": {
     pop: 27785, baseTurnout: 56.5, elasticity: 1.05, urbanization: 0.75,
     baseVote: { arnaoutakis: 77.0, danellis: 13.5, marinakis: 6.8, zampoulakis: 2.7 }
@@ -134,7 +134,7 @@ const CRETE_DETAILS_2023 = {
   },
 };
 
-// ─── Shared district → municipality mapping ───────────────────────────────────
+// Shared district → municipality mapping
 // Used by all historical IIFE builders below.
 const CRETE_MUNICIPALITY_DISTRICTS = {
   "Gavdos": "Chania",  "Chania": "Chania",  "Kissamos": "Chania",
@@ -152,7 +152,7 @@ const CRETE_MUNICIPALITY_DISTRICTS = {
   "Mylopotamos": "Rethymno",  "Amari": "Rethymno",  "Anogeia": "Rethymno",
 };
 
-// ─── 2019 District-level certified results ────────────────────────────────────
+// 2019 District-level certified results
 // Source: Interior Ministry — May 26, 2019 Crete regional election.
 const CRETE_DISTRICT_2019 = {
   Chania: {
@@ -203,7 +203,7 @@ const CRETE_DETAILS_2019 = (() => {
   return out;
 })();
 
-// ─── 2014 District-level modelled data ────────────────────────────────────────
+// 2014 District-level modelled data
 // NOTE: Official municipality-level data for the May 18, 2014 Crete election
 // has not been digitised centrally. These figures are modelled from district
 // totals published by the Greek Interior Ministry, proportionally distributed
@@ -258,7 +258,7 @@ const CRETE_DETAILS_2014 = (() => {
   return out;
 })();
 
-// ─── SVG map ──────────────────────────────────────────────────────────────────
+// SVG map
 const CRETE_SVG_CONTENT = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2687 1076" id="map-svg" style="width:100%; height:100%;">
   <path id="municipality-1" class="municipality" data-name="Gavdos" d="M595,941 L599,944 L601,953 L626,974 L662,995 L671,991 L656,975 L653,967 L657,949 L666,942 L663,937 L654,939 L650,936 L650,930 L628,930 L616,925 L618,930 L611,941 Z" />
@@ -288,7 +288,7 @@ const CRETE_SVG_CONTENT = `
 </svg>
 `;
 
-// ─── Export ───────────────────────────────────────────────────────────────────
+// Export
 export default {
   id:        "crete",
   icon:      "🌊",
@@ -296,7 +296,7 @@ export default {
   available: true,
   name:      "Crete Region",
 
-  // ── Seat Rules ────────────────────────────────────────────────────────────
+  // Seat Rules
   seatsTotal:          61,
   bonusSeats:          37,  // winner's guaranteed allocation (3/5 of 61)
   distributableSeats:  24,  // remaining seats split by Hare quota
@@ -307,11 +307,11 @@ export default {
   referencePop:   25000,
   baseShift:      6.5,
 
-  // ── Map Source ────────────────────────────────────────────────────────────
+  // Map Source
   mapType:    "inline",
   svgContent: CRETE_SVG_CONTENT,
 
-  // ── Municipality List ─────────────────────────────────────────────────────
+  // Municipality List
   munis: [
     // Chania Prefecture
     "Chania", "Platanias", "Apokoronas", "Kissamos", "Kandanos-Selino", "Sfakia", "Gavdos",
@@ -324,7 +324,7 @@ export default {
     "Agios Nikolaos", "Oropedio Lasithiou", "Sitia", "Ierapetra",
   ],
 
-  // ── Default (2023) Details & Candidates ──────────────────────────────────
+  // Default (2023) Details & Candidates
   details: CRETE_DETAILS_2023,
 
   candidates: [
@@ -334,7 +334,7 @@ export default {
     { id: "zampoulakis", name: "Zampoulakis Nikolaos",party: "ΑΝΥΠΟΤΑΚΤΗ ΚΡΗΤΗ",     color: "#059669", percent:  2.4, ideology: -1, isLocked: false },
   ],
 
-  // ── SVG ID → Municipality Name ─────────────────────────────────────────────
+  // SVG ID → Municipality Name
   svgMap: {
     "municipality-1":  "Gavdos",
     "municipality-4":  "Viannos",
@@ -362,7 +362,7 @@ export default {
     "municipality-28": "Rethymno",
   },
 
-  // ── Historical Scenarios ──────────────────────────────────────────────────
+  // Historical Scenarios
   scenarios: {
     "2019": {
       name: "May 2019",

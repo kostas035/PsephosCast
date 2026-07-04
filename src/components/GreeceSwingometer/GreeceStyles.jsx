@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 
-/* ─── Easing constants ──────────────────────────────────────── */
+/* Easing constants */
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
 export const EASE_OUT    = "cubic-bezier(0, 0, 0.2, 1)";
 export const EASE_SPRING = "cubic-bezier(0.34, 1.56, 0.64, 1)";
@@ -15,7 +15,7 @@ export const S = {
 };
 
 const GLOBAL_CSS = `
-  /* ── Widescreen Stretching Reset ────────────────────────── */
+  /* Widescreen Stretching Reset */
   html, body, #root, #__next {
     width: 100% !important;
     max-width: none !important;

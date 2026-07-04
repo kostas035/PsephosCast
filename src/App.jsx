@@ -1,7 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
-// ─── Self-hosted fonts ────────────────────────────────
+// Self-hosted fonts
 import '@fontsource/barlow-condensed/400.css';
 import '@fontsource/barlow-condensed/500.css';
 import '@fontsource/barlow-condensed/600.css';
@@ -78,7 +78,7 @@ function RouteFallback() {
   );
 }
 
-// THIS CLEARS MEMORY IF YOU LEAVE THE GREECE ECOSYSTEM
+// Clears the saved Greece scenario state once you navigate away from it
 function RouteWatcher() {
   const location = useLocation();
   useEffect(() => {

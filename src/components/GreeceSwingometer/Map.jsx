@@ -362,11 +362,9 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
   const partiesMap = useMemo(() => buildPartyMap(parties), [parties]);
   partiesMapRef.current = partiesMap;
 
-  // ─────────────────────────────────────────────────────────────────────────
   // MUNICIPALITY BREAKDOWN (isolated). Active ONLY when viewMode==="municipality".
   // Own 333-polygon overlay on its own <svg>; never touches the constituency map,
   // its effects, dots, labels, tooltip or export path.
-  // ─────────────────────────────────────────────────────────────────────────
   const muniSvgRef        = useRef(null);
   const muniZoomRef       = useRef(null);
   const muniTooltipRef    = useRef(null);
@@ -661,7 +659,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           if (dots.length > 30) { DOT_R = 2.2; GAP = 0.7; COLS = 10; } // keep the densest blobs in check
           labelSize = "9px";
 
-          // --- Attica wings: identify by district id (robust vs polygon name) ---
+          // Attica wings: identify by district id, not polygon name (names vary by scenario)
           const distIds = entry.districts.map(d => d.id);
           if (distIds.includes("east_attica")) {
             offX += 60;            // push RIGHT, out of the central cluster

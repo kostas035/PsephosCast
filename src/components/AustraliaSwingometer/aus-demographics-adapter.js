@@ -1,4 +1,4 @@
-// ─── aus-demographics-adapter.js ──────────────────────────────────────────────
+// aus-demographics-adapter.js
 // Produces AUS_DIVISION_DEMOGRAPHICS for all 150 AUS_DIVISIONS.
 // Uses real data from aus-demographics.js where available (27 divisions),
 // and synthesises plausible census estimates for the remaining 123 from
@@ -7,7 +7,7 @@
 import { AUS_DEMOGRAPHICS } from "./aus-demographics.js";
 import { AUS_DIVISIONS } from "./aus-data.js";
 
-// ── State baseline profiles for synthesis ────────────────────────────────────
+// State baseline profiles for synthesis
 const STATE_PROFILE = {
   NSW: { uniBase: 32, vocBase: 22, ownBase: 62, rentBase: 28, rentAmt: 440, incomeBase: 88000, bornOSBase: 22, engOnlyBase: 68, indigBase: 1.2 },
   VIC: { uniBase: 34, vocBase: 20, ownBase: 60, rentBase: 30, rentAmt: 420, incomeBase: 86000, bornOSBase: 24, engOnlyBase: 66, indigBase: 0.9 },
@@ -154,7 +154,7 @@ function synthesise(div) {
   };
 }
 
-// ── Build the full array ──────────────────────────────────────────────────────
+// Build the full array
 // For the 27 divisions that have real AUS_DEMOGRAPHICS data, use that.
 // For all others, synthesise from division metadata.
 

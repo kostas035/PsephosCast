@@ -1,20 +1,12 @@
 import { useState, useEffect } from "react";
 import PrivacyModal from "./PrivacyModal";
 
-// ==========================================
-// ICONS
-// ==========================================
-
 const IconClose = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
-
-// ==========================================
-// MODAL (Hardware/Tech Theme)
-// ==========================================
 
 const Modal = ({ onClose, title, maxWidth = 600, children }) => (
   <div
@@ -47,10 +39,6 @@ const Modal = ({ onClose, title, maxWidth = 600, children }) => (
     </div>
   </div>
 );
-
-// ==========================================
-// WELCOME SCREEN
-// ==========================================
 
 export default function WelcomeScreen({ theme = 'dark', setTheme }) {
   const [showQuickStart, setShowQuickStart] = useState(false);
@@ -445,7 +433,6 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
      {/* Footer */}
 <footer className="w-full py-xl mt-xl bg-surface-container-lowest/90 border-t border-white/10 relative z-10">
   <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-md px-lg">
-    {/* Corrected centered block for the student info */}
     <div className="flex flex-col items-center justify-center gap-1 text-center">
       <p className="font-body-md text-body-md text-on-surface-variant text-center">© 2026 PsephosCast.gr · Konstantinos Davakos</p>
       <a
@@ -461,7 +448,6 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
         Εργαστήριο Εφαρμογών Πληροφορικής και Υπολογιστικών Οικονομικών (ΕΕΠΥΟ)
       </p>
     </div>
-    {/* Right column remains the same */}
     <div className="flex flex-col md:flex-row md:justify-end gap-md md:gap-lg font-label-sm text-label-sm mono-data uppercase items-center">
       <button onClick={() => setShowPrivacy(true)} className="text-left text-on-surface-variant hover:text-white transition-all bg-transparent border-none cursor-pointer p-0">PRIVACY_POLICY</button>
       <button onClick={() => setShowCredits(true)} className="text-left text-on-surface-variant hover:text-white transition-all bg-transparent border-none cursor-pointer p-0">METHODOLOGY</button>

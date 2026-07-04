@@ -20,11 +20,9 @@ import RegressionPanel from "./correlations/RegressionPanel.jsx";
 import SwingPanel from "./correlations/SwingPanel.jsx";
 import ExportPreview from "./correlations/ExportPreview.jsx";
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  One unified accent. The page used to mix blue (sections), green (covariates)
 //  and purple (methods) all at once, which is what made it read as noisy. Every
 //  interactive accent now resolves to the app's signature blue.
-// ─────────────────────────────────────────────────────────────────────────────
 const ACCENT       = "#3B82F6";
 const ACCENT_DEEP  = "#2563EB";
 const ACCENT_LIGHT = "#60A5FA";
@@ -150,7 +148,7 @@ export default function GreeceCorrelations({ isMobile, theme }) {
           const desc = {};
           [...xCols, ...yCols].forEach(col => {
             const vals = frame.map(d => d[col]).filter(v => typeof v === "number" && isFinite(v));
-            // FIXED: Check for binary/dummy variables
+            // Binary/dummy variables skip the normality tests below
             const isBinary = new Set(vals).size <= 2;
             desc[col] = { 
               ...describe(vals), 

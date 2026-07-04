@@ -8,7 +8,7 @@
 //               form of CVD preserves; the basis of WCAG 2.1 / EN 301 549).
 // `base` ("dark"|"light") is reported up so the page shell + data-theme stay in step.
 
-/* ── THEMES (chrome) ───────────────────────────────────────── */
+/* THEMES (chrome) */
 
 // Dark is a PASS-THROUGH: the app already ships a dark palette via the
 // [data-theme="dark"] block in cyprus-ui STYLES, so we override nothing and
@@ -46,7 +46,7 @@ export const THEME_ORDER = ["dark", "light", "contrast"];
 export const DEFAULT_THEME = "dark";
 export function resolveTheme(id) { return THEMES[id] || THEMES[DEFAULT_THEME]; }
 
-/* ── PALETTES (data colours, keyed by Cyprus party id) ─────── */
+/* PALETTES (data colours, keyed by Cyprus party id) */
 
 // Red–Green safe (Deuteranopia / Protanopia). AKEL (the "red") pushed to dark
 // magenta; greens (ALMA/EDEK/KOSP) to bright teal/cyan with strong luminance gaps.

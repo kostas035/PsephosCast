@@ -1,4 +1,4 @@
-// ─── GreeceRegionsApp.jsx ─────────────────────────────────────────────────────
+// GreeceRegionsApp.jsx
 import {
   useState, useMemo, useCallback, useTransition, useEffect,
 } from "react";
@@ -13,7 +13,7 @@ import { PartyRow, SemiCircleChart } from "./components.jsx";
 import MapViewer from "./MapViewer.jsx";
 import PrivacyModal from "../PrivacyModal";
 
-// ─── MunicipalPanel ───────────────────────────────────────────────────────────
+// MunicipalPanel
 function MunicipalPanel({ sortedMunis, municipalData, config, turnoutDelta }) {
   const [selectedMuni, setSelectedMuni] = useState(sortedMunis[0] || "");
 
@@ -125,7 +125,7 @@ function MunicipalPanel({ sortedMunis, municipalData, config, turnoutDelta }) {
   );
 }
 
-// ─── StatCard ─────────────────────────────────────────────────────────────────
+// StatCard
 function StatCard({ label, value, sub, accent, size = "lg" }) {
   return (
     <div style={{
@@ -152,7 +152,7 @@ function StatCard({ label, value, sub, accent, size = "lg" }) {
   );
 }
 
-// ─── ScenarioPicker ───────────────────────────────────────────────────────────
+// ScenarioPicker
 function ScenarioPicker({ regionId, selectedScenario, onSelect }) {
   const options = useMemo(() => {
     const base  = [{ value: "2023", label: "Oct 2023", note: "Latest election" }];
@@ -211,7 +211,7 @@ function ScenarioPicker({ regionId, selectedScenario, onSelect }) {
   );
 }
 
-// ─── Main App ─────────────────────────────────────────────────────────────────
+// Main App
 export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) {
   const [regionId,          setRegionId]          = useState("crete");
   const [selectedScenario,  setSelectedScenario]  = useState("2023");
@@ -231,7 +231,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
   const [isGeneratingExport, setIsGeneratingExport] = useState(false);
   const [isPending,         startTransition]      = useTransition();
 
-  // ── Build active config from scenario ──────────────────────────────────────
+  // Build active config from scenario
   const config = useMemo(() => {
     const base = REGIONS_DB[regionId];
     if (!base) return null;
@@ -241,7 +241,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
       : { ...base, scenarioName: "Oct 2023", scenarioNote: "" };
   }, [regionId, selectedScenario]);
 
-  // ── Inject theme-independent global styles once (no re-injection on toggle) ──
+  // Inject theme-independent global styles once (no re-injection on toggle)
   useEffect(() => {
     const id = "gr-regions-styles";
     if (document.getElementById(id)) return;
@@ -255,7 +255,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
   // instead of waiting on an effect + global attribute mutation.
   const themeVars = theme === "light" ? LIGHT_VARS : DARK_VARS;
 
-  // ── Reload candidates when scenario / region changes ──────────────────────
+  // Reload candidates when scenario / region changes
   useEffect(() => {
     if (config?.candidates) {
       setCandidates(JSON.parse(JSON.stringify(config.candidates)));
@@ -286,7 +286,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
   const activeCandidates = activeTab === "round1" ? candidates : round2Candidates;
   const pendingClass     = isPending ? "results-pending" : "results-ready";
 
-  // ── Round 2 redistribution ─────────────────────────────────────────────────
+  // Round 2 redistribution
   const recalcRound2 = useCallback((baseCands, isAccurate) => {
     const sorted = [...baseCands].sort((a, b) => b.percent - a.percent);
     const top2   = sorted.slice(0, 2);
@@ -315,7 +315,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
     setActiveTab(tab);
   };
 
-  // ── Compute results ────────────────────────────────────────────────────────
+  // Compute results
   const r1Data = useMemo(() => {
     if (!config) return [];
     return computeMunicipalData(config, candidates, turnoutDelta).aggregateData;
@@ -329,7 +329,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
   const r1Sorted    = useMemo(() => [...r1Data].sort((a, b) => b.percent - a.percent),    [r1Data]);
   const totalSorted = useMemo(() => [...aggregateData].sort((a, b) => b.percent - a.percent), [aggregateData]);
 
-  // ── Seat allocation ────────────────────────────────────────────────────────
+  // Seat allocation
   const seatData = useMemo(() => {
     if (!config || !r1Sorted.length || !totalSorted.length) return [];
     const { seatsTotal, bonusSeats, distributableSeats, threshold, winThreshold } = config;
@@ -375,7 +375,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
       .sort((a, b) => b.seats - a.seats);
   }, [r1Data, r1Sorted, totalSorted, config, activeTab]);
 
-  // ── Vote change handler (proportional rebalancing) ─────────────────────────
+  // Vote change handler (proportional rebalancing)
   const handleVoteChange = useCallback((id, newPct) => {
     startTransition(() => {
       const isR1  = activeTab === "round1";
@@ -436,7 +436,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
     });
   }, []);
 
-  // ── Export ─────────────────────────────────────────────────────────────────
+  // Export
   const handleGeneratePreview = async () => {
     setIsGeneratingExport(true);
     const el = document.getElementById("export-container");
@@ -481,7 +481,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
   const totalPct = activeCandidates.reduce((s, p) => s + p.percent, 0);
   const isNonBaseline = selectedScenario !== "2023";
 
-  // ── Top stat cards ─────────────────────────────────────────────────────────
+  // Top stat cards
   const topCards = totalSorted.length > 0 ? [
     {
       label:  activeTab === "round1" ? "Leading List" : "Runoff Winner",
@@ -517,7 +517,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
     return (activeTab === "round2") || !!(winner);
   }
 
-  // ── Column definitions ─────────────────────────────────────────────────────
+  // Column definitions
   const ChartColumn = (
     <div className={pendingClass} style={{ display: "flex", flexDirection: "column", gap: 14, minWidth: 0 }}>
       {/* Council Projection */}
@@ -623,7 +623,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
       transition: `background 0.25s ${EASE_STD}, color 0.25s ${EASE_STD}`,
     }}>
 
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      {/* Header */}
       <div style={{ marginBottom: 16 }}>
         <div style={{
           display: "flex", alignItems: "flex-start",
@@ -736,7 +736,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
         <MeanderBar />
       </div>
 
-      {/* ── Stat cards ────────────────────────────────────────────────────────── */}
+      {/* Stat cards */}
       {topCards.length > 0 && (
         <div className={pendingClass} style={{
           display: "grid",
@@ -747,14 +747,14 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
         </div>
       )}
 
-      {/* ── Three-column body ─────────────────────────────────────────────────── */}
+      {/* Three-column body */}
       <div style={{
         display: "grid",
         gridTemplateColumns: isMobile ? "minmax(0,1fr)" : "290px minmax(0,1.5fr) minmax(0,1.5fr)",
         gap: 14, width: "100%", alignItems: "start",
       }}>
 
-        {/* ── Left panel: controls ─────────────────────────────────────────── */}
+        {/* Left panel: controls */}
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
 
           {/* Round tabs + settings */}
@@ -876,12 +876,12 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
           </div>
         </div>
 
-        {/* ── Centre / Right columns (swappable) ────────────────────────────── */}
+        {/* Centre / Right columns (swappable) */}
         {mapCenter ? MapCol : ChartColumn}
         {mapCenter ? ChartColumn : MapCol}
       </div>
 
-      {/* ── Region Selector Modal ─────────────────────────────────────────────── */}
+      {/* Region Selector Modal */}
       {showRegionSel && (
         <div style={{
           position: "fixed", inset: 0, zIndex: 9999,
@@ -943,10 +943,10 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
         </div>
       )}
 
-      {/* ── Privacy Policy Modal ─────────────────────────────────────────────── */}
+      {/* Privacy Policy Modal */}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
 
-      {/* ── How to Use Modal ─────────────────────────────────────────────────── */}
+      {/* How to Use Modal */}
       {showHowToUse && (
         <div style={{
           position: "fixed", inset: 0, zIndex: 9999,
@@ -976,7 +976,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
         </div>
       )}
 
-      {/* ── Export Preview Modal ───────────────────────────────────────────────── */}
+      {/* Export Preview Modal */}
       {showExportPreview && exportImageUrl && (
         <div style={{
           position: "fixed", inset: 0, zIndex: 9999,
@@ -1018,7 +1018,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
         </div>
       )}
 
-      {/* ── Hidden export target ──────────────────────────────────────────────── */}
+      {/* Hidden export target */}
       <div id="export-container" style={{
         position: "fixed", top: -9999, left: -9999, width: 1200, height: 750,
         background: "var(--bg-base)", display: "none", padding: 24,

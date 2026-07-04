@@ -1,4 +1,4 @@
-// ─── cyprus-engine.js ─────────────────────────────────────────────────────────
+// cyprus-engine.js
 
 import { CY, cyToLogit, cyFromLogit } from "./cyprus-data.js";
 
@@ -31,7 +31,7 @@ export function cyApplySwing(district, effectiveParties, baseParties) {
   return { ...district, votes, leader: leader.pid };
 }
 
-// THE NEW UNIFIED ALLOCATOR
+// Allocates both district and national (top-up) seats in one pass
 export function cyAllocateAllSeats(nationalParties, districts, thresholdPct, scenarioId, isBaseline, turnout = null) {
   const rawTotal = nationalParties.reduce((s, p) => s + p.effectivePct, 0);
   

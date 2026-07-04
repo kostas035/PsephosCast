@@ -1,12 +1,10 @@
 // greece-analysis-data.js
-// ─────────────────────────────────────────────────────────────────────────────
 //  Data layer for "Correlations & Trends": turns the swingometer's per-district
 //  reconstruction into a flat district×variable frame (or a region aggregate),
 //  with ideology blocs, island/urban binning, and baseline→scenario swing.
 //
 //  The look-up tables below (REGIONS, ISLANDS, BLOCS, URBAN_THRESHOLD) are the
 //  domain choices you cannot redo in SPSS from a flat CSV — edit them freely.
-// ─────────────────────────────────────────────────────────────────────────────
 
 import {
   GR_DISTRICT_DEMOGRAPHICS,

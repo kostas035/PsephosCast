@@ -1,47 +1,10 @@
-// ─── aus-demographics-panel.jsx ──────────────────────────────────────────────
-// Drop-in demographics panel for AustraliaApp.jsx
-// Shows census breakdown for the currently hovered/selected division.
-//
-// INTEGRATION — 4 steps:
-//
-// 1. In AustraliaApp.jsx, add state near the other useState hooks:
-//      const [selectedDiv, setSelectedDiv] = useState(null);
-//
-// 2. Pass a callback into AusMap:
-//      <AusMap projected={projected} svgContent={MY_SVG_MAP.mainSVG}
-//              onDivisionSelect={setSelectedDiv} />
-//
-// 3. In aus-map.jsx, in the onOver handler, add:
-//      if (props.onDivisionSelect) props.onDivisionSelect(byId[id]);
-//    and in onOut:
-//      // leave selected as-is on mouseout (panel stays until next hover)
-//    OR pass both hover setter and click setter — see note below.
-//
-// 4. Add this to the right column tabs in AustraliaApp.jsx:
-//      import { AusDemographicsPanel } from "./aus-demographics-panel.jsx";
-//      import { AUS_DIVISION_DEMOGRAPHICS } from "./aus-demographics.js";
-//      // Add tab entry: { id: "demographics", label: "Demographics" }
-//      // In tab content:
-//      {activeTab === "demographics" && (
-//        <AusDemographicsPanel
-//          divisionId={selectedDiv?.id}
-//          allDemographics={AUS_DIVISION_DEMOGRAPHICS}
-//        />
-//      )}
-//
-// SIMPLER ALTERNATIVE — no tab needed, just render always in right column:
-//      <AusDemographicsPanel
-//        divisionId={selectedDiv?.id}
-//        allDemographics={AUS_DIVISION_DEMOGRAPHICS}
-//        compact={true}
-//      />
-// ─────────────────────────────────────────────────────────────────────────────
+// Census breakdown panel for the currently hovered/selected division.
 
 import { memo } from "react";
 import { S } from "./aus-ui.jsx";
 import { ausPartyColor, ausPartyLabel } from "./aus-engine.js";
 
-// ── Bar component ─────────────────────────────────────────────────────────────
+// Bar component
 const Bar = memo(function Bar({ label, value, max, color = "var(--text-dim)", suffix = "%" }) {
   const pct = max > 0 ? Math.min(100, (value / max) * 100) : 0;
   return (
@@ -62,7 +25,7 @@ const Bar = memo(function Bar({ label, value, max, color = "var(--text-dim)", su
   );
 });
 
-// ── Section header ─────────────────────────────────────────────────────────────
+// Section header
 const SectionHead = memo(function SectionHead({ label }) {
   return (
     <div style={{
@@ -76,7 +39,7 @@ const SectionHead = memo(function SectionHead({ label }) {
   );
 });
 
-// ── Stat pill ──────────────────────────────────────────────────────────────────
+// Stat pill
 const StatPill = memo(function StatPill({ label, value }) {
   return (
     <div style={{
@@ -94,7 +57,7 @@ const StatPill = memo(function StatPill({ label, value }) {
   );
 });
 
-// ── Main panel ────────────────────────────────────────────────────────────────
+// Main panel
 export const AusDemographicsPanel = memo(function AusDemographicsPanel({
   divisionId,       // string — matches AUS_DIVISION_DEMOGRAPHICS[].id
   allDemographics,  // AUS_DIVISION_DEMOGRAPHICS array
@@ -104,7 +67,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
     ? allDemographics.find(d => d.id === divisionId)
     : null;
 
-  // ── Empty state ──────────────────────────────────────────────────────────
+  // Empty state
   if (!demog) {
     return (
       <div style={{
@@ -146,7 +109,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
       fontSize: 11,
     }}>
 
-      {/* ── Division header ─────────────────────────────────────────────── */}
+      {/* Division header */}
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 10 }}>
         <div>
           <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-title)", fontFamily: "var(--ff-head)" }}>
@@ -165,7 +128,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
         </div>
       </div>
 
-      {/* ── Key stats row ────────────────────────────────────────────────── */}
+      {/* Key stats row */}
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
         <StatPill label="Population" value={fmtPop(c.population)} />
         <StatPill label="Median Age" value={c.medianAge} />
@@ -173,7 +136,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
         <StatPill label="SEIFA Decile" value={geo.seifaDecile + "/10"} />
       </div>
 
-      {/* ── 2025 Election ───────────────────────────────────────────────── */}
+      {/* 2025 Election */}
       <SectionHead label="2025 Election Results" />
       <div style={{ display: "flex", gap: 6, marginBottom: 8, flexWrap: "wrap" }}>
         {[
@@ -215,7 +178,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
         )}
       </div>
 
-      {/* ── Religion ─────────────────────────────────────────────────────── */}
+      {/* Religion */}
       <SectionHead label="Religion (% population)" />
       <Bar label="No Religion"        value={c.noReligion}    max={70} color="#64748b" />
       <Bar label="Christian (total)"  value={c.christian}     max={70} color="#7C3AED" />
@@ -227,14 +190,14 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
       <Bar label="Hindu"              value={c.hindu}         max={10} color="#f97316" />
       <Bar label="Jewish"             value={c.jewish}        max={8}  color="#d97706" />
 
-      {/* ── Education ────────────────────────────────────────────────────── */}
+      {/* Education */}
       <SectionHead label="Education (% persons 15+)" />
       <Bar label="Bachelor or Higher" value={c.bachelorOrHigher} max={70} color="#0ea5e9" />
       <Bar label="Diploma / Cert"     value={c.diplomaCert}     max={35} color="#38bdf8" />
       <Bar label="Year 12"            value={c.year12}          max={45} color="#7dd3fc" />
       <Bar label="No Qualification"   value={c.noQualification} max={55} color="#475569" />
 
-      {/* ── Housing ──────────────────────────────────────────────────────── */}
+      {/* Housing */}
       <SectionHead label="Housing Tenure (% dwellings)" />
       <Bar label="Owned Outright"  value={c.ownedOutright} max={55} color="#22c55e" />
       <Bar label="Mortgage"        value={c.ownedMortgage} max={55} color="#86efac" />
@@ -244,7 +207,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
         <StatPill label="Median Rent/wk"     value={fmtK(c.medianRent)} />
       </div>
 
-      {/* ── Age & Household ──────────────────────────────────────────────── */}
+      {/* Age & Household */}
       <SectionHead label="Age Profile (% population)" />
       <Bar label="18–34"  value={c.age18to34} max={50} color="#06b6d4" />
       <Bar label="35–54"  value={c.age35to54} max={40} color="#0891b2" />
@@ -254,7 +217,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
         <StatPill label="Lone Person"       value={fmt(c.lonePerson)+"%"} />
       </div>
 
-      {/* ── Ancestry & Culture ───────────────────────────────────────────── */}
+      {/* Ancestry & Culture */}
       <SectionHead label="Ancestry & Cultural Diversity" />
       <Bar label="Born in Australia"    value={c.bornAustralia}     max={100} color="#22c55e" />
       <Bar label="Born Overseas"        value={c.bornOverseas}      max={65}  color="#f97316" />
@@ -272,7 +235,7 @@ export const AusDemographicsPanel = memo(function AusDemographicsPanel({
         </>
       )}
 
-      {/* ── Occupation ───────────────────────────────────────────────────── */}
+      {/* Occupation */}
       {!compact && (
         <>
           <SectionHead label="Occupation (% employed)" />

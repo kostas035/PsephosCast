@@ -1,4 +1,4 @@
-// ─── PrivacyModal.jsx ─────────────────────────────────────────────────────────
+// PrivacyModal.jsx
 // Single shared privacy policy, used by every simulator (and the welcome screen)
 // instead of each one keeping its own copy of the same text.
 const ACCENT = "#2563EB";

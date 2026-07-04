@@ -1,4 +1,4 @@
-// ─── aus-map.jsx ──────────────────────────────────────────────────────────────
+// aus-map.jsx
 import {
   useRef, useEffect, useState, useCallback, memo,
 } from "react";
@@ -9,7 +9,7 @@ const ZOOM_MIN = 0.4;
 const ZOOM_MAX = 10;
 function clampZoom(z) { return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z)); }
 
-// ── Main Map Component ────────────────────────────────────────────────────────
+// Main Map Component
 export const AusMap = memo(function AusMap({ projected, svgContent, onDivisionSelect, onDivisionClick }) {
   const wrapRef  = useRef(null);
   const mountRef = useRef(null);
@@ -94,7 +94,7 @@ export const AusMap = memo(function AusMap({ projected, svgContent, onDivisionSe
     g.style.transition = "none";
   }, [pan, zoom]);
 
-  // ── Interaction handlers ────────────────────────────────────────────────────
+  // Interaction handlers
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg || !ready) return;
@@ -163,7 +163,7 @@ export const AusMap = memo(function AusMap({ projected, svgContent, onDivisionSe
     };
   }, [ready]); // only re-register when SVG mounts — uses projectedRef for fresh data
 
-  // ── Wheel zoom ──────────────────────────────────────────────────────────────
+  // Wheel zoom
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;
@@ -183,7 +183,7 @@ export const AusMap = memo(function AusMap({ projected, svgContent, onDivisionSe
     return () => wrap.removeEventListener("wheel", onWheel);
   }, []);
 
-  // ── Drag pan ────────────────────────────────────────────────────────────────
+  // Drag pan
   useEffect(() => {
     const wrap = wrapRef.current;
     if (!wrap) return;

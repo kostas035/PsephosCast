@@ -1,4 +1,4 @@
-// ─── cyprus-results.jsx ───────────────────────────────────────────────────────
+// cyprus-results.jsx
 // Seat-distribution table + headline metric cards.
 import { memo } from "react";
 import { CY } from "./cyprus-data.js";

@@ -1,9 +1,9 @@
-// ─── aus-data.js ──────────────────────────────────────────────────────────────
+// aus-data.js
 // Foundation data for the Australian Federal Election Swingometer.
 // 150 divisions (2025 boundaries), 3 historical scenarios, 6 parties.
 // Electoral model: preferential voting → 2PP via logit swing.
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// Constants
 export const AUS = {
   TOTAL_SEATS: 150,
   MAJORITY:    76,
@@ -15,7 +15,7 @@ export const AUS = {
   },
 };
 
-// ── Logit helpers ─────────────────────────────────────────────────────────────
+// Logit helpers
 // Used for applying uniform swing via the logit transformation, which correctly
 // handles near-zero and near-100% cases and produces realistic seat-swing curves.
 export function ausToLogit(p) {
@@ -26,7 +26,7 @@ export function ausFromLogit(l) {
   return (1 / (1 + Math.exp(-l))) * 100;
 }
 
-// ── Party definitions ─────────────────────────────────────────────────────────
+// Party definitions
 // prefToAlp + prefToLnp must sum to 1.0 for every minor party.
 // ALP/LNP preferences are 1/0 (they count directly toward their own 2PP).
 // These are user-editable at runtime; these are calibrated 2022 defaults.
@@ -34,7 +34,7 @@ export function ausFromLogit(l) {
 // ALP, LNP, GRN, ONP are major enough to theoretically reach very high primaries.
 // All minor/micro parties capped at 5% — realistic ceiling for any single minor.
 export const AUS_PARTIES = [
-  // ── Major / significant parties (uncapped) ─────────────────────────────────
+  // Major / significant parties (uncapped)
   {
     id: "alp",  name: "ALP",  fullName: "Australian Labor Party",
     color: "#E13940", prefToAlp: 1.00, prefToLnp: 0.00,
@@ -55,7 +55,7 @@ export const AUS_PARTIES = [
     color: "#F97316", prefToAlp: 0.30, prefToLnp: 0.70,
     maxPrimary: 20, hemiOrder: 6,
   },
-  // ── Minor / micro parties (capped at 5%) ───────────────────────────────────
+  // Minor / micro parties (capped at 5%)
   {
     id: "uap",  name: "UAP",  fullName: "United Australia Party",
     color: "#FBBF24", prefToAlp: 0.38, prefToLnp: 0.62,
@@ -83,7 +83,7 @@ export const AUS_PARTIES = [
   },
 ];
 
-// ── Scenario definitions ──────────────────────────────────────────────────────
+// Scenario definitions
 // base2PP: ALP 2PP computed via ausComputeNational2PP(basePrimaries, AUS_PARTIES).
 // At zero user adjustment the logit swing is 0.0, projections equal the modelled baseline.
 // knownResult: certified AEC seat totals (for reference display, not applied as override).
@@ -129,7 +129,7 @@ export const AUS_SCENARIOS = [
   },
 ];
 
-// ── Division data — 150 seats (2025 boundaries) ───────────────────────────────
+// Division data — 150 seats (2025 boundaries)
 //
 // DIVISION TYPES:
 //   "std"     — ALP v LNP straight contest.  ALP wins if projected alp2PP ≥ 50.
@@ -150,7 +150,7 @@ const il = (id, nm, st, a, ht)     => ({ id, name: nm, state: st, type: "ind_lnp
 const ia = (id, nm, st, a, lt)     => ({ id, name: nm, state: st, type: "ind_alp", alp2PP: a, indLossThreshold: lt });
 
 export const AUS_DIVISIONS = [
-  // ── NSW  46 seats ────────────────────────────────────────────────────────────
+  // NSW  46 seats
   s("blaxland",        "Blaxland",        "NSW", 75.3),
   s("watson",          "Watson",          "NSW", 72.1),
   s("chifley",         "Chifley",         "NSW", 68.2),
@@ -198,7 +198,7 @@ export const AUS_DIVISIONS = [
   il("wentworth",      "Wentworth",       "NSW", 55.4, 44),
   ia("fowler",         "Fowler",          "NSW", 55.2, 62),
 
-  // ── VIC  37 seats ────────────────────────────────────────────────────────────
+  // VIC  37 seats
   s("cooper",          "Cooper",          "VIC", 73.2),
   s("scullin",         "Scullin",         "VIC", 70.1),
   s("calwell",         "Calwell",         "VIC", 68.4),
@@ -238,7 +238,7 @@ export const AUS_DIVISIONS = [
   il("goldstein",      "Goldstein",       "VIC", 53.1, 44),
   il("indi",           "Indi",            "VIC", 57.8, 44),
 
-  // ── QLD  30 seats ────────────────────────────────────────────────────────────
+  // QLD  30 seats
   s("oxley",           "Oxley",           "QLD", 57.8),
   s("rankin",          "Rankin",          "QLD", 58.2),
   s("moreton",         "Moreton",         "QLD", 57.4),
@@ -270,7 +270,7 @@ export const AUS_DIVISIONS = [
   gl("brisbane",       "Brisbane",        "QLD", 51.3, 37.7, 22.0),
   gl("ryan",           "Ryan",            "QLD", 51.5, 25.8, 19.0),
 
-  // ── WA  16 seats ─────────────────────────────────────────────────────────────
+  // WA  16 seats
   s("perth",           "Perth",           "WA",  55.1),
   s("fremantle",       "Fremantle",       "WA",  62.4),
   s("brand",           "Brand",           "WA",  58.3),
@@ -288,7 +288,7 @@ export const AUS_DIVISIONS = [
   s("oconnor",         "O'Connor",        "WA",  35.8),
   il("curtin",         "Curtin",          "WA",  52.6, 44),  // Kate Chaney (Teal)
 
-  // ── SA  10 seats ─────────────────────────────────────────────────────────────
+  // SA  10 seats
   s("adelaide",        "Adelaide",        "SA",  57.3),
   s("hindmarsh",       "Hindmarsh",       "SA",  51.2),
   s("kingston",        "Kingston",        "SA",  57.4),
@@ -300,19 +300,19 @@ export const AUS_DIVISIONS = [
   s("barker",          "Barker",          "SA",  35.2),
   il("mayo",           "Mayo",            "SA",  58.4, 40),  // Rebekha Sharkie (CA) — strong hold
 
-  // ── TAS  5 seats ─────────────────────────────────────────────────────────────
+  // TAS  5 seats
   s("bass",            "Bass",            "TAS", 48.5),
   s("braddon",         "Braddon",         "TAS", 49.0),
   s("franklin",        "Franklin",        "TAS", 57.4),
   s("lyons",           "Lyons",           "TAS", 55.2),
   ia("clark",          "Clark",           "TAS", 64.1, 70),  // Andrew Wilkie — ALP loses Clark only on massive swing
 
-  // ── ACT  3 seats ─────────────────────────────────────────────────────────────
+  // ACT  3 seats
   s("canberra",        "Canberra",        "ACT", 65.3),
   s("bean",            "Bean",            "ACT", 60.8),
   s("fenner",          "Fenner",          "ACT", 60.2),
 
-  // ── NT  2 seats ──────────────────────────────────────────────────────────────
+  // NT  2 seats
   s("lingiari",        "Lingiari",        "NT",  52.4),
   s("solomon",         "Solomon",         "NT",  51.8),
 ];

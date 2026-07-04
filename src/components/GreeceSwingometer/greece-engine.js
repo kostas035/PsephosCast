@@ -1,14 +1,12 @@
 // greece-engine.js
 import { GR, GR_BONUS_CONFIG, GR_PARTY_DICT, GR_DISTRICT_BASELINES, GR_PARTY_LINEAGE, GR_MULTIPLIERS, grToLogit, grFromLogit, GR_DISTRICT_POP, GR_DISTRICT_REGISTERED, GR_DISTRICT_TURNOUT, GR_DISTRICT_VALID_VOTES, GR_STATE_BALLOT_EXCLUDED, GR_DISTRICT_DEMOGRAPHICS, grDistrictsForScenario } from './greece-data.js';
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  Per-constituency electorate weight (2021 census legal residents).
 //  Used ONLY for the cross-constituency remainder ranking of the second
 //  distribution (Art. 100 §8), which compares ABSOLUTE remainders across
 //  constituencies. Within-constituency steps are exact from shares alone.
 //  Replace with an election's ACTUAL valid votes per constituency for an
 //  exact 1:1 reproduction of that official result.
-// ─────────────────────────────────────────────────────────────────────────────
 export const GR_DISTRICT_ELECTORATE = {"athens_a": 430362, "athens_b": 557407+405623+636474, "athens_b1": 557407, "athens_b2": 405623, "athens_b3": 636474, "piraeus_a": 182667, "piraeus_b": 274730, "attica": 403714+148548, "east_attica": 403714, "west_attica": 148548, "thessaloniki_a": 568576, "thessaloniki_b": 316369, "chalkidiki": 104702, "imathia": 136602, "kilkis": 85885, "pella": 138568, "pieria": 123245, "serres": 182226, "evros": 134776, "rhodope": 101767, "xanthi": 107548, "drama": 95701, "kavala": 129872, "kozani": 149733, "kastoria": 48464, "florina": 50921, "grevena": 34538, "ioannina": 163044, "arta": 79776, "preveza": 62769, "thesprotia": 47947, "larissa": 268451, "magnesia": 181879, "trikala": 139562, "karditsa": 129171, "aetolia_acarnania": 235371, "boeotia": 109293, "phthiotis": 151036, "evrytania": 24545, "euboea": 213179, "phocis": 39800, "corinthia": 136401, "argolis": 93934, "arcadia": 96092, "laconia": 87104, "messenia": 161953, "elis": 168358, "achaea": 296574, "heraklion": 285528, "chania": 144259, "rethymno": 79801, "lasithi": 73258, "dodecanese": 180591, "cyclades": 122738, "lesbos": 97824, "samos": 42202, "chios": 52096, "corfu": 97037, "cephalonia": 41069, "lefkada": 25365, "zakynthos": 38340};
 
 export function grCalcBonusSeats(pct, scenarioId) {
@@ -102,7 +100,6 @@ export function grRunElection(effectiveParties, thresholdPct, turnout, scenarioI
   return { results, bonusSeats, proportionalPool: propPool, eliminated: elimNames, eliminatedDetail, winnerId: winner.id, winnerPct: winner.nationalPct, listSeats };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  grDistrictElectorate — per-constituency valid-vote weight for the §8 measure,
 //  with a NON-UNIFORM national-turnout adjustment.
 //
@@ -112,7 +109,6 @@ export function grRunElection(effectiveParties, thresholdPct, turnout, scenarioI
 //  is the whole point). At shift 0 it returns each scenario's real valid votes, so
 //  the 2023 map reproduces exactly; moving it re-weights the cross-constituency
 //  remainder ranking and shuffles the marginal/carom seats.
-// ─────────────────────────────────────────────────────────────────────────────
 export function grDistrictElectorate(scenarioId, turnoutShiftPP = 0) {
   const R   = GR_DISTRICT_REGISTERED || {};
   const POP = GR_DISTRICT_POP || {};
@@ -140,7 +136,6 @@ export function grDistrictElectorate(scenarioId, turnoutShiftPP = 0) {
   }
   return out;
 }
-// ─────────────────────────────────────────────────────────────────────────────
 //  grAllocateAllDistrictSeats — 1:1 implementation of the Greek constituency
 //  seat-distribution law (P.D. 26/2012, arts. 99–100, as amended by L.4859/2021;
 //  the "reinforced proportional" system in force since June 2023).
@@ -185,7 +180,6 @@ export function grDistrictElectorate(scenarioId, turnoutShiftPP = 0) {
 //  so the map reconciles to the hemicycle with no repair/fudge step.
 //
 //  Return shape and d.allocatedSeats side-effect are unchanged.
-// ─────────────────────────────────────────────────────────────────────────────
 export function grAllocateAllDistrictSeats(updatedDistricts, electionResult) {
   const qualifying = electionResult.results || [];
   if (!qualifying.length) {
@@ -312,7 +306,6 @@ export function grDistrictBaseVotes(scenarioParties, district, scenarioId) {
   return votes;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 //  Geographic demographic coupling (ELSTAT).
 //  Each demographic slider maps to a real per-constituency ELSTAT measure. We
 //  standardise those measures into POPULATION-WEIGHTED z-scores (district value
@@ -322,7 +315,6 @@ export function grDistrictBaseVotes(scenarioParties, district, scenarioId) {
 //  mean-zero — so this layer only REDISTRIBUTES the swing across the map; the
 //  national vote total is still set by the slider's effect on each party's
 //  national share (see effectivePct in grProcessFullElection / the app).
-// ─────────────────────────────────────────────────────────────────────────────
 export const GR_DEMO_GEO_K = 0.25;   // coupling strength (logit units per σ·sensitivity·slider). Tunable.
 
 // slider axis -> [ELSTAT field, sign]. youth has no direct field, so it is the

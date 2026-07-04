@@ -1,4 +1,4 @@
-// ─── cyprus-map.jsx ───────────────────────────────────────────────────────────
+// cyprus-map.jsx
 import { useState, useMemo, useEffect, useCallback, useRef, memo } from "react";
 import * as d3 from "d3";
 import { CY_PATHS, CY_DISTRICT_DEMOGRAPHICS } from "./cyprus-data.js";

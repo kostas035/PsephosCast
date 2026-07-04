@@ -89,7 +89,7 @@ export default memo(function ResultsTable({ electionResult, parties, turnout, is
                 let p = parties.find(x => x.id === r.id);
                 const barW = (r.seats / GR.TOTAL_SEATS) * 100;
                 
-                // FIX: Fall back to lowercase matching to match your SEATS_BY_SCENARIO registry definition
+                // SEATS_BY_SCENARIO keys are lowercase
                 const partyKey = r.id ? r.id.toLowerCase() : "";
                 const baselineSeats = baseline[partyKey] || 0;
                 const delta = r.seats - baselineSeats;

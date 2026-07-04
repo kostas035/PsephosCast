@@ -1,4 +1,4 @@
-// ─── AustraliaApp.jsx ─────────────────────────────────────────────────────────
+// AustraliaApp.jsx
 import {
   useState, useMemo, useCallback, useTransition, useEffect, useRef, memo
 } from "react";
@@ -17,7 +17,7 @@ import { MY_SVG_MAP } from "./map-code.js";
 import { AusDemographicsPanel } from "./aus-demographics-panel.jsx";
 import { AUS_DIVISION_DEMOGRAPHICS } from "./aus-demographics-adapter.js";
 
-// ── Primary redistribution ────────────────────────────────────────────────────
+// Primary redistribution
 function defaultPrefFlows() {
   const flows = {};
   AUS_PARTIES.filter(p => p.id !== "alp" && p.id !== "lnp").forEach(p => {
@@ -48,7 +48,7 @@ function redistributePrimaries(prev, changedId, newValue, locked) {
   return updated;
 }
 
-// ── Urban Insets Component ────────────────────────────────────────────────────
+// Urban Insets Component
 const InsetPanel = memo(function InsetPanel({ inset, projected, setHovered, setTooltipPos, onDivisionClick }) {
   const mountRef = useRef(null);
 
@@ -187,7 +187,7 @@ const AusUrbanInsets = memo(function AusUrbanInsets({ insets, projected, onDivis
   );
 });
 
-// ── Demographics Modal ─────────────────────────────────────────────────────────
+// Demographics Modal
 const DemographicsModal = memo(function DemographicsModal({ division, projected, onClose }) {
   // Find the live projected data for this division
   const projDiv = projected?.find(d => d.id === division?.id);
@@ -276,14 +276,14 @@ const DemographicsModal = memo(function DemographicsModal({ division, projected,
   );
 });
 
-// ── Tab definitions ────────────────────────────────────────────────────────────
+// Tab definitions
 const TABS = [
   { id: "results",   label: "Results"   },
   { id: "states",    label: "States"    },
   { id: "marginals", label: "Marginals" },
 ];
 
-// ── Root App ──────────────────────────────────────────────────────────────────
+// Root App
 export default function AustraliaApp() {
   const [theme,        setTheme]       = useState("dark");
   const [scenarioId,   setScenarioId]  = useState("2025");
@@ -380,7 +380,7 @@ export default function AustraliaApp() {
         />
       )}
 
-      {/* ── Header ────────────────────────────────────────────────────────── */}
+      {/* Header */}
       <div style={{ marginBottom: 16 }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 10, flexWrap: "wrap", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -419,12 +419,12 @@ export default function AustraliaApp() {
         <MeanderBar/>
       </div>
 
-      {/* ── Metrics Row ───────────────────────────────────────────────────── */}
+      {/* Metrics Row */}
       <div className={readyClass}>
         <AusMetricsCards counts={counts} national2PP={national2PP} scenario={scenario} base2PP={scenario.base2PP} />
       </div>
 
-      {/* ── 3-Column Grid ──────────────────────────────────────────────────── */}
+      {/* 3-Column Grid */}
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "280px 1fr 440px", gap: 16, alignItems: "start", width: "100%" }}>
 
         {/* Left Column: Sliders */}
