@@ -1,6 +1,6 @@
 // greece-stats.js
 // ─────────────────────────────────────────────────────────────────────────────
-//  Deterministic statistics engine for Psephos "Correlations & Trends".
+//  Deterministic statistics engine for PsephosCast.gr "Correlations & Trends".
 //  Pure JavaScript, ZERO dependencies. Every function validated against
 //  scipy 1.17 / statsmodels 0.14 (Shapiro–Wilk, KS, Pearson/Spearman/Kendall,
 //  point-biserial, χ²/Cramér's V, Welch & Student t, Mann–Whitney U, one-way

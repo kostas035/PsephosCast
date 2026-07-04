@@ -64,56 +64,32 @@ export const S = {
   },
 };
 
+// ── Theme variables ────────────────────────────────────────────────────────────
+// Applied as an inline-style spread on the page's own root element (same pattern
+// as GreeceSwingometer/GreeceThemes.js) instead of a `data-theme` attribute on
+// <html> — that approach mutated global DOM state on every toggle and re-injected
+// a <body>-styling stylesheet on every render, which is what made switching feel
+// laggy/flashy compared to the main Greek swingometer. Dark is the baseline
+// (defined in the `:root` block below), so DARK_VARS is a pass-through and only
+// the light overrides need to be listed.
+export const DARK_VARS = {};
+export const LIGHT_VARS = {
+  "--bg-up": "#f8fafc", "--bg-mid": "#f1f5f9", "--bg-base": "#ffffff", "--bg-card": "#ffffff",
+  "--text-main": "#1e293b", "--text-title": "#0f172a", "--text-dim": "#64748b", "--text-muted": "#94a3b8",
+  "--border": "#e2e8f0", "--divider": "#e2e8f0", "--btn-bg": "#ffffff", "--btn-hover": "#f8fafc",
+  "--tooltip-bg": "rgba(255,255,255,0.92)", "--tooltip-border": "#e2e8f0",
+  "--tab-active": "#eff6ff", "--elim-bg": "#fef2f2", "--elim-border": "#fecaca", "--bonus-bg": "#fefce8", "--bonus-border": "#fde68a",
+  "--map-bg": "#f0f4f8", "--map-stroke": "#cbd5e1", "--map-stroke-hover": "#0f172a",
+  "--shadow-sm": "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+  "--shadow-md": "0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04)",
+  "--shadow-lg": "0 20px 48px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06)",
+};
+
 // ── Injected global CSS ───────────────────────────────────────────────────────
+// Theme-independent: injected once on mount, never re-injected on theme changes.
 export const STYLES = `
-  /* ─── Design tokens ─────────────────────────────────────────────────────── */
+  /* ─── Design tokens (dark baseline — overridden inline for light) ────────── */
   :root {
-    /* Backgrounds */
-    --bg-up:   #f8fafc;
-    --bg-mid:  #f1f5f9;
-    --bg-base: #ffffff;
-    --bg-card: #ffffff;
-
-    /* Text */
-    --text-main:  #1e293b;
-    --text-title: #0f172a;
-    --text-dim:   #64748b;
-    --text-muted: #94a3b8;
-
-    /* Borders & surfaces */
-    --border:          #e2e8f0;
-    --divider:         #e2e8f0;
-    --btn-bg:          #ffffff;
-    --btn-hover:       #f8fafc;
-
-    /* Tooltip */
-    --tooltip-bg:     rgba(255,255,255,0.92);
-    --tooltip-border: #e2e8f0;
-
-    /* Component tokens */
-    --tab-active:    #eff6ff;
-    --elim-bg:       #fef2f2;
-    --elim-border:   #fecaca;
-    --bonus-bg:      #fefce8;
-    --bonus-border:  #fde68a;
-
-    /* Map */
-    --map-bg:           #f0f4f8;
-    --map-stroke:       #cbd5e1;
-    --map-stroke-hover: #0f172a;
-
-    /* Typography */
-    --ff-body: "DM Sans", system-ui, -apple-system, sans-serif;
-    --ff-head: "DM Sans", system-ui, -apple-system, sans-serif;
-    --ff-mono: "DM Mono", ui-monospace, monospace;
-
-    /* Shadows */
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
-    --shadow-lg: 0 20px 48px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
-  }
-
-  [data-theme="dark"] {
     --bg-up:   #0b1120;
     --bg-mid:  #131e32;
     --bg-base: #0b1120;
@@ -145,6 +121,11 @@ export const STYLES = `
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
     --shadow-lg: 0 20px 48px rgba(0,0,0,0.6);
+
+    /* Typography */
+    --ff-body: "DM Sans", system-ui, -apple-system, sans-serif;
+    --ff-head: "DM Sans", system-ui, -apple-system, sans-serif;
+    --ff-mono: "DM Mono", ui-monospace, monospace;
   }
 
   /* ─── Global resets ──────────────────────────────────────────────────────── */
@@ -152,11 +133,6 @@ export const STYLES = `
     width: 100%; max-width: none !important;
     margin: 0 !important; padding: 0 !important;
     overflow-x: hidden;
-  }
-  body {
-    background:  var(--bg-up);
-    color:       var(--text-main);
-    font-family: var(--ff-body);
   }
   * { box-sizing: border-box; }
 

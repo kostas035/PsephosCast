@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsToolti
 import { S, EASE_STD } from "./GreeceStyles";
 import { GR_PARTY_DICT } from "./greece-data.js";
 import { DEFAULT_HIDDEN_PARTIES, POLL_PARTIES_MAPPING } from "./greece-utils.js";
+import { useGreeceT, tPartyNameById } from "./GreeceTranslations.jsx";
 
 // Prevents white-box browser focus flash on button click
 const BTN_BASE = { outline: "none", WebkitTapHighlightColor: "transparent", userSelect: "none" };
@@ -94,7 +95,8 @@ function DateRangeSlider({ data, domain, setDomain }) {
   );
 }
 
-export default function OpinionPolls({ polls = [], loading = false, error = false, source, reload, onApplyPoll }) {
+export default function OpinionPolls({ polls = [], loading = false, error = false, source, reload, onApplyPoll, lang }) {
+  const t = useGreeceT(lang);
   const [hiddenParties, setHiddenParties] = useState(DEFAULT_HIDDEN_PARTIES);
   const [isSmooth,    setIsSmooth]    = useState(true);
   const [showTrend,   setShowTrend]   = useState(false);
@@ -168,7 +170,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
       <div style={{ backgroundColor: "var(--tooltip-bg)", border: "1px solid var(--tooltip-border)", borderRadius: 8, padding: "10px 12px", backdropFilter: "blur(8px)", boxShadow: "0 8px 24px rgba(0,0,0,0.2)", minWidth: 160 }}>
         <div style={{ fontFamily: "var(--ff-head)", fontWeight: 700, color: "var(--text-title)", fontSize: 13, marginBottom: 2 }}>{displayDate}</div>
         <div style={{ fontSize: 9, color: "var(--text-muted)", fontFamily: "var(--ff-body)", marginBottom: 8, paddingBottom: 6, borderBottom: "1px solid var(--border)" }}>
-          {data.isTrend ? "Local Regression (LOESS)" : `${data.pollster || "Unknown Firm"}${data.sample_size ? ` | N=${data.sample_size}` : ""}`}
+          {data.isTrend ? t("Local Regression (LOESS)") : `${data.pollster || t("Unknown Firm")}${data.sample_size ? ` | N=${data.sample_size}` : ""}`}
         </div>
         {sorted.map((entry, idx) => (
           <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginBottom: 3 }}>
@@ -181,7 +183,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
         ))}
       </div>
     );
-  }, []);
+  }, [t]);
 
   // Clicking on/near a poll point opens a small popup. We always resolve back to the
   // RAW poll (by timestamp) so the copied numbers are the real poll, not the LOESS trend.
@@ -255,18 +257,18 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
         .gr-poll-card .recharts-active-dot { outline: none !important; }
       `}</style>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
-        <div style={S.label}>{source || "Loading live polls…"}</div>
+        <div style={S.label}>{source || t("Loading live polls…")}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          {error && <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", background: "#ef444422", padding: "3px 6px", borderRadius: 4 }}>Fallback data</div>}
-          <button className="icon-btn" onClick={reload} disabled={loading} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", opacity: loading ? 0.5 : 1 }}>🔄 Refresh</button>
-          <button className="icon-btn" onClick={() => setShowTrend(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showTrend ? "#60A5FA" : "var(--text-muted)" }}>{showTrend ? "📉 Trendline" : "📊 Raw Polls"}</button>
-          <button className="icon-btn" onClick={() => setIsSmooth(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)" }}>{isSmooth ? "📈 Smooth" : "📉 Spiky"}</button>
-          <button className="icon-btn" onClick={() => setShowDashed(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showDashed ? "#60A5FA" : "var(--text-muted)" }} title="Toggle dashed lines">{showDashed ? "╌╌ Dashed" : "── Solid"}</button>
+          {error && <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", background: "#ef444422", padding: "3px 6px", borderRadius: 4 }}>{t("Fallback data")}</div>}
+          <button className="icon-btn" onClick={reload} disabled={loading} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", opacity: loading ? 0.5 : 1 }}>{t("🔄 Refresh")}</button>
+          <button className="icon-btn" onClick={() => setShowTrend(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showTrend ? "#60A5FA" : "var(--text-muted)" }}>{showTrend ? t("📉 Trendline") : t("📊 Raw Polls")}</button>
+          <button className="icon-btn" onClick={() => setIsSmooth(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)" }}>{isSmooth ? t("📈 Smooth") : t("📉 Spiky")}</button>
+          <button className="icon-btn" onClick={() => setShowDashed(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showDashed ? "#60A5FA" : "var(--text-muted)" }} title={t("Toggle dashed lines")}>{showDashed ? t("╌╌ Dashed") : t("── Solid")}</button>
         </div>
       </div>
 
       {loading ? (
-        <div style={{ width: "100%", height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "var(--text-dim)", fontSize: 11, ...S.mono }}>Fetching latest polls…</span></div>
+        <div style={{ width: "100%", height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "var(--text-dim)", fontSize: 11, ...S.mono }}>{t("Fetching latest polls…")}</span></div>
       ) : (<>
         <div ref={chartBoxRef} style={{ 
           width: "100%", 
@@ -291,8 +293,8 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
                     <Line 
                       key={p.key} 
                       type={isSmooth ? "monotone" : "linear"} 
-                      dataKey={p.key} 
-                      name={p.key} 
+                      dataKey={p.key}
+                      name={tPartyNameById(lang, p.dictKey, p.key)}
                       stroke={color} 
                       strokeWidth={showTrend ? 3 : 2} 
                       dot={makeDot(color, showTrend)} 
@@ -307,7 +309,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
             </ResponsiveContainer>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)', fontSize: 11 }}>
-              No poll data available to display
+              {t("No poll data available to display")}
             </div>
           )}
 
@@ -316,12 +318,12 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: onApplyPoll ? 7 : 0 }}>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-title)", fontFamily: "var(--ff-head)", lineHeight: 1.2 }}>{popup.poll.displayDate || popup.poll.dateLabel}</div>
-                  <div style={{ fontSize: 9, color: "var(--text-muted)", fontFamily: "var(--ff-body)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{popup.poll.pollster || "Unknown firm"}</div>
+                  <div style={{ fontSize: 9, color: "var(--text-muted)", fontFamily: "var(--ff-body)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{popup.poll.pollster || t("Unknown firm")}</div>
                 </div>
                 <button onClick={() => setPopup(null)} style={{ ...BTN_BASE, background: "transparent", border: "none", color: "var(--text-muted)", cursor: "pointer", fontSize: 12, lineHeight: 1, padding: 2 }}>✕</button>
               </div>
               {onApplyPoll && (
-                <button onClick={applyPollToProjection} style={{ ...BTN_BASE, width: "100%", background: "#2563EB", color: "#fff", border: "none", borderRadius: 6, padding: "6px 8px", cursor: "pointer", fontFamily: "var(--ff-body)", fontWeight: 700, fontSize: 11, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>📥 Copy for the projection</button>
+                <button onClick={applyPollToProjection} style={{ ...BTN_BASE, width: "100%", background: "#2563EB", color: "#fff", border: "none", borderRadius: 6, padding: "6px 8px", cursor: "pointer", fontFamily: "var(--ff-body)", fontWeight: 700, fontSize: 11, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>{t("📥 Copy for the projection")}</button>
               )}
             </div>
           )}
@@ -334,7 +336,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
             return (
               <button key={p.key} className="icon-btn" onClick={() => setHiddenParties(prev => prev.includes(p.key) ? prev.filter(x => x !== p.key) : [...prev, p.key])} style={{ ...BTN_BASE, display: "flex", alignItems: "center", gap: 5, padding: "4px 10px", borderRadius: 12, cursor: "pointer", background: isHidden ? "transparent" : `${color}15`, border: `1px solid ${isHidden ? "var(--border)" : color}`, opacity: isHidden ? 0.4 : 1 }}>
                 <div style={{ width: 8, height: 8, borderRadius: "50%", background: isHidden ? "var(--text-muted)" : color }}/>
-                <span style={{ fontSize: 10, color: isHidden ? "var(--text-muted)" : "var(--text-main)", fontFamily: "var(--ff-body)", fontWeight: 600 }}>{p.key}</span>
+                <span style={{ fontSize: 10, color: isHidden ? "var(--text-muted)" : "var(--text-main)", fontFamily: "var(--ff-body)", fontWeight: 600 }}>{tPartyNameById(lang, p.dictKey, p.key)}</span>
               </button>
             );
           })}

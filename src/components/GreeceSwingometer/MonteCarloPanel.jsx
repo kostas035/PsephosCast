@@ -4,16 +4,18 @@ import { S, EASE_SPRING, EASE_STD } from "./GreeceStyles";
 import { GR } from "./greece-data.js";
 import { IconChevron } from "./GreeceIcons";
 import { grRunMonteCarlo, grCoalitionProbability } from "./greece-montecarlo.js";
+import { useGreeceT, T, fmtRunsLabel, fmtMajorityLine, fmtChanceOfReaching, fmtMedianSeatsCombined, fmtSeatDistFooter, fmtMcMethodologyFooter, fmtLeaderFirst, fmtOutrightMajority, fmtAboutXIn10, tPartyName } from "./GreeceTranslations.jsx";
 
 // Friendly probability formatting — forecasters avoid false precision (58.3%).
 const pct = (p) => `${Math.round(p * 100)}%`;
-const inWords = (p) => {
-  if (p >= 0.97) return "almost certain";
-  if (p <= 0.03) return "very unlikely";
-  return `about ${Math.round(p * 10)} in 10`;
+const inWords = (p, lang) => {
+  if (p >= 0.97) return lang === "el" ? "σχεδόν βέβαιο" : "almost certain";
+  if (p <= 0.03) return lang === "el" ? "πολύ απίθανο" : "very unlikely";
+  return fmtAboutXIn10(lang, Math.round(p * 10));
 };
 
-export default function MonteCarloPanel({ effectiveParties, parties, threshold, turnout, isMobile }) {
+export default function MonteCarloPanel({ effectiveParties, parties, threshold, turnout, isMobile, lang, scenarioId }) {
+  const t = useGreeceT(lang);
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(true);
   const [sigma, setSigma] = useState(2.5);
@@ -29,8 +31,8 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
   const computing = dEff !== effectiveParties || dSigma !== sigma || dIter !== iterations;
 
   const mc = useMemo(
-    () => (dExp ? grRunMonteCarlo(dEff, { threshold, turnout, sigma: dSigma, iterations: dIter }) : null),
-    [dExp, dEff, threshold, turnout, dSigma, dIter]
+    () => (dExp ? grRunMonteCarlo(dEff, { threshold, turnout, sigma: dSigma, iterations: dIter, scenarioId }) : null),
+    [dExp, dEff, threshold, turnout, dSigma, dIter, scenarioId]
   );
 
   const coalResult = useMemo(() => (mc ? grCoalitionProbability(mc, coalition) : null), [mc, coalition]);
@@ -112,32 +114,32 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: expanded ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={S.label}>🎲 Probabilistic Forecast</span>
+          <span style={S.label}>{t("🎲 Probabilistic Forecast")}</span>
           {expanded && mc && (
             <span style={{ fontSize: 9, color: "var(--text-dim)", ...S.mono, letterSpacing: 0.5 }}>
-              {mc.iterations.toLocaleString()} runs{computing ? " · updating…" : ""}
+              {fmtRunsLabel(lang, mc.iterations, computing)}
             </span>
           )}
         </div>
-        
+
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <button 
-            className="icon-btn" 
-            onClick={() => navigate('/greece/correlations')} 
-            style={{ 
-              ...S.ghostBtn, 
-              background: "var(--bg-mid)", 
-              border: "1px solid #3B82F6", 
+          <button
+            className="icon-btn"
+            onClick={() => navigate('/greece/correlations')}
+            style={{
+              ...S.ghostBtn,
+              background: "var(--bg-mid)",
+              border: "1px solid #3B82F6",
               color: "#3B82F6",
               fontWeight: 600,
               padding: "4px 9px"
             }}
           >
-            📊 Create Detailed Correlation Models
+            {t("📊 Create Detailed Correlation Models")}
           </button>
 
           <button className="icon-btn" onClick={() => setExpanded((e) => !e)} style={{ ...S.ghostBtn, padding: "4px 9px" }}>
-            {expanded ? "Hide" : "Show"} <IconChevron dir={expanded ? "up" : "down"} size={9} />
+            {expanded ? t("Hide") : t("Show")} <IconChevron dir={expanded ? "up" : "down"} size={9} />
           </button>
         </div>
       </div>
@@ -145,7 +147,7 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
       {expanded && (
         !mc ? (
           <div style={{ padding: 24, textAlign: "center", color: "var(--text-muted)", fontSize: 12, fontFamily: "var(--ff-body)" }}>
-            No qualifying parties to simulate.
+            {t("No qualifying parties to simulate.")}
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 16, opacity: computing ? 0.6 : 1, transition: `opacity 0.2s ${EASE_STD}` }}>
@@ -153,33 +155,36 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
             {/* What this is + controls */}
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }}>
               <p style={{ margin: 0, fontSize: 11, lineHeight: 1.55, color: "var(--text-muted)", fontFamily: "var(--ff-body)", flex: 1, minWidth: 240 }}>
-                Your current vote shares re-run thousands of times with random polling error, showing the <strong style={{ color: "var(--text-main)" }}>range</strong> and <strong style={{ color: "var(--text-main)" }}>odds</strong> for each party. The seat table above is the single fixed estimate; this is the spread around it.
+                <T lang={lang}
+                  en={<>Your current vote shares re-run thousands of times with random polling error, showing the <strong style={{ color: "var(--text-main)" }}>range</strong> and <strong style={{ color: "var(--text-main)" }}>odds</strong> for each party. The seat table above is the single fixed estimate; this is the spread around it.</>}
+                  el={<>Τα τρέχοντα ποσοστά ψήφων επανεκτελούνται χιλιάδες φορές με τυχαίο σφάλμα δημοσκόπησης, δείχνοντας το <strong style={{ color: "var(--text-main)" }}>εύρος</strong> και τις <strong style={{ color: "var(--text-main)" }}>πιθανότητες</strong> για κάθε κόμμα. Ο πίνακας εδρών παραπάνω είναι η μοναδική σταθερή εκτίμηση· αυτό είναι το εύρος γύρω από αυτή.</>}
+                />
               </p>
               <div style={{ display: "flex", gap: 14, alignItems: "flex-end" }}>
                 <div style={{ width: 150 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-                    <span style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 0.5 }}>UNCERTAINTY</span>
+                    <span style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 0.5 }}>{t("UNCERTAINTY")}</span>
                     <span style={{ fontSize: 10, ...S.mono, color: "#60A5FA" }}>±{sigma.toFixed(1)}</span>
                   </div>
                   <input type="range" min={0.5} max={6} step={0.5} value={sigma} onChange={(e) => setSigma(parseFloat(e.target.value))}
                     style={{ width: "100%", height: 5, borderRadius: 4, outline: "none", cursor: "pointer", background: `linear-gradient(to right,#60A5FA 0%,#60A5FA ${((sigma - 0.5) / 5.5) * 100}%,var(--border) ${((sigma - 0.5) / 5.5) * 100}%)` }} />
                 </div>
                 <select value={iterations} onChange={(e) => setIterations(parseInt(e.target.value))} style={{ ...S.editInput, cursor: "pointer", padding: "4px 6px", height: 26 }}>
-                  <option value={2000}>2k runs</option>
-                  <option value={4000}>4k runs</option>
-                  <option value={10000}>10k runs</option>
-                  <option value={20000}>20k runs</option>
+                  <option value={2000}>{t("2k runs")}</option>
+                  <option value={4000}>{t("4k runs")}</option>
+                  <option value={10000}>{t("10k runs")}</option>
+                  <option value={20000}>{t("20k runs")}</option>
                 </select>
               </div>
             </div>
 
             {/* Headline */}
             <div style={{ padding: "10px 14px", background: "var(--btn-bg)", border: "1px solid var(--divider)", borderRadius: 6, fontSize: 12, lineHeight: 1.55, fontFamily: "var(--ff-body)" }}>
-              {leader && <><strong style={{ color: leader.color }}>{leader.name}</strong> finishes first in <strong>{pct(leader.pFirst)}</strong> of runs. </>}
+              {leader && <><strong style={{ color: leader.color }}>{tPartyName(lang, leader)}</strong> {fmtLeaderFirst(lang)} <strong>{pct(leader.pFirst)}</strong> {t("of runs.")} </>}
               {bestMaj && bestMaj.pSoloMajority >= 0.02
-                ? <><strong>{bestMaj.name}</strong> wins an outright majority <strong>{pct(bestMaj.pSoloMajority)}</strong> of the time. </>
-                : <>A single-party majority is very unlikely. </>}
-              Hung parliament: <strong>{pct(mc.pHung)}</strong> ({inWords(mc.pHung)}).
+                ? <><strong>{tPartyName(lang, bestMaj)}</strong> {fmtOutrightMajority(lang)} <strong>{pct(bestMaj.pSoloMajority)}</strong> {t("of the time.")} </>
+                : <>{t("A single-party majority is very unlikely.")} </>}
+              {t("Hung parliament:")} <strong>{pct(mc.pHung)}</strong> ({inWords(mc.pHung, lang)}).
             </div>
 
             {/* Two columns: per-party odds + coalition arithmetic */}
@@ -187,7 +192,7 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
 
               {/* Per-party odds */}
               <div>
-                <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1, textTransform: "uppercase", fontFamily: "var(--ff-body)", marginBottom: 10 }}>Odds &amp; seat range per party</div>
+                <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1, textTransform: "uppercase", fontFamily: "var(--ff-body)", marginBottom: 10 }}>{t("Odds & seat range per party")}</div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {mc.parties.filter((p) => p.p95 > 0 || p.mean > 0.5).map((p) => {
                     const left = (p.p5 / axisMax) * 100;
@@ -197,7 +202,7 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                       <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 5, width: 78, flexShrink: 0 }}>
                           <div style={{ width: 3, height: 14, borderRadius: 2, background: p.color, flexShrink: 0 }} />
-                          <span style={{ fontSize: 11, color: "var(--text-main)", fontWeight: 600, fontFamily: "var(--ff-body)" }}>{p.name}</span>
+                          <span style={{ fontSize: 11, color: "var(--text-main)", fontWeight: 600, fontFamily: "var(--ff-body)" }}>{tPartyName(lang, p)}</span>
                         </div>
                         {/* seat range bar */}
                         <div style={{ flex: 1, position: "relative", height: 16, background: "var(--bg-up)", borderRadius: 4, overflow: "hidden" }}>
@@ -217,15 +222,15 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                   })}
                 </div>
                 <div style={{ fontSize: 8, color: "var(--text-dim)", marginTop: 8, display: "flex", flexWrap: "wrap", gap: 12, fontFamily: "var(--ff-body)" }}>
-                  <span>bar = 90% range · tick = median seats</span>
-                  <span style={{ color: "#F59E0B" }}>│ 151 majority</span>
-                  <span style={{ color: "#60A5FA" }}>right column = chance of finishing 1st</span>
+                  <span>{t("bar = 90% range · tick = median seats")}</span>
+                  <span style={{ color: "#F59E0B" }}>{fmtMajorityLine(lang, GR.MAJORITY)}</span>
+                  <span style={{ color: "#60A5FA" }}>{t("right column = chance of finishing 1st")}</span>
                 </div>
               </div>
 
               {/* Coalition arithmetic (user-driven only) */}
               <div>
-                <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1, textTransform: "uppercase", fontFamily: "var(--ff-body)", marginBottom: 10 }}>Coalition arithmetic</div>
+                <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1, textTransform: "uppercase", fontFamily: "var(--ff-body)", marginBottom: 10 }}>{t("Coalition arithmetic")}</div>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
                   {mc.parties.filter((p) => p.mean >= 0.5).map((p) => {
                     const active = coalition.includes(p.id);
@@ -233,7 +238,7 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                       <button key={p.id} className="coalition-chip" onClick={() => toggle(p.id)}
                         style={{ display: "flex", alignItems: "center", gap: 5, padding: "3px 8px", borderRadius: 4, cursor: "pointer", background: active ? `${p.color}20` : "var(--btn-bg)", border: `1px solid ${active ? p.color : "var(--border)"}` }}>
                         <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.color }} />
-                        <span style={{ fontSize: 9, color: active ? "var(--text-title)" : "var(--text-muted)", fontFamily: "var(--ff-body)" }}>{p.name}</span>
+                        <span style={{ fontSize: 9, color: active ? "var(--text-title)" : "var(--text-muted)", fontFamily: "var(--ff-body)" }}>{tPartyName(lang, p)}</span>
                       </button>
                     );
                   })}
@@ -241,16 +246,19 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                 {coalition.length > 0 && coalResult ? (
                   <div style={{ padding: "10px 14px", borderRadius: 6, border: `1px solid ${coalResult.pMajority >= 0.5 ? "#34D39955" : "#F8717155"}`, background: coalResult.pMajority >= 0.5 ? "#34D39912" : "#F8717112" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
-                      <span style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--ff-body)" }}>Chance of reaching 151:</span>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--ff-body)" }}>{fmtChanceOfReaching(lang, GR.MAJORITY)}</span>
                       <span style={{ fontSize: 20, fontWeight: 900, fontFamily: "var(--ff-head)", color: coalResult.pMajority >= 0.5 ? "#34D399" : "#F87171" }}>{pct(coalResult.pMajority)}</span>
                     </div>
-                    <div style={{ fontSize: 9, color: "var(--text-dim)", marginTop: 3, fontFamily: "var(--ff-mono)" }}>median {coalResult.medianSeats} seats combined</div>
+                    <div style={{ fontSize: 9, color: "var(--text-dim)", marginTop: 3, fontFamily: "var(--ff-mono)" }}>{fmtMedianSeatsCombined(lang, coalResult.medianSeats)}</div>
                   </div>
                 ) : (
-                  <div style={{ fontSize: 10, color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontStyle: "italic" }}>Pick any parties to test if the numbers add up to a majority.</div>
+                  <div style={{ fontSize: 10, color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontStyle: "italic" }}>{t("Pick any parties to test if the numbers add up to a majority.")}</div>
                 )}
                 <div style={{ fontSize: 8, color: "var(--text-dim)", marginTop: 10, lineHeight: 1.5, fontFamily: "var(--ff-body)" }}>
-                  Pure seat arithmetic — this makes <strong>no</strong> assumption about which parties would actually agree to govern together. Greek coalitions are unpredictable (e.g. SYRIZA–ANEL in 2015), so who allies is your call, not the model's.
+                  <T lang={lang}
+                    en={<>Pure seat arithmetic — this makes <strong>no</strong> assumption about which parties would actually agree to govern together. Greek coalitions are unpredictable (e.g. SYRIZA–ANEL in 2015), so who allies is your call, not the model's.</>}
+                    el={<>Καθαρή αριθμητική εδρών — αυτό <strong>δεν</strong> κάνει καμία υπόθεση για ποια κόμματα θα συμφωνούσαν πραγματικά να κυβερνήσουν μαζί. Οι ελληνικές συμμαχίες είναι απρόβλεπτες (π.χ. ΣΥΡΙΖΑ–ΑΝΕΛ το 2015), οπότε ποιοι συνεργάζονται είναι δική σας επιλογή, όχι του μοντέλου.</>}
+                  />
                 </div>
               </div>
             </div>
@@ -259,7 +267,7 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
             {dist && (
               <div>
                 <div style={{ fontSize: 9, color: "var(--text-dim)", letterSpacing: 1, textTransform: "uppercase", fontFamily: "var(--ff-body)", marginBottom: 10 }}>
-                  Seat distribution &nbsp;<span style={{ textTransform: "none", letterSpacing: 0, color: "var(--text-dim)" }}>— how often each seat total comes up across all runs</span>
+                  {t("Seat distribution")} &nbsp;<span style={{ textTransform: "none", letterSpacing: 0, color: "var(--text-dim)" }}>{t("— how often each seat total comes up across all runs")}</span>
                 </div>
 
                 {/* Party selector (leader auto-included) */}
@@ -269,10 +277,10 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                     const active = dist.showIds.includes(p.id);
                     return (
                       <button key={p.id} className="coalition-chip" onClick={() => !isLeader && distToggle(p.id)}
-                        title={isLeader ? "Leading party — always shown" : undefined}
+                        title={isLeader ? t("Leading party — always shown") : undefined}
                         style={{ display: "flex", alignItems: "center", gap: 5, padding: "3px 8px", borderRadius: 4, cursor: isLeader ? "default" : "pointer", opacity: isLeader && !active ? 0.6 : 1, background: active ? `${p.color}20` : "var(--btn-bg)", border: `1px solid ${active ? p.color : "var(--border)"}` }}>
                         <div style={{ width: 6, height: 6, borderRadius: "50%", background: p.color }} />
-                        <span style={{ fontSize: 9, color: active ? "var(--text-title)" : "var(--text-muted)", fontFamily: "var(--ff-body)" }}>{p.name}{isLeader ? " ★" : ""}</span>
+                        <span style={{ fontSize: 9, color: active ? "var(--text-title)" : "var(--text-muted)", fontFamily: "var(--ff-body)" }}>{tPartyName(lang, p)}{isLeader ? " ★" : ""}</span>
                       </button>
                     );
                   })}
@@ -285,7 +293,7 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                       {["line", "bars", "both"].map((m) => (
                         <button key={m} onClick={() => setDistMode(m)}
                           style={{ padding: "3px 10px", fontSize: 9, letterSpacing: 0.5, textTransform: "uppercase", cursor: "pointer", border: "none", fontFamily: "var(--ff-body)", background: distMode === m ? "var(--btn-bg-active, #60A5FA22)" : "transparent", color: distMode === m ? "#60A5FA" : "var(--text-dim)" }}>
-                          {m}
+                          {t(m)}
                         </button>
                       ))}
                     </div>
@@ -380,13 +388,13 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                       {/* hover tooltip */}
                       {hoverSeat != null && (
                         <div style={{ position: "absolute", top: 6, left: `${hovX}%`, transform: `translateX(${hovX > 70 ? "-100%" : hovX < 30 ? "0%" : "-50%"})`, pointerEvents: "none", background: "var(--bg-card, #0d1424)", border: "1px solid var(--divider)", borderRadius: 6, padding: "6px 9px", boxShadow: "0 4px 14px rgba(0,0,0,0.4)", zIndex: 5, minWidth: 130 }}>
-                          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-bright)", ...S.mono, marginBottom: 4 }}>{hoverSeat} seats</div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-bright)", ...S.mono, marginBottom: 4 }}>{hoverSeat} {t("seats")}</div>
                           {dist.series.map((s) => {
                             const c = s.counts[hoverSeat] || 0;
                             return (
                               <div key={`t-${s.id}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 9, fontFamily: "var(--ff-body)", lineHeight: 1.5 }}>
                                 <div style={{ width: 6, height: 6, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-                                <span style={{ color: "var(--text-main)", fontWeight: 600 }}>{s.name}</span>
+                                <span style={{ color: "var(--text-main)", fontWeight: 600 }}>{tPartyName(lang, s)}</span>
                                 <span style={{ color: "var(--text-dim)", ...S.mono, marginLeft: "auto" }}>{c.toLocaleString()} ({((c / mc.iterations) * 100).toFixed(1)}%)</span>
                               </div>
                             );
@@ -399,8 +407,8 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                         {dist.series.map((s) => (
                           <div key={s.id} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                             <div style={{ width: 9, height: 3, borderRadius: 2, background: s.color }} />
-                            <span style={{ fontSize: 10, color: "var(--text-main)", fontWeight: 600, fontFamily: "var(--ff-body)" }}>{s.name}</span>
-                            <span style={{ fontSize: 9, ...S.mono, color: "var(--text-dim)" }}>median {s.median} · 90% {s.p5}–{s.p95}</span>
+                            <span style={{ fontSize: 10, color: "var(--text-main)", fontWeight: 600, fontFamily: "var(--ff-body)" }}>{tPartyName(lang, s)}</span>
+                            <span style={{ fontSize: 9, ...S.mono, color: "var(--text-dim)" }}>{t("median")} {s.median} · 90% {s.p5}–{s.p95}</span>
                           </div>
                         ))}
                       </div>
@@ -408,13 +416,13 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                   );
                 })()}
                 <div style={{ fontSize: 8, color: "var(--text-dim)", marginTop: 8, lineHeight: 1.5, fontFamily: "var(--ff-body)" }}>
-                  Built from the same {mc.iterations.toLocaleString()} runs. Each curve is the full spread of seat totals for that party — tall in the middle (most likely), thinning toward the unlikely extremes. Hover the chart to read any seat total and how many runs landed there; switch between the smoothed line, the raw bars, or both. Curves are each scaled to their own peak so shapes stay comparable; the dashed amber line is the 151-seat majority.
+                  {fmtSeatDistFooter(lang, GR.MAJORITY)}
                 </div>
               </div>
             )}
 
             <div style={{ fontSize: 8, color: "var(--text-dim)", borderTop: "1px solid var(--divider)", paddingTop: 10, lineHeight: 1.5, fontFamily: "var(--ff-body)" }}>
-              Each run draws a polling error from a fat-tailed (Student-t) distribution, partly shared across parties, and feeds the perturbed shares through the same engine as the result above. Odds are estimates from {mc.iterations.toLocaleString()} runs and shift slightly each update — raise the run count to steady them.
+              {fmtMcMethodologyFooter(lang, mc.iterations)}
             </div>
           </div>
         )

@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { S, EASE_STD, Slider } from "./GreeceStyles";
 import { IconGear, IconTrash, IconChevron, IconColumns, IconPeople } from "./GreeceIcons";
 import { GR_IDEOLOGY_LABELS, GR_SCENARIO_LABELS } from "./greece-data.js";
+import { useGreeceT, fmtNationalTurnout, tPartyFullName, tIdeologyLabel } from "./GreeceTranslations.jsx";
 
 const GR_DEM_CONTROLS = [
   { key: "youth",     label: "Youth Turnout (18–34)",  color: "#7C3AED", tip: "Negative = youth abstain · Positive = youth mobilised" },
@@ -28,7 +29,8 @@ const IconLock = ({ locked, size = 11 }) => (
   </svg>
 );
 
-function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleLock, onEdit, onMove, onDelete }) {
+function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleLock, onEdit, onMove, onDelete, lang }) {
+  const t = useGreeceT(lang);
   const [editing, setEditing] = useState(false);
   const [localPct, setLocalPct] = useState(party.userPercentage);
   const debouncedChange = useRef(null);
@@ -59,10 +61,10 @@ function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleL
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <div style={{ width: 3, height: 16, borderRadius: 2, background: party.color, flexShrink: 0, transition: `background 0.2s ${EASE_STD}` }}/>
-          <span style={{ fontSize: 11, color: "var(--text-main)", fontFamily: "var(--ff-body)", fontWeight: 600 }}>{party.fullName}</span>
+          <span style={{ fontSize: 11, color: "var(--text-main)", fontFamily: "var(--ff-body)", fontWeight: 600 }}>{tPartyFullName(lang, party)}</span>
           
           {/* Lock Button */}
-          <button className="icon-btn" onClick={() => onToggleLock(party.id)} title={party.isLocked ? "Unlock Party" : "Lock Party"} style={{ background: "none", border: "none", color: party.isLocked ? "#F59E0B" : "var(--text-dim)", cursor: "pointer", padding: "2px 3px", display: "flex", alignItems: "center", borderRadius: 3 }}>
+          <button className="icon-btn" onClick={() => onToggleLock(party.id)} title={party.isLocked ? t("Unlock Party") : t("Lock Party")} style={{ background: "none", border: "none", color: party.isLocked ? "#F59E0B" : "var(--text-dim)", cursor: "pointer", padding: "2px 3px", display: "flex", alignItems: "center", borderRadius: 3 }}>
             <IconLock locked={party.isLocked} size={11}/>
           </button>
           
@@ -75,14 +77,14 @@ function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleL
         <div style={{ display: "grid", gap: 7, marginTop: 8, marginBottom: 10, paddingBottom: 10, borderBottom: "1px dashed var(--border)" }}>
           <div style={{ display: "flex", gap: 6 }}>
             <input type="color" value={party.color} onChange={e => onEdit(party.id, "color", e.target.value)} style={{ width: 26, height: 26, padding: 2, border: "1px solid var(--border)", borderRadius: 4, cursor: "pointer", background: "var(--btn-bg)" }}/>
-            <input type="text" value={party.name} onChange={e => onEdit(party.id, "name", e.target.value)} style={{ ...S.editInput, width: 60 }} placeholder="Abbr."/>
-            <input type="text" value={party.fullName} onChange={e => onEdit(party.id, "fullName", e.target.value)} style={{ ...S.editInput, flexGrow: 1 }} placeholder="Full Name"/>
+            <input type="text" value={party.name} onChange={e => onEdit(party.id, "name", e.target.value)} style={{ ...S.editInput, width: 60 }} placeholder={t("Abbr.")}/>
+            <input type="text" value={party.fullName} onChange={e => onEdit(party.id, "fullName", e.target.value)} style={{ ...S.editInput, flexGrow: 1 }} placeholder={t("Full Name")}/>
           </div>
           <select value={party.ideology} onChange={e => onEdit(party.id, "ideology", parseInt(e.target.value))} style={{ ...S.editInput, width: "100%" }}>
-            {Object.entries(GR_IDEOLOGY_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+            {Object.entries(GR_IDEOLOGY_LABELS).map(([v, l]) => <option key={v} value={v}>{tIdeologyLabel(lang, v, l)}</option>)}
           </select>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 5, marginTop: 4 }}>
-            <button onClick={() => onDelete(party.id)} style={{ background: "#EF44441A", color: "#EF4444", border: "1px solid #EF444444", padding: "3px 8px", borderRadius: 3, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: 9, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}><IconTrash size={10}/> Delete</button>
+            <button onClick={() => onDelete(party.id)} style={{ background: "#EF44441A", color: "#EF4444", border: "1px solid #EF444444", padding: "3px 8px", borderRadius: 3, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: 9, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}><IconTrash size={10}/> {t("Delete")}</button>
             <div style={{ display: "flex", gap: 5 }}>
               {[[-1, "up"], [1, "down"]].map(([dir, arrow]) => (
                 <button key={dir} className="icon-btn" onClick={() => onMove(index, dir)} disabled={dir === -1 ? index === 0 : index === totalParties - 1} style={{ ...S.ghostBtn, padding: "3px 8px" }}><IconChevron dir={arrow} size={9}/></button>
@@ -107,7 +109,8 @@ function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleL
   );
 }
 
-export default function ControlPanel({ parties, onPctChange, onToggleLock, onPartyEdit, onPartyMove, onPartyDelete, demSliders, setDemSliders, scenarioId, onScenarioChange, resetAll, threshold, setThreshold, turnoutShift, setTurnoutShift }) {
+export default function ControlPanel({ parties, onPctChange, onToggleLock, onPartyEdit, onPartyMove, onPartyDelete, demSliders, setDemSliders, scenarioId, onScenarioChange, resetAll, threshold, setThreshold, turnoutShift, setTurnoutShift, lang }) {
+  const t = useGreeceT(lang);
   const [tab, setTab] = useState("parties");
   let totalPct = 0;
   for (let i = 0; i < parties.length; i++) totalPct += parties[i].userPercentage;
@@ -120,56 +123,61 @@ export default function ControlPanel({ parties, onPctChange, onToggleLock, onPar
 
   return (
     <div style={{ ...S.card, height: "100%", display: "flex", flexDirection: "column" }}>
-      <div style={{ ...S.label, marginBottom: 12 }}>Swing Controls</div>
+      <div style={{ ...S.label, marginBottom: 12 }}>{t("Swing Controls")}</div>
       <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 8, color: "var(--text-dim)", marginBottom: 5, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>Baseline</div>
+        <div style={{ fontSize: 8, color: "var(--text-dim)", marginBottom: 5, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>{t("Baseline")}</div>
         <select value={scenarioId} onChange={onScenarioChange} style={{ width: "100%", ...S.editInput, padding: "6px 8px", cursor: "pointer" }}>
-          <option value="2026">May 2026 Polling Average</option>
-          <option value="2023">June 2023 Legislative</option>
-          <option value="2019">July 2019 Legislative</option>
+          <option value="2026">{t("May 2026 Polling Average")}</option>
+          <option value="2023">{t("June 2023 Legislative")}</option>
+          <option value="2019">{t("July 2019 Legislative")}</option>
+          <option value="2015">{t("September 2015 Legislative")}</option>
+          <option value="2015jan">{t("January 2015 Legislative")}</option>
+          <option value="2012">{t("June 2012 Legislative")}</option>
+          <option value="2012may">{t("May 2012 Legislative")}</option>
         </select>
       </div>
       <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: "1px solid var(--divider)" }}>
-        <Slider label="Electoral Threshold (%)" value={threshold} min={0} max={10} step={0.5} onChange={setThreshold} color="#F59E0B"/>
-        <Slider label={`National Turnout ${turnoutShift > 0 ? "+" : ""}${turnoutShift} pts`} value={turnoutShift} min={-15} max={15} step={0.5} onChange={setTurnoutShift} color="#06B6D4"/>
+        <Slider label={t("Electoral Threshold (%)")} value={threshold} min={0} max={10} step={0.5} onChange={setThreshold} color="#F59E0B"/>
+        <Slider label={fmtNationalTurnout(lang, turnoutShift)} value={turnoutShift} min={-15} max={15} step={0.5} onChange={setTurnoutShift} color="#06B6D4"/>
       </div>
       <div style={{ display: "flex", gap: 4, marginBottom: 12, paddingBottom: 10, borderBottom: "1px solid var(--divider)" }}>
-        <TabBtn id="parties" label="Parties"      icon={<IconColumns size={11}/>}/>
-        <TabBtn id="demo"    label="Demographics" icon={<IconPeople  size={11}/>}/>
+        <TabBtn id="parties" label={t("Parties")}      icon={<IconColumns size={11}/>}/>
+        <TabBtn id="demo"    label={t("Demographics")} icon={<IconPeople  size={11}/>}/>
       </div>
       <div style={{ flexGrow: 1, overflowY: "auto", paddingRight: 4 }}>
         {tab === "demo" && (
           <>
             {GR_DEM_CONTROLS.map(ctrl => (
               <div key={ctrl.key} style={{ marginBottom: 18 }}>
-                <Slider label={ctrl.label} value={demSliders[ctrl.key]} min={-10} max={10} step={0.5} onChange={v => setDemSliders(prev => ({ ...prev, [ctrl.key]: v }))} color={ctrl.color}/>
-                <div style={{ fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)", marginTop: 2, letterSpacing: 0.3 }}>{ctrl.tip}</div>
+                <Slider label={t(ctrl.label)} value={demSliders[ctrl.key]} min={-10} max={10} step={0.5} onChange={v => setDemSliders(prev => ({ ...prev, [ctrl.key]: v }))} color={ctrl.color}/>
+                <div style={{ fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)", marginTop: 2, letterSpacing: 0.3 }}>{t(ctrl.tip)}</div>
               </div>
             ))}
-            <button className="icon-btn" onClick={resetDem} style={{ ...S.ghostBtn, width: "100%", justifyContent: "center", marginTop: 8 }}>Reset Demographics</button>
+            <button className="icon-btn" onClick={resetDem} style={{ ...S.ghostBtn, width: "100%", justifyContent: "center", marginTop: 8 }}>{t("Reset Demographics")}</button>
           </>
         )}
         {tab === "parties" && (
           <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, padding: "4px 8px", background: "var(--btn-bg)", borderRadius: 4, border: "1px solid var(--divider)" }}>
-              <span style={{ fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>Total (normalised)</span>
+              <span style={{ fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>{t("Total (normalised)")}</span>
               <span style={{ fontSize: 9, ...S.mono, color: Math.abs(totalPct - 100) < 0.2 ? "#34D399" : "#F87171", transition: `color 0.2s ${EASE_STD}` }}>{totalPct.toFixed(1)}%</span>
             </div>
             {parties.map((p, i) => (
-              <GrPartyControlItem 
-                key={p.id} 
-                party={p} 
-                index={i} 
-                totalParties={parties.length} 
-                onPctChange={onPctChange} 
+              <GrPartyControlItem
+                key={p.id}
+                party={p}
+                index={i}
+                totalParties={parties.length}
+                onPctChange={onPctChange}
                 onToggleLock={onToggleLock}
-                onEdit={onPartyEdit} 
-                onMove={onPartyMove} 
+                onEdit={onPartyEdit}
+                onMove={onPartyMove}
                 onDelete={onPartyDelete}
+                lang={lang}
               />
             ))}
             <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
-              <button className="icon-btn" onClick={resetAll} style={{ ...S.ghostBtn, flexGrow: 1, justifyContent: "center" }}>Reset to Baseline</button>
+              <button className="icon-btn" onClick={resetAll} style={{ ...S.ghostBtn, flexGrow: 1, justifyContent: "center" }}>{t("Reset to Baseline")}</button>
             </div>
           </>
         )}

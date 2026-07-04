@@ -317,7 +317,7 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
 
       <footer style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--divider)", display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
         <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 0.4, lineHeight: 1.6, textAlign: isMobile ? "center" : "left" }}>
-          Psephos Swingometer · a non-commercial academic project by Konstantinos Davakos<br/>
+          PsephosCast.gr · a non-commercial academic project by Konstantinos Davakos<br/>
           Department of Economics, University of Ioannina
         </div>
         <button className="icon-btn" onClick={() => setShowPrivacy(true)} style={S.ghostBtn}>Privacy Policy</button>

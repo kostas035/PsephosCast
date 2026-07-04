@@ -864,8 +864,8 @@ function GridComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
   // Monte-Carlo: run once, only when *some* board has a forecast panel.
   const needMc = open && boards.some((b) => b.items.some((i) => i.type === "mc_odds" || i.type === "mc_dist"));
   const mc = useMemo(
-    () => (needMc ? grRunMonteCarlo(ctx.effectiveParties, { threshold: ctx.threshold, turnout: ctx.turnout, sigma: 2.5, iterations: 4000 }) : null),
-    [needMc, ctx.effectiveParties, ctx.threshold, ctx.turnout]
+    () => (needMc ? grRunMonteCarlo(ctx.effectiveParties, { threshold: ctx.threshold, turnout: ctx.turnout, sigma: 2.5, iterations: 4000, scenarioId: ctx.scenarioId }) : null),
+    [needMc, ctx.effectiveParties, ctx.threshold, ctx.turnout, ctx.scenarioId]
   );
 
   // Seed one board the first time the modal opens (persists across re-opens).

@@ -20,7 +20,7 @@ export default function PrivacyModal({ onClose }) {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, borderBottom: "1px solid var(--border)", paddingBottom: 16 }}>
           <div>
-            <div style={{ fontSize: 10, fontFamily: "var(--ff-mono)", color: "var(--text-dim)", letterSpacing: 2, textTransform: "uppercase" }}>PSEPHOS_SYSTEM</div>
+            <div style={{ fontSize: 10, fontFamily: "var(--ff-mono)", color: "var(--text-dim)", letterSpacing: 2, textTransform: "uppercase" }}>PSEPHOSCAST_SYSTEM</div>
             <h2 style={{ margin: "4px 0 0", fontFamily: "var(--ff-head)", fontSize: 24, color: "var(--text-title)", letterSpacing: 1 }}>PRIVACY POLICY</h2>
             <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4, letterSpacing: 0.5 }}>Last updated: June 2026</div>
           </div>
@@ -30,7 +30,7 @@ export default function PrivacyModal({ onClose }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 22, fontSize: 14, lineHeight: 1.65 }}>
 
           <p style={{ margin: 0, color: "var(--text-muted)" }}>
-            Psephos Swingometer is a free, non-commercial academic web application developed by Konstantinos Davakos (Department of Economics, University of Ioannina, Greece). For any privacy-related enquiries, please use the Support page of this website.
+            PsephosCast.gr is a free, non-commercial academic web application developed by Konstantinos Davakos (Department of Economics, University of Ioannina, Greece). For any privacy-related enquiries, please use the Support page of this website.
           </p>
 
           <Section n="1" title="Data Collection & Session Storage">

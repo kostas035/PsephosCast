@@ -10,6 +10,14 @@ export function grExtractName(p) {
   return p.name || p.NAME_1 || p.NAME || p.NAME_2 || p.nomos || p.name_en || p.en_name || p.PER || "";
 }
 
+// Same as grExtractName, but prefers the GeoJSON's own `name_greek` property
+// when rendering in Greek — the source files already carry an authoritative
+// Greek name per feature, so there's no need for a separate translation map.
+export function grExtractNameLocalized(p, lang) {
+  if (lang === "el" && p && p.name_greek) return p.name_greek;
+  return grExtractName(p);
+}
+
 export function grGetCentroidOffset(n) {
   for(let i=0; i<GR_CENTROID_OFFSETS.length; i++) {
     const keys = GR_CENTROID_OFFSETS[i][0];
@@ -21,9 +29,15 @@ export function grGetCentroidOffset(n) {
 export function grMatchDistricts(name, dr) {
   if (!name) return [];
   const norm = grNormStr(name);
-  
-  if (GR_PREFECTURE_MAP[norm]) return dr.filter(d => GR_PREFECTURE_MAP[norm].includes(d.id));
-  
+
+  // Falls through to the fuzzy/exact matchers below when the mapped ids aren't
+  // present in `dr` — e.g. the "2015" scenario's merged "Attica" polygon has no
+  // athens_b1/b2/b3/east_attica/west_attica rows to match against.
+  if (GR_PREFECTURE_MAP[norm]) {
+    const mapped = dr.filter(d => GR_PREFECTURE_MAP[norm].includes(d.id));
+    if (mapped.length) return mapped;
+  }
+
   const SUB_MATCHES = {
     "evryt": ["evrytania"], "messen": ["messenia"], "messin": ["messenia"], "μεσσην": ["messenia"], 
     "mesin": ["messenia"], "mesen": ["messenia"], "μεσην": ["messenia"], "kalamat": ["messenia"],

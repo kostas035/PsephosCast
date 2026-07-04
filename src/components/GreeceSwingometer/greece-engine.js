@@ -1,5 +1,5 @@
 // greece-engine.js
-import { GR, GR_PARTY_DICT, GR_RAW_DISTRICTS, GR_DISTRICT_BASELINES, GR_PARTY_LINEAGE, GR_MULTIPLIERS, grToLogit, grFromLogit, GR_DISTRICT_POP, GR_DISTRICT_REGISTERED, GR_DISTRICT_TURNOUT, GR_DISTRICT_VALID_VOTES, GR_STATE_BALLOT_EXCLUDED, GR_DISTRICT_DEMOGRAPHICS } from './greece-data.js';
+import { GR, GR_BONUS_CONFIG, GR_PARTY_DICT, GR_DISTRICT_BASELINES, GR_PARTY_LINEAGE, GR_MULTIPLIERS, grToLogit, grFromLogit, GR_DISTRICT_POP, GR_DISTRICT_REGISTERED, GR_DISTRICT_TURNOUT, GR_DISTRICT_VALID_VOTES, GR_STATE_BALLOT_EXCLUDED, GR_DISTRICT_DEMOGRAPHICS, grDistrictsForScenario } from './greece-data.js';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Per-constituency electorate weight (2021 census legal residents).
@@ -9,11 +9,12 @@ import { GR, GR_PARTY_DICT, GR_RAW_DISTRICTS, GR_DISTRICT_BASELINES, GR_PARTY_LI
 //  Replace with an election's ACTUAL valid votes per constituency for an
 //  exact 1:1 reproduction of that official result.
 // ─────────────────────────────────────────────────────────────────────────────
-export const GR_DISTRICT_ELECTORATE = {"athens_a": 430362, "athens_b1": 557407, "athens_b2": 405623, "athens_b3": 636474, "piraeus_a": 182667, "piraeus_b": 274730, "east_attica": 403714, "west_attica": 148548, "thessaloniki_a": 568576, "thessaloniki_b": 316369, "chalkidiki": 104702, "imathia": 136602, "kilkis": 85885, "pella": 138568, "pieria": 123245, "serres": 182226, "evros": 134776, "rhodope": 101767, "xanthi": 107548, "drama": 95701, "kavala": 129872, "kozani": 149733, "kastoria": 48464, "florina": 50921, "grevena": 34538, "ioannina": 163044, "arta": 79776, "preveza": 62769, "thesprotia": 47947, "larissa": 268451, "magnesia": 181879, "trikala": 139562, "karditsa": 129171, "aetolia_acarnania": 235371, "boeotia": 109293, "phthiotis": 151036, "evrytania": 24545, "euboea": 213179, "phocis": 39800, "corinthia": 136401, "argolis": 93934, "arcadia": 96092, "laconia": 87104, "messenia": 161953, "elis": 168358, "achaea": 296574, "heraklion": 285528, "chania": 144259, "rethymno": 79801, "lasithi": 73258, "dodecanese": 180591, "cyclades": 122738, "lesbos": 97824, "samos": 42202, "chios": 52096, "corfu": 97037, "cephalonia": 41069, "lefkada": 25365, "zakynthos": 38340};
+export const GR_DISTRICT_ELECTORATE = {"athens_a": 430362, "athens_b": 557407+405623+636474, "athens_b1": 557407, "athens_b2": 405623, "athens_b3": 636474, "piraeus_a": 182667, "piraeus_b": 274730, "attica": 403714+148548, "east_attica": 403714, "west_attica": 148548, "thessaloniki_a": 568576, "thessaloniki_b": 316369, "chalkidiki": 104702, "imathia": 136602, "kilkis": 85885, "pella": 138568, "pieria": 123245, "serres": 182226, "evros": 134776, "rhodope": 101767, "xanthi": 107548, "drama": 95701, "kavala": 129872, "kozani": 149733, "kastoria": 48464, "florina": 50921, "grevena": 34538, "ioannina": 163044, "arta": 79776, "preveza": 62769, "thesprotia": 47947, "larissa": 268451, "magnesia": 181879, "trikala": 139562, "karditsa": 129171, "aetolia_acarnania": 235371, "boeotia": 109293, "phthiotis": 151036, "evrytania": 24545, "euboea": 213179, "phocis": 39800, "corinthia": 136401, "argolis": 93934, "arcadia": 96092, "laconia": 87104, "messenia": 161953, "elis": 168358, "achaea": 296574, "heraklion": 285528, "chania": 144259, "rethymno": 79801, "lasithi": 73258, "dodecanese": 180591, "cyclades": 122738, "lesbos": 97824, "samos": 42202, "chios": 52096, "corfu": 97037, "cephalonia": 41069, "lefkada": 25365, "zakynthos": 38340};
 
-export function grCalcBonusSeats(pct) {
-  if (pct < GR.BONUS_TRIGGER) return 0;
-  return Math.min(GR.BONUS_BASE + Math.floor((pct-GR.BONUS_TRIGGER)/GR.BONUS_STEP), GR.BONUS_CAP);
+export function grCalcBonusSeats(pct, scenarioId) {
+  const cfg = GR_BONUS_CONFIG[scenarioId] || { trigger: GR.BONUS_TRIGGER, base: GR.BONUS_BASE, step: GR.BONUS_STEP, cap: GR.BONUS_CAP };
+  if (pct < cfg.trigger) return 0;
+  return Math.min(cfg.base + Math.floor((pct-cfg.trigger)/cfg.step), cfg.cap);
 }
 
 export function grAllocateStateSeats(qualifying, qTotalPct, excludedIds = []) {
@@ -67,7 +68,7 @@ export function grRunElection(effectiveParties, thresholdPct, turnout, scenarioI
   qualifying.sort((a, b) => b.nationalPct - a.nationalPct);
   
   const winner = qualifying[0];
-  const bonusSeats = grCalcBonusSeats(winner.nationalPct);
+  const bonusSeats = grCalcBonusSeats(winner.nationalPct, scenarioId);
   const propPool = GR.TOTAL_SEATS - bonusSeats;
   
   let alloc = 0; const propRems = [];
@@ -426,7 +427,7 @@ export function grProcessFullElection(scenarioParties, sliderValues, scenarioId,
   if (sum > 0) updated = updated.map(p => ({ ...p, effectivePct: (p.effectivePct / sum) * 100 }));
   
   const electionResult = grRunElection(updated, thresholdPct, turnoutTotal, scenarioId);
-  const updatedDistricts = GR_RAW_DISTRICTS.map(dist => grApplySwing({ ...dist, baseVotes: grDistrictBaseVotes(scenarioParties, dist, scenarioId) }, updated, scenarioParties, sliderValues));
+  const updatedDistricts = grDistrictsForScenario(scenarioId).map(dist => grApplySwing({ ...dist, baseVotes: grDistrictBaseVotes(scenarioParties, dist, scenarioId) }, updated, scenarioParties, sliderValues));
 
   // Attach each district's electorate weight for the §8 cross-district remainder ranking.
   // Priority: exact valid-vote count (if supplied) > population × scenario turnout > population.

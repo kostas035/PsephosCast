@@ -44,6 +44,9 @@ function percentile(sortedArr, q) {
  * @param {number} opts.correlation  0–1: share of the error that is a common
  *                                   "all-pollsters-wrong-together" shock vs.
  *                                   party-specific noise (default 0.35)
+ * @param {string} opts.scenarioId   scenario id, so the sims use that era's
+ *                                   majority-bonus formula (flat 50 pre-2023,
+ *                                   sliding after — see GR_BONUS_CONFIG)
  */
 export function grRunMonteCarlo(effectiveParties, opts = {}) {
   const {
@@ -53,6 +56,7 @@ export function grRunMonteCarlo(effectiveParties, opts = {}) {
     iterations = 5000,
     df = 5,
     correlation = 0.35,
+    scenarioId = null,
   } = opts;
 
   // Only real contesting parties (exclude the "Other" bucket from the centre).
@@ -86,7 +90,7 @@ export function grRunMonteCarlo(effectiveParties, opts = {}) {
       return { ...p, effectivePct: Math.max(0, p.effectivePct + shared + idio) };
     });
 
-    const res = grRunElection(perturbed, threshold, turnout);
+    const res = grRunElection(perturbed, threshold, turnout, scenarioId);
     const seatsById = {};
     let topSeats = 0, topId = null;
     (res.results || []).forEach(r => {

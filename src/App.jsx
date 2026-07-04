@@ -67,6 +67,7 @@ const GLOBAL_CSS = `
   .welcome-card.disabled{opacity:0.5;cursor:not-allowed}
   .welcome-card.active{border-color:#2563EB;box-shadow:0 4px 24px rgba(37,99,235,0.2)}
   .hero-text{animation:fadeIn 0.5s ease both}
+  .material-symbols-outlined{font-family:'Material Symbols Outlined Variable';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased}
 `;
 
 function RouteFallback() {

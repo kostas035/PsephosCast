@@ -2,8 +2,10 @@ import { memo, useState, useEffect, useMemo, useCallback } from "react";
 import { S, EASE_OUT, EASE_SPRING, EASE_STD } from "./GreeceStyles";
 import { GR } from "./greece-data.js";
 import { GR_HEMI_POSITIONS, GR_ROW_RADII, GR_HEMI_CX, GR_HEMI_CY, GR_HEMI_W, GR_HEMI_H } from "./greece-utils.js";
+import { useGreeceT, fmtMajorityCoalition, tPartyName } from "./GreeceTranslations.jsx";
 
-export const GrCoalitionBuilder = memo(function GrCoalitionBuilder({ electionResult, parties }) {
+export const GrCoalitionBuilder = memo(function GrCoalitionBuilder({ electionResult, parties, lang }) {
+  const t = useGreeceT(lang);
   const [coalition, setCoalition] = useState([]);
   const toggle = useCallback(id => setCoalition(c => c.includes(id) ? c.filter(x => x !== id) : [...c, id]), []);
   const clear  = useCallback(() => setCoalition([]), []);
@@ -19,10 +21,10 @@ export const GrCoalitionBuilder = memo(function GrCoalitionBuilder({ electionRes
   return (
     <div style={{ ...S.card, marginTop: 12 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-        <span style={S.label}>Coalition Builder</span>
+        <span style={S.label}>{t("Coalition Builder")}</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 10, ...S.mono, color: hasMajority ? "#34D399" : "#F87171", transition: `color 0.3s ${EASE_STD}` }}>{totalSeats} / {GR.MAJORITY}</span>
-          {coalition.length > 0 && <button className="icon-btn" onClick={clear} style={{ ...S.ghostBtn, padding: "2px 6px", fontSize: 8 }}>Clear</button>}
+          {coalition.length > 0 && <button className="icon-btn" onClick={clear} style={{ ...S.ghostBtn, padding: "2px 6px", fontSize: 8 }}>{t("Clear")}</button>}
         </div>
       </div>
       <div style={{ height: 6, background: "var(--coalition-bg)", borderRadius: 3, overflow: "hidden", marginBottom: 12, border: "1px solid var(--border)", position: "relative" }}>
@@ -36,21 +38,22 @@ export const GrCoalitionBuilder = memo(function GrCoalitionBuilder({ electionRes
           return (
             <button key={r.id} className="coalition-chip" onClick={() => toggle(r.id)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "4px 8px", borderRadius: 4, cursor: "pointer", background: isActive ? `${p?.color}20` : "var(--btn-bg)", border: `1px solid ${isActive ? p?.color : "var(--border)"}` }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: p?.color || "#fff" }}/>
-              <span style={{ fontSize: 9, color: isActive ? "var(--text-title)" : "var(--text-muted)", fontFamily: "var(--ff-body)", letterSpacing: 0.5 }}>{p?.name} <span style={S.mono}>{r.seats}</span></span>
+              <span style={{ fontSize: 9, color: isActive ? "var(--text-title)" : "var(--text-muted)", fontFamily: "var(--ff-body)", letterSpacing: 0.5 }}>{tPartyName(lang, p)} <span style={S.mono}>{r.seats}</span></span>
             </button>
           );
         })}
       </div>
       {hasMajority && (
         <div style={{ marginTop: 10, padding: "6px 10px", background: "#34D39910", border: "1px solid #34D39930", borderRadius: 4, fontSize: 9, color: "#34D399", fontFamily: "var(--ff-body)", letterSpacing: 0.5, animation: `tooltipIn 0.25s ${EASE_OUT} both` }}>
-          ✓ Majority coalition — {totalSeats} seats with {activeIds.length} {activeIds.length === 1 ? "party" : "parties"}
+          {fmtMajorityCoalition(lang, totalSeats, activeIds.length)}
         </div>
       )}
     </div>
   );
 });
 
-export default memo(function Hemicycle({ electionResult, parties }) {
+export default memo(function Hemicycle({ electionResult, parties, lang }) {
+  const t = useGreeceT(lang);
   const { results } = electionResult;
   const [rendered, setRendered] = useState(false);
 
@@ -84,9 +87,9 @@ export default memo(function Hemicycle({ electionResult, parties }) {
   return (
     <div style={{ ...S.card, paddingTop: 10, paddingBottom: 4 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px 4px" }}>
-        <span style={S.label}>Hellenic Parliament</span>
+        <span style={S.label}>{t("Hellenic Parliament")}</span>
         <span style={{ fontSize: 9, ...S.mono, color: hasMajority ? "#34D399" : "#F87171", letterSpacing: 1, transition: `color 0.3s ${EASE_STD}` }}>
-          {hasMajority ? "● Majority secured" : "○ No majority"}
+          {hasMajority ? t("● Majority secured") : t("○ No majority")}
         </span>
       </div>
       <svg viewBox={`0 0 ${GR_HEMI_W} ${GR_HEMI_H}`} style={{ width: "100%", display: "block" }}>
@@ -109,7 +112,7 @@ export default memo(function Hemicycle({ electionResult, parties }) {
         ))}
         {hasMajority && <circle cx={GR_HEMI_CX} cy={GR_HEMI_CY} r={18} fill={winnerColor} opacity={0.07}/>}
         {["Left", "Center", "Right"].map((label, i) => (
-          <text key={label} x={i === 0 ? 40 : i === 1 ? GR_HEMI_CX : GR_HEMI_W - 40} y={GR_HEMI_CY + 15} fontSize={8} fill="var(--text-dim)" fontFamily="var(--ff-body)" letterSpacing={1.5} textAnchor={i === 0 ? "start" : i === 1 ? "middle" : "end"}>{label}</text>
+          <text key={label} x={i === 0 ? 40 : i === 1 ? GR_HEMI_CX : GR_HEMI_W - 40} y={GR_HEMI_CY + 15} fontSize={8} fill="var(--text-dim)" fontFamily="var(--ff-body)" letterSpacing={1.5} textAnchor={i === 0 ? "start" : i === 1 ? "middle" : "end"}>{t(label)}</text>
         ))}
       </svg>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "5px 14px", padding: "0 16px 10px", justifyContent: "center" }}>
@@ -119,7 +122,7 @@ export default memo(function Hemicycle({ electionResult, parties }) {
             <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 5 }}>
               <div style={{ width: 8, height: 8, borderRadius: 2, background: p?.color || "var(--text-muted)" }}/>
               <span style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "var(--ff-body)" }}>
-                {p?.name} <strong style={{ color: p?.color || "var(--text-title)", fontSize: 12 }}>{r.seats}</strong>
+                {tPartyName(lang, p)} <strong style={{ color: p?.color || "var(--text-title)", fontSize: 12 }}>{r.seats}</strong>
               </span>
             </div>
           );

@@ -1,8 +1,29 @@
 # Electoral Swingometer
 
-An interactive election-simulation tool: adjust party vote shares with sliders and watch seat
-projections, hemicycle/parliament charts, and maps update live. Built around real electoral
-systems rather than generic uniform swing.
+A "swingometer" answers the question *"what if the vote shifted by a few points?"* — drag a
+slider to give a party more or less support, and instantly see who wins, how many seats each
+party gets, and whether anyone reaches a majority. This project does that properly: instead of
+a simplistic uniform national swing, each country runs on a faithful model of its **actual
+electoral law** — seat bonuses, thresholds, proportional remainder allocation, district
+quirks — so the numbers reflect what would genuinely happen, not a rough approximation.
+
+What you can actually do with it:
+
+- **Adjust vote shares with sliders** and watch the seat count, parliament hemicycle chart, and
+  constituency map update live, under the real electoral system of each country.
+- **Build hypothetical coalitions** and check whether the seats actually add up to a majority.
+- **Run a Monte Carlo forecast** — thousands of simulated elections with realistic, fat-tailed
+  polling error — to see the *range* of plausible outcomes and the odds of any given result,
+  rather than trusting a single fixed projection.
+- **Drill into individual regions** (currently Greek regions, down to municipality level) for
+  more local detail than the national picture gives you.
+- **Explore the statistics behind the numbers** — regression, correlation, and demographic
+  breakdowns — on the Correlations page.
+- **Export a scenario** as an image or data file to share. Everything above runs entirely in
+  your browser; nothing is uploaded anywhere (see the in-app Privacy Policy for specifics).
+
+It currently covers **Greece** (national and regional/municipal) and **Cyprus**, with an
+Australian federal model already built but not yet wired into the live site (see below).
 
 ## Live simulators
 

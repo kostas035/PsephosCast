@@ -34,7 +34,7 @@ const Modal = ({ onClose, title, maxWidth = 600, children }) => (
       
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, paddingBottom: 16, borderBottom: "0.5px solid rgba(255, 255, 255, 0.15)" }}>
         <div>
-          <div className="mono-data" style={{ fontSize: 10, letterSpacing: 3, color: "#b4c5ff", textTransform: "uppercase", marginBottom: 4 }}>PSEPHOS_SYSTEM</div>
+          <div className="mono-data" style={{ fontSize: 10, letterSpacing: 3, color: "#b4c5ff", textTransform: "uppercase", marginBottom: 4 }}>PSEPHOSCAST_SYSTEM</div>
           <h3 style={{ margin: 0, fontFamily: "'Bebas Neue', cursive", fontSize: 32, letterSpacing: 1.5, color: "#ffffff", lineHeight: 1 }}>{title}</h3>
         </div>
         <button onClick={onClose} style={{ background: "rgba(255,255,255,0.05)", border: "0.5px solid rgba(255,255,255,0.15)", cursor: "pointer", padding: "7px 8px", borderRadius: 2, color: "#dae2ff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginLeft: 16, transition: "background 0.2s" }} onMouseOver={e => e.currentTarget.style.background="rgba(255,255,255,0.1)"} onMouseOut={e => e.currentTarget.style.background="rgba(255,255,255,0.05)"}>
@@ -300,7 +300,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
       <nav className="w-full top-0 sticky backdrop-blur-xl bg-surface-dark/80 border-b border-white/10 shadow-sm z-50">
         <div className="max-w-container-max mx-auto flex justify-between items-center h-20 px-lg">
           <div className="font-headline-lg text-headline-lg text-white cursor-pointer hover:text-primary transition-colors duration-300">
-            PSEPHOS
+            PsephosCast.gr
           </div>
           <div className="hidden md:flex space-x-md">
             <button onClick={() => setShowQuickStart(true)} className="text-white border-b border-primary pb-1 font-label-md mono-data hover:text-primary transition-colors duration-300">QUICK_START</button>
@@ -335,7 +335,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
         {/* Hero Section */}
         <section className="text-center mb-xl w-full max-w-3xl relative">
           <h1 className="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-sm uppercase tracking-widest">
-            SWINGOMETER
+            PsephosCast.gr
           </h1>
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto italic">
             Logit-swing election modelling — adjust polling, demographics & thresholds
@@ -447,7 +447,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
   <div className="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-md px-lg">
     {/* Corrected centered block for the student info */}
     <div className="flex flex-col items-center justify-center gap-1 text-center">
-      <p className="font-body-md text-body-md text-on-surface-variant text-center">© 2026 Psephos · Konstantinos Davakos</p>
+      <p className="font-body-md text-body-md text-on-surface-variant text-center">© 2026 PsephosCast.gr · Konstantinos Davakos</p>
       <a
         href="https://econ.uoi.gr/en/"
         target="_blank"
@@ -496,7 +496,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
           <section style={{ background: "rgba(255,255,255,0.03)", padding: "16px 20px", borderRadius: 2, border: "0.5px solid rgba(255,255,255,0.15)" }}>
             <h4 className="mono-data" style={{ fontSize: 11, letterSpacing: 2.5, textTransform: "uppercase", color: "#b4c5ff", margin: "0 0 8px" }}>Legal Disclaimer</h4>
             <p style={{ margin: 0, fontSize: 14 }}>
-              This interactive Psephos Swingometer is an independent, non-commercial academic project created by Konstantinos Davakos (Department of Economics, University of Ioannina). It is strictly for educational, illustrative, and research purposes. The mathematical models simulate hypothetical outcomes and should not be treated as official predictive forecasts.
+              This interactive PsephosCast.gr is an independent, non-commercial academic project created by Konstantinos Davakos (Department of Economics, University of Ioannina). It is strictly for educational, illustrative, and research purposes. The mathematical models simulate hypothetical outcomes and should not be treated as official predictive forecasts.
             </p>
           </section>
         </Modal>

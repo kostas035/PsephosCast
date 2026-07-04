@@ -15,6 +15,7 @@
     "@fontsource/bebas-neue": "^5.2.7",
     "@fontsource/crimson-pro": "^5.2.8",
     "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@turf/union": "^7.3.5",
     "d3": "^7.9.0",
     "html2canvas": "^1.4.1",
     "react": "^19.2.6",

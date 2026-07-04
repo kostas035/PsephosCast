@@ -9,12 +9,12 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import {
-  GR_RAW_DISTRICTS,
   GR_DISTRICT_DEMOGRAPHICS,
   GR_SCENARIOS,
   GR_DISTRICT_POP,
   GR_DISTRICT_REGISTERED,
   GR_DISTRICT_VALID_VOTES,
+  grDistrictsForScenario,
 } from "./greece-data.js";
 import { grDistrictBaseVotes, grApplySwing } from "./greece-engine.js";
 
@@ -23,6 +23,9 @@ export const URBAN_THRESHOLD = 70;
 
 export const REGIONS = {
   athens_a: "Attica", athens_b1: "Attica", athens_b2: "Attica", athens_b3: "Attica",
+  // "athens_b" / "attica" (undivided) are the pre-2018 merged constituencies —
+  // only used by the "2012", "2012may", "2015" and "2015jan" district tables.
+  athens_b: "Attica", attica: "Attica",
   piraeus_a: "Attica", piraeus_b: "Attica", east_attica: "Attica", west_attica: "Attica",
   thessaloniki_a: "Central Macedonia", thessaloniki_b: "Central Macedonia", chalkidiki: "Central Macedonia",
   imathia: "Central Macedonia", kilkis: "Central Macedonia", pella: "Central Macedonia", pieria: "Central Macedonia", serres: "Central Macedonia",
@@ -49,10 +52,10 @@ export const ISLANDS = new Set([
 ]);
 
 export const BLOCS = {
-  "Radical & Broad Left": ["syriza", "kke", "na", "pe", "mera25", "elas"],
-  "Social Democracy & Center": ["pasok", "dpk"],
-  "Conservative & Center-Right": ["nd", "elpida", "samaras"],
-  "Radical Right & Nationalist": ["el", "spartans", "niki", "gd", "fl", "pat"],
+  "Radical & Broad Left": ["syriza", "kke", "na", "pe", "mera25", "elas", "lae", "dimar", "antarsya"],
+  "Social Democracy & Center": ["pasok", "dpk", "kidiso", "ek"],
+  "Conservative & Center-Right": ["nd", "elpida", "samaras", "potami", "dxana", "disy", "drasi", "teleia"],
+  "Radical Right & Nationalist": ["el", "spartans", "niki", "gd", "fl", "pat", "anel", "laos"],
 };
 
 const num = v => typeof v === "number" && isFinite(v);
@@ -65,7 +68,12 @@ export function buildAnalysisFrame(unit = "district", baselineKey = "2023", scen
 
   let frame = [];
 
-  for (const dist of GR_RAW_DISTRICTS) {
+  // Pre-2018 baselines ("2012", "2012may", "2015", "2015jan") run on the 56-
+  // constituency map (undivided Athens B / Attica); every other baseline keeps
+  // the current 59-district map. Picking the wrong table here would silently
+  // fall back to the synthetic multiplier estimate for every district instead
+  // of the real historical baseline shares.
+  for (const dist of grDistrictsForScenario(baselineKey)) {
     const demo = demographicsById[dist.id] || {};
     const baseVotes = grDistrictBaseVotes(baseParties, dist, baselineKey);
     const popSize = GR_DISTRICT_POP[dist.id] || 0;

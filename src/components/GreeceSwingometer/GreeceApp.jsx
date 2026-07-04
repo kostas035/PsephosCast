@@ -10,25 +10,31 @@ import {
 import ThemePicker from "./ThemePicker";
 import { resolveTheme, applyPartyPalette, DEFAULT_PALETTE } from "./GreeceThemes.js";
 
-import { 
-  GR_SCENARIOS, GR_SCENARIO_LABELS, GR_SCENARIO_TURNOUT, 
-  GR_TURNOUT_IS_ESTIMATE, GR_RAW_DISTRICTS 
+import {
+  GR_SCENARIOS, GR_SCENARIO_LABELS, GR_SCENARIO_TURNOUT,
+  GR_TURNOUT_IS_ESTIMATE, grDistrictsForScenario
 } from "./greece-data.js";
-import { 
-  grDistrictBaseVotes, grApplySwing, grRunElection, grAllocateAllDistrictSeats, grDistrictElectorate 
+import {
+  grDistrictBaseVotes, grApplySwing, grRunElection, grAllocateAllDistrictSeats, grDistrictElectorate
 } from "./greece-engine.js";
+import {
+  grIsPre2019Scenario, grLegacyRunElection, grLegacyAllocateAllDistrictSeats
+} from "./greece-engine-pre2019.js";
 import { grComputeFeatureSeatData, grAverageRecentPolls, grScenarioFromPollAverage } from "./greece-utils.js";
+import { grScenarioGeoJson } from "./greece-geo-2015.js";
 import usePolls from "./usePolls.js";
 
 import ControlPanel from "./ControlPanel";
 import Hemicycle, { GrCoalitionBuilder } from "./Hemicycle";
 import ResultsTable, { GrMetricsCards } from "./ResultsTable";
-import Map from "./Map"; 
+import Map from "./Map";
 import OpinionPolls from "./OpinionPolls";
 import MethodologyModal from "./MethodologyModal";
 import PrivacyModal from "../PrivacyModal";
 import MonteCarloPanel from "./MonteCarloPanel";
 import GreeceExportModal from "./GreeceExport.jsx";
+import SeatAllocationDiff from "./SeatAllocationDiff.jsx";
+import { useGreeceT, fmtNoPartiesThreshold } from "./GreeceTranslations.jsx";
 
 // Import BOTH GeoJSONs
 import greeceGeoJson from "./greece-prefectures.json";
@@ -69,6 +75,8 @@ const HOWTO = [
 
 export default function GreeceApp({ isMobile, theme, setTheme }) {
   const navigate = useNavigate();
+  const [lang, setLang] = useState("en");
+  const t = useGreeceT(lang);
 
   // Read memory if coming from Correlations, otherwise load defaults
   const [scenarioId, setScenarioId] = useState(() => {
@@ -136,8 +144,11 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
     }
   }, [liveScenario2026, scenarioId, parties]);
   
-  const geoFeatures = greeceGeoJson;
-  const atticaGeoFeatures = atticaGeoJson;
+  // Dissolves Athens B1/B2/B3 and East/West Attica back into the pre-2018
+  // "Athens B" / "Attica" constituencies for the 2015 scenarios; every other
+  // scenario gets the current 59-district GeoJSON back unchanged.
+  const geoFeatures = useMemo(() => grScenarioGeoJson(greeceGeoJson, scenarioId), [scenarioId]);
+  const atticaGeoFeatures = useMemo(() => grScenarioGeoJson(atticaGeoJson, scenarioId), [scenarioId]);
   
   const [showMethodology, setShowMethodology] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -242,14 +253,18 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   const displayParties = useMemo(() => applyPartyPalette(parties, grPalette), [parties, grPalette]);
   const displayEffectiveParties = useMemo(() => applyPartyPalette(effectiveParties, grPalette), [effectiveParties, grPalette]);
 
-  const baseDistrictData = useMemo(() => GR_RAW_DISTRICTS.map(d => ({ ...d, baseVotes: grDistrictBaseVotes(scenarioBase(scenarioId), d, scenarioId) })), [scenarioId, scenarioBase]);
+  const baseDistrictData = useMemo(() => grDistrictsForScenario(scenarioId).map(d => ({ ...d, baseVotes: grDistrictBaseVotes(scenarioBase(scenarioId), d, scenarioId) })), [scenarioId, scenarioBase]);
   
   const { districtResults, electionResult } = useMemo(() => {
+    const isLegacy = grIsPre2019Scenario(scenarioId);
     const dResults = baseDistrictData.map(d => grApplySwing(d, effectiveParties, scenarioBase(scenarioId), demSliders));
-    const eResult = grRunElection(effectiveParties, threshold, turnout, scenarioId);
+    const eResult = isLegacy
+      ? grLegacyRunElection(effectiveParties, threshold, turnout)
+      : grRunElection(effectiveParties, threshold, turnout, scenarioId);
     const elect = grDistrictElectorate(scenarioId, turnoutShift);
     dResults.forEach(d => { if (elect[d.id] != null) d.electorate = elect[d.id]; });
-    grAllocateAllDistrictSeats(dResults, eResult);
+    if (isLegacy) grLegacyAllocateAllDistrictSeats(dResults, eResult);
+    else grAllocateAllDistrictSeats(dResults, eResult);
     return { districtResults: dResults, electionResult: eResult };
   }, [baseDistrictData, effectiveParties, demSliders, scenarioId, threshold, turnout, turnoutShift, scenarioBase]);
 
@@ -259,36 +274,36 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   const ParliamentColumn = (
     <div className={pendingClass} style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 0 }}>
       {electionResult?.results?.length > 0 ? (
-        <Hemicycle electionResult={electionResult} parties={displayParties} />
+        <Hemicycle electionResult={electionResult} parties={displayParties} lang={lang} />
       ) : (
         <div style={{ ...S.card, padding: 40, textAlign: "center", display: "flex", flexDirection: "column", gap: 10, alignItems: "center", justifyContent: "center", minHeight: 250, color: "var(--text-dim)", fontFamily: "var(--ff-body)" }}>
           <IconBuilding size={36} />
-          <span style={{ letterSpacing: 1.5, textTransform: "uppercase", fontSize: 12, fontWeight: 700, color: "var(--text-main)" }}>Parliament Empty</span>
-          <span style={{ fontSize: 11, color: "var(--text-muted)" }}>No parties passed the {threshold}% threshold.</span>
+          <span style={{ letterSpacing: 1.5, textTransform: "uppercase", fontSize: 12, fontWeight: 700, color: "var(--text-main)" }}>{t("Parliament Empty")}</span>
+          <span style={{ fontSize: 11, color: "var(--text-muted)" }}>{fmtNoPartiesThreshold(lang, threshold)}</span>
         </div>
       )}
-      <ResultsTable electionResult={electionResult} parties={displayParties} turnout={turnout} isEstimate={isEstimate} threshold={threshold} scenarioId={scenarioId} />
+      <ResultsTable electionResult={electionResult} parties={displayParties} turnout={turnout} isEstimate={isEstimate} threshold={threshold} scenarioId={scenarioId} lang={lang} />
     </div>
   );
 
   const MapColumn = (
     <div className={pendingClass} style={{ display: "flex", flexDirection: "column", minWidth: 0, gap: 12 }}>
-      <Map districtResults={districtResults} parties={displayParties} electionResult={electionResult} featureSeatData={featureSeatData} isMobile={isMobile} geoCache={geoFeatures} showDots={showDots} onToggleDots={() => setShowDots(!showDots)} showLabels={showLabels} onToggleLabels={() => setShowLabels(!showLabels)} />
-      
+      <Map districtResults={districtResults} parties={displayParties} electionResult={electionResult} featureSeatData={featureSeatData} isMobile={isMobile} geoCache={geoFeatures} showDots={showDots} onToggleDots={() => setShowDots(!showDots)} showLabels={showLabels} onToggleLabels={() => setShowLabels(!showLabels)} lang={lang} />
+
       <div style={{ ...S.card, padding: 12, display: "flex", flexDirection: "column", minHeight: 350, position: "relative" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-          <span style={S.label}>Athens Metropolitan Area</span>
+          <span style={S.label}>{lang === "el" ? "Μητροπολιτική Περιοχή Αθήνας" : "Athens Metropolitan Area"}</span>
         </div>
         <div style={{ flexGrow: 1, position: "relative", overflow: "hidden", borderRadius: 6, background: "var(--map-bg)", border: "1px solid var(--border)", display: "flex", alignItems: "stretch", justifyContent: "stretch" }}>
-          <Map 
-            districtResults={districtResults} parties={displayParties} electionResult={electionResult} 
-            featureSeatData={atticaFeatureSeatData} isMobile={isMobile} geoCache={atticaGeoFeatures} 
-            showDots={showDots} showLabels={showLabels} isInset={true}
+          <Map
+            districtResults={districtResults} parties={displayParties} electionResult={electionResult}
+            featureSeatData={atticaFeatureSeatData} isMobile={isMobile} geoCache={atticaGeoFeatures}
+            showDots={showDots} showLabels={showLabels} isInset={true} lang={lang}
           />
         </div>
       </div>
 
-      <GrCoalitionBuilder electionResult={electionResult} parties={displayParties}/>
+      <GrCoalitionBuilder electionResult={electionResult} parties={displayParties} lang={lang}/>
     </div>
   );
 
@@ -302,14 +317,14 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <button className="icon-btn" onClick={() => navigate('/')} style={{ ...S.ghostBtn, padding: "6px 10px", width: "100%", justifyContent: "flex-start" }}>
-                <IconArrowLeft size={12}/> All Countries
+                <IconArrowLeft size={12}/> {t("All Countries")}
               </button>
               <button className="icon-btn" onClick={() => setMapCenter(prev => !prev)} style={{ ...S.ghostBtn, padding: "6px 10px", width: "100%", justifyContent: "flex-start" }}>
                 <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                   <line x1="9" y1="3" x2="9" y2="21"/>
                 </svg>
-                Layout
+                {t("Layout")}
               </button>
               <button className="icon-btn" onClick={() => setShowHowToUse(true)} style={{ ...S.ghostBtn, padding: "6px 10px", width: "100%", justifyContent: "flex-start" }}>
                 <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -317,14 +332,14 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
                   <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                How to Use
+                {t("How to Use")}
               </button>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <IconFlagGR size={30} />
               <div>
-                <div style={{ fontSize: isMobile ? 18 : 24, fontWeight: 900, fontFamily: "var(--ff-head)", letterSpacing: 2, color: "var(--text-title)", lineHeight: 1, wordBreak: "break-word" }}>GREECE SWINGOMETER</div>
-                <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 3, marginTop: 3, textTransform: "uppercase" }}>Hellenic Parliament · 300 Seats · Proportional</div>
+                <div style={{ fontSize: isMobile ? 18 : 24, fontWeight: 900, fontFamily: "var(--ff-head)", letterSpacing: 2, color: "var(--text-title)", lineHeight: 1, wordBreak: "break-word" }}>{t("GREECE SWINGOMETER")}</div>
+                <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 3, marginTop: 3, textTransform: "uppercase" }}>{t("Hellenic Parliament · 300 Seats · Proportional")}</div>
               </div>
             </div>
           </div>
@@ -352,27 +367,31 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
               onMouseOut={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-title)"; }}
             >
               <IconFlagCY size={20} />
-              Cyprus Electoral Swingometer
+              {t("Cyprus Electoral Swingometer")}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
           </div>
 
           <div style={{ textAlign: "right" }}>
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
-              <button className="icon-btn" onClick={() => setShowMethodology(true)} style={S.ghostBtn}>
-                <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> Methodology
+              <button className="icon-btn" onClick={() => setLang(l => l === "en" ? "el" : "en")} style={{ ...S.ghostBtn, fontWeight: 700, color: "#60A5FA", border: "1px solid #60A5FA55" }} title={lang === "en" ? "Switch to Greek" : "Switch to English"}>
+                {lang === "en" ? "ΕΛ" : "EN"}
               </button>
 
-              <button 
-                className="icon-btn" 
-                onClick={() => setShowExport(true)} 
+              <button className="icon-btn" onClick={() => setShowMethodology(true)} style={S.ghostBtn}>
+                <svg width={10} height={10} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg> {t("Methodology")}
+              </button>
+
+              <button
+                className="icon-btn"
+                onClick={() => setShowExport(true)}
                 style={S.ghostBtn}
               >
-                <IconCamera size={10}/> Export
+                <IconCamera size={10}/> {t("Export")}
               </button>
 
               <button className="icon-btn" onClick={() => setShowThemePicker(true)} style={S.ghostBtn}>
-                <IconPalette size={10}/> Theme
+                <IconPalette size={10}/> {t("Theme")}
               </button>
             </div>
           </div>
@@ -381,48 +400,55 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
       </div>
 
       <div className={pendingClass}>
-        <GrMetricsCards electionResult={electionResult} parties={displayParties} isMobile={isMobile} turnout={turnout} isEstimate={isEstimate} />
+        <GrMetricsCards electionResult={electionResult} parties={displayParties} isMobile={isMobile} turnout={turnout} isEstimate={isEstimate} lang={lang} />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "minmax(0, 1fr)" : "300px minmax(0, 1fr) 300px", gap: 16, width: "100%", maxWidth: "100%" }}>
-        <ControlPanel 
-          parties={parties} 
-          demSliders={demSliders} 
-          scenarioId={scenarioId} 
-          threshold={threshold} 
-          onPctChange={handlePctChange} 
-          onToggleLock={handleToggleLock} 
-          setDemSliders={setDemSliders} 
-          onScenarioChange={handleScenarioChange} 
-          setThreshold={setThreshold} 
-          turnoutShift={turnoutShift} 
-          setTurnoutShift={setTurnoutShift} 
-          resetAll={resetAll} 
-          onPartyEdit={handlePartyEdit} 
-          onPartyMove={handlePartyMove} 
-          onPartyDelete={handleDeleteParty} 
+        <ControlPanel
+          parties={parties}
+          demSliders={demSliders}
+          scenarioId={scenarioId}
+          threshold={threshold}
+          onPctChange={handlePctChange}
+          onToggleLock={handleToggleLock}
+          setDemSliders={setDemSliders}
+          onScenarioChange={handleScenarioChange}
+          setThreshold={setThreshold}
+          turnoutShift={turnoutShift}
+          setTurnoutShift={setTurnoutShift}
+          resetAll={resetAll}
+          onPartyEdit={handlePartyEdit}
+          onPartyMove={handlePartyMove}
+          onPartyDelete={handleDeleteParty}
+          lang={lang}
         />
-        
+
         {mapCenter ? MapColumn : ParliamentColumn}
         {mapCenter ? ParliamentColumn : MapColumn}
       </div>
 
+      {(scenarioId === "2015" || scenarioId === "2015jan") && (
+        <div style={{ marginTop: 16 }}>
+          <SeatAllocationDiff lang={lang} />
+        </div>
+      )}
+
       <div className={pendingClass} style={{ marginTop: 16 }}>
-        <MonteCarloPanel effectiveParties={displayEffectiveParties} parties={displayParties} threshold={threshold} turnout={turnout} isMobile={isMobile} />
+        <MonteCarloPanel effectiveParties={displayEffectiveParties} parties={displayParties} threshold={threshold} turnout={turnout} isMobile={isMobile} lang={lang} scenarioId={scenarioId} />
       </div>
 
-      <div style={{ marginTop: 16 }}><OpinionPolls polls={polls} loading={pollsLoading} error={pollsError} source={pollsSource} reload={reloadPolls} onApplyPoll={handleApplyPollToProjection} /></div>
+      <div style={{ marginTop: 16 }}><OpinionPolls polls={polls} loading={pollsLoading} error={pollsError} source={pollsSource} reload={reloadPolls} onApplyPoll={handleApplyPollToProjection} lang={lang} /></div>
       <div style={{ marginTop: 18 }}><MeanderBar/></div>
 
       <footer style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--divider)", display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
         <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 0.4, lineHeight: 1.6, textAlign: isMobile ? "center" : "left" }}>
-          Psephos Swingometer · a non-commercial academic project by Konstantinos Davakos<br/>
-          Department of Economics, University of Ioannina
+          {t("PsephosCast.gr · a non-commercial academic project by Konstantinos Davakos")}<br/>
+          {t("Department of Economics, University of Ioannina")}
         </div>
-        <button className="icon-btn" onClick={() => setShowPrivacy(true)} style={S.ghostBtn}>Privacy Policy</button>
+        <button className="icon-btn" onClick={() => setShowPrivacy(true)} style={S.ghostBtn}>{t("Privacy Policy")}</button>
       </footer>
 
-      {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} />}
+      {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} lang={lang} />}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
 
       {showHowToUse && (
@@ -431,28 +457,28 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" color="var(--text-title)"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                <h3 style={{ margin: 0, fontFamily: "var(--ff-head)", fontSize: 20, color: "var(--text-title)", letterSpacing: 0.5 }}>How to Use the Swingometer</h3>
+                <h3 style={{ margin: 0, fontFamily: "var(--ff-head)", fontSize: 20, color: "var(--text-title)", letterSpacing: 0.5 }}>{t("How to Use the Swingometer")}</h3>
               </div>
               <button className="icon-btn" onClick={() => setShowHowToUse(false)} style={{ ...S.ghostBtn, border: "none" }}><IconClose size={16} /></button>
             </div>
-            
+
             <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13, lineHeight: 1.5, color: "var(--text-main)", fontFamily: "var(--ff-body)", maxHeight: "62vh", overflowY: "auto", paddingRight: 6 }}>
               {HOWTO.map((it, i) => it.s ? (
-                <div key={i} style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--text-dim)", marginTop: i === 0 ? 0 : 10, marginBottom: 0 }}>{it.s}</div>
+                <div key={i} style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--text-dim)", marginTop: i === 0 ? 0 : 10, marginBottom: 0 }}>{t(it.s)}</div>
               ) : (
                 <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: 12, background: "var(--bg-mid)", borderRadius: 8, border: "1px solid var(--border)" }}>
                 <div style={{ width: 24, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-title)" }}>{it.Icon ? <it.Icon size={18} /> : null}</div>
-                  <div><strong style={{ color: "var(--text-title)", display: "block", marginBottom: 2 }}>{it.title}</strong> {it.text}</div>
+                  <div><strong style={{ color: "var(--text-title)", display: "block", marginBottom: 2 }}>{t(it.title)}</strong> {t(it.text)}</div>
                 </div>
               ))}
             </div>
 
             <div style={{ marginTop: 24, display: "flex", justifyContent: "flex-end" }}>
-              <button 
-                onClick={() => setShowHowToUse(false)} 
+              <button
+                onClick={() => setShowHowToUse(false)}
                 style={{ background: "#2563EB", color: "#fff", border: "none", borderRadius: 6, padding: "8px 24px", cursor: "pointer", fontFamily: "var(--ff-body)", fontWeight: 600 }}
               >
-                Let's Go!
+                {t("Let's Go!")}
               </button>
             </div>
           </div>
@@ -460,7 +486,7 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
       )}
 
       {showThemePicker && (
-        <ThemePicker current={grTheme} onSelect={selectTheme} currentPalette={grPalette} onSelectPalette={setGrPalette} onClose={() => setShowThemePicker(false)} isMobile={isMobile} />
+        <ThemePicker current={grTheme} onSelect={selectTheme} currentPalette={grPalette} onSelectPalette={setGrPalette} onClose={() => setShowThemePicker(false)} isMobile={isMobile} lang={lang} />
       )}
 
     <GreeceExportModal

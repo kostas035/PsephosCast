@@ -1,0 +1,477 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1783065943.6614833,
+    "ast_hash": "598cb075410bcd95220ac90bbb60344a",
+    "semantic_hash": ""
+  },
+  "eslint.config.js": {
+    "mtime": 1778496853.7687316,
+    "ast_hash": "3aa4b57d7f08181d86bde52a4dcb7f22",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1782985187.745688,
+    "ast_hash": "3be54025aadf8b242a30b501752fa263",
+    "semantic_hash": ""
+  },
+  "public/GreeceMun.json": {
+    "mtime": 1781507647.0954933,
+    "ast_hash": "1e66c7a295e1ed511de150f4f030be3f",
+    "semantic_hash": ""
+  },
+  "src/App.jsx": {
+    "mtime": 1782208012.3768978,
+    "ast_hash": "998328247dd89e97e9f3ba5455d8d6e4",
+    "semantic_hash": ""
+  },
+  "src/ErrorBoundary.jsx": {
+    "mtime": 1779215744.102049,
+    "ast_hash": "baa6f826bc0a0a20c40259c9d8d154ba",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/AustraliaApp.jsx": {
+    "mtime": 1782123635.0225418,
+    "ast_hash": "5ed04917972190955d78edf6c06ef277",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-components.jsx": {
+    "mtime": 1782123634.9993064,
+    "ast_hash": "4aee0491ca9ac54ec770437bab640738",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-data.js": {
+    "mtime": 1780155291.183838,
+    "ast_hash": "6e8d2decf945d66467778fad57dc01e5",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-demographics-adapter.js": {
+    "mtime": 1780154013.586742,
+    "ast_hash": "ce18abcb23ffb83ee1c96f3b7508e14d",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-demographics-panel.jsx": {
+    "mtime": 1782123635.0063217,
+    "ast_hash": "4759d8b70601faa28fe55b61da26e74e",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-demographics.js": {
+    "mtime": 1780142408.031847,
+    "ast_hash": "875b9225f2b5e23c6cd07b7073b15cc4",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-engine.js": {
+    "mtime": 1782123236.0130658,
+    "ast_hash": "36eb226906feefde79ff22be99230ce5",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-map.jsx": {
+    "mtime": 1782123635.014505,
+    "ast_hash": "a323444b97ab1ca7d7026509789743b3",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/aus-ui.jsx": {
+    "mtime": 1782123635.032655,
+    "ast_hash": "cae580e4061bc1061b78f695db53ae1f",
+    "semantic_hash": ""
+  },
+  "src/components/AustraliaSwingometer/map-code.js": {
+    "mtime": 1780151425.414867,
+    "ast_hash": "1dbf72493fd301dfccdfe2bf53dde987",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/CyprusApp.jsx": {
+    "mtime": 1782504452.3713007,
+    "ast_hash": "a5344f6dd4130ac1ffcb5c64a146455d",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/CyprusMethodologyModal.jsx": {
+    "mtime": 1782123635.0788548,
+    "ast_hash": "d5700544acb507051bb0aee31f2ea939",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/CyprusMonteCarloPanel.jsx": {
+    "mtime": 1782124542.6836066,
+    "ast_hash": "0cc73019509fb4100e8458a6270b2f18",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/CyprusThemePicker.jsx": {
+    "mtime": 1782123635.1072469,
+    "ast_hash": "2cfb9581a980cd52b4457a2e7fa8d5e3",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/CyprusThemes.js": {
+    "mtime": 1781502478.037269,
+    "ast_hash": "5dca15f97948127e628262d09c017cbf",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-coalition.jsx": {
+    "mtime": 1782123635.0467305,
+    "ast_hash": "3e1b4178d27dcead85a82a836e3011ad",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-components.jsx": {
+    "mtime": 1781501923.8396904,
+    "ast_hash": "2febc36f29156496bb321f4385c47d7a",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-control.jsx": {
+    "mtime": 1782123635.0547931,
+    "ast_hash": "09c9f082032ae2be1727c457642f018a",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-data.js": {
+    "mtime": 1779691645.8833754,
+    "ast_hash": "e7d70d6b2e6c50f18cfd1630bf5ba438",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-engine.js": {
+    "mtime": 1779691935.9709303,
+    "ast_hash": "98bdfff23d117a75632d3d6be5adc969",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-hemicycle.jsx": {
+    "mtime": 1782123635.0588198,
+    "ast_hash": "2f906d4b4caae29809d596f0c044a8e9",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-map.jsx": {
+    "mtime": 1782123635.0670428,
+    "ast_hash": "e042be623049ad8beafbb139ea0dccb2",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-montecarlo.js": {
+    "mtime": 1781502654.7947311,
+    "ast_hash": "f8272de014725e4258bbe53f28aff55c",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-results.jsx": {
+    "mtime": 1782123635.1072469,
+    "ast_hash": "fccfe64a555ff0a1a90ad335327ee280",
+    "semantic_hash": ""
+  },
+  "src/components/CyprusSwingometer/cyprus-ui.jsx": {
+    "mtime": 1782123635.1174805,
+    "ast_hash": "5b7bb11d09cffb1a297c09d274a8b8df",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/GreeceRegionsApp.jsx": {
+    "mtime": 1782211173.819662,
+    "ast_hash": "387a6ac696acc75fbfa1a4c68638510e",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/MapViewer.jsx": {
+    "mtime": 1782123635.1519613,
+    "ast_hash": "aaaf5e5ac0478bff42b9cc6ef795752b",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/components.jsx": {
+    "mtime": 1782123635.1255977,
+    "ast_hash": "46e8df50d2c968d0cf2823fb5cd90295",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/data.js": {
+    "mtime": 1779524316.315736,
+    "ast_hash": "50553c2a78b416583f5ed8355d0b7a5c",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/icons.jsx": {
+    "mtime": 1782123635.145836,
+    "ast_hash": "5bde2e55ae526fbf0a9124e00ed2247e",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/Crete.js": {
+    "mtime": 1779913638.4387083,
+    "ast_hash": "0b59853fee44088ae9377f9c90d82ed2",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/TEMPLATE.js": {
+    "mtime": 1779532740.715668,
+    "ast_hash": "d94499cc3f1b8594741b03506f84b795",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/Thessaly.js": {
+    "mtime": 1779913672.0701048,
+    "ast_hash": "914347d2f598867b96133a256ac24cd2",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/eastern_macedonia_thrace.js": {
+    "mtime": 1779949508.504706,
+    "ast_hash": "22496d2ecfcde2542aa48a289ecb8921",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/epirus.js": {
+    "mtime": 1779914591.0086162,
+    "ast_hash": "da166c51ca403918b5ba37a24163509a",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/index.js": {
+    "mtime": 1779721535.0857775,
+    "ast_hash": "d2fed8a0ca8b2deb273e39ab1311d0d6",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/macedonia.js": {
+    "mtime": 1779952589.9829626,
+    "ast_hash": "924aafa60ee8a1e42272a2faa6b51a53",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/styles.jsx": {
+    "mtime": 1782211116.3741448,
+    "ast_hash": "af34d0481537e53803934d107e3bb500",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/utils.js": {
+    "mtime": 1779912931.7099695,
+    "ast_hash": "ec22adf71a326d75a16860d0c88b2b05",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/ControlPanel.jsx": {
+    "mtime": 1783155873.1623116,
+    "ast_hash": "783d5929c590aa833d9f14f441120ba6",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceApp.jsx": {
+    "mtime": 1783149016.2772212,
+    "ast_hash": "4857d90a0272950c518b01ac4700eaea",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceCorrelations.jsx": {
+    "mtime": 1782504519.2537086,
+    "ast_hash": "fe982a610cffa38763d5ae7131cd7471",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceExport.jsx": {
+    "mtime": 1783149047.1459217,
+    "ast_hash": "671439792bbfe6c55a6f31e94cb37204",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceIcons.jsx": {
+    "mtime": 1782123635.2353895,
+    "ast_hash": "a6b6135cebb9a2a7eb87b1e463f919fe",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreecePlots.jsx": {
+    "mtime": 1782123635.2397835,
+    "ast_hash": "4e6fad075be067dc4605e4008afe4722",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceScatter.jsx": {
+    "mtime": 1782123635.2428653,
+    "ast_hash": "9d82276b149a89063f9e4268ca325011",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceStyles.jsx": {
+    "mtime": 1782123635.2479424,
+    "ast_hash": "11050bbe9510612040a1063928653f43",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceThemes.js": {
+    "mtime": 1781467341.9944887,
+    "ast_hash": "9bfdd33103dcf95f1188da35e9f0a219",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/GreeceTranslations.jsx": {
+    "mtime": 1783156451.2832735,
+    "ast_hash": "11df165e7b81bc43ad79d8255b8fc9cf",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/Hemicycle.jsx": {
+    "mtime": 1782297416.2228613,
+    "ast_hash": "064af0f5110639f26e089bd156cefaed",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/Map.jsx": {
+    "mtime": 1783149221.8451915,
+    "ast_hash": "5cc8dbb8699c93eabce10930fbad8ce4",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/MethodologyModal.jsx": {
+    "mtime": 1782294695.6469474,
+    "ast_hash": "8ce77714244ed0d8aba11ee72134acfb",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/MonteCarloPanel.jsx": {
+    "mtime": 1783149006.512383,
+    "ast_hash": "6033e631578eab8bedfb82e02d52617b",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/OpinionPolls.jsx": {
+    "mtime": 1782419047.31936,
+    "ast_hash": "ced74275ef3911109cb572a4a9ab581a",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/ResultsTable.jsx": {
+    "mtime": 1783155894.1623034,
+    "ast_hash": "4a19ac4ef675876ade7a8cc2d28e73d4",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/SeatAllocationDiff.jsx": {
+    "mtime": 1783027951.765047,
+    "ast_hash": "4fc24b285e04653bba47e50d7ad89e14",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/ThemePicker.jsx": {
+    "mtime": 1782294013.750672,
+    "ast_hash": "cc1c4c86697ad3e537b36b1c7ed099dd",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/attica-prefectures.json": {
+    "mtime": 1780518095.5427167,
+    "ast_hash": "d68f97a4f49d94b7bf52a24f29031231",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/correlations/BivariatePanel.jsx": {
+    "mtime": 1782123635.1687949,
+    "ast_hash": "29e69db2fd87d2932769db08e1c5845e",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/correlations/DescriptivesPanel.jsx": {
+    "mtime": 1782123635.174859,
+    "ast_hash": "78cf719762fc1e00c017f115ce1b2ae1",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/correlations/ExportPreview.jsx": {
+    "mtime": 1782123635.180683,
+    "ast_hash": "329d3ac3c6867ac096a6ab480e6b92ba",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/correlations/GroupPanel.jsx": {
+    "mtime": 1782123635.1833644,
+    "ast_hash": "ec26c056a7abcd7017916e575626da59",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/correlations/RegressionPanel.jsx": {
+    "mtime": 1782123635.192773,
+    "ast_hash": "25a9f93e3709001a4df5b40dc80aa413",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/correlations/SwingPanel.jsx": {
+    "mtime": 1782123635.1971343,
+    "ast_hash": "97b648edde1a35efef176b2336d63b6d",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-analysis-data.js": {
+    "mtime": 1781641986.2092502,
+    "ast_hash": "62a2ded1d44e454daf59fad5a5b209b9",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-data.js": {
+    "mtime": 1783155841.5851812,
+    "ast_hash": "29d7017ce01ef74943d0f805811afa5b",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-engine.js": {
+    "mtime": 1783027748.7125645,
+    "ast_hash": "c027bc1ee95ef19d4d9461bff639cea6",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-geo-2015.js": {
+    "mtime": 1783155863.9963503,
+    "ast_hash": "e9c72cbb211d1a9f73b0dab169dd3a2a",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-montecarlo.js": {
+    "mtime": 1783148980.7038813,
+    "ast_hash": "09392ca85836e11f1f87d34afc6d7dc3",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-municipalities.js": {
+    "mtime": 1781541603.3372586,
+    "ast_hash": "aea4940ebc2a401a5d6a4f6e56280322",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-prefectures.json": {
+    "mtime": 1781505623.0003989,
+    "ast_hash": "c27518edd9ade7ef57e0a6f669b57dca",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-stats-export.js": {
+    "mtime": 1782504503.1308973,
+    "ast_hash": "7a4ca4056a26a6ef4e2f5792e629b40f",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-stats.js": {
+    "mtime": 1782504537.5817537,
+    "ast_hash": "47e9047f55b44eaa93d967fcf4f90fbd",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-utils.js": {
+    "mtime": 1783027756.8258948,
+    "ast_hash": "273357ca2b2cd0ea564a9d437a111284",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/usePolls.js": {
+    "mtime": 1781378753.8298585,
+    "ast_hash": "4c38df72c0f51385534802303ae72bbd",
+    "semantic_hash": ""
+  },
+  "src/components/PrivacyModal.jsx": {
+    "mtime": 1782504428.08325,
+    "ast_hash": "2e09823058a39d22946bcc8ff31c49fa",
+    "semantic_hash": ""
+  },
+  "src/components/WelcomeScreen.jsx": {
+    "mtime": 1782504407.0083547,
+    "ast_hash": "24e7f1727047f0846f022476f108a1d6",
+    "semantic_hash": ""
+  },
+  "src/main.jsx": {
+    "mtime": 1778496853.854774,
+    "ast_hash": "e13723e2574429d9a6d849727e3ff695",
+    "semantic_hash": ""
+  },
+  "vite.config.js": {
+    "mtime": 1781385349.891641,
+    "ast_hash": "ae5701d85e29df955083a39b96ffdfb9",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1783065943.6576247,
+    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1782208154.9861174,
+    "ast_hash": "0a566068382c5429285ce2f25e224c3f",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1780313495.1549065,
+    "ast_hash": "337afc70a349803dc54e03c856a09cb2",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceRegions/regions/ADD_REGION_GUIDE.md": {
+    "mtime": 1779533274.0147474,
+    "ast_hash": "13112cd1c93431a6860452a316a9537a",
+    "semantic_hash": ""
+  },
+  "public/correlationslogo.png": {
+    "mtime": 1781687740.1589007,
+    "ast_hash": "bd0d6ab99b93e1e4281df3eb1c90a60a",
+    "semantic_hash": ""
+  },
+  "public/logo.png": {
+    "mtime": 1778775974.2107003,
+    "ast_hash": "c5daca04315844232fdddbf86df3304f",
+    "semantic_hash": ""
+  },
+  "src/assets/hero.png": {
+    "mtime": 1778496853.8896537,
+    "ast_hash": "aead493361b27e7510691c5d7072dfc1",
+    "semantic_hash": ""
+  },
+  "src/assets/react.svg": {
+    "mtime": 1778496853.9942188,
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": ""
+  },
+  "src/assets/vite.svg": {
+    "mtime": 1778496854.0181663,
+    "ast_hash": "9960a24288958394ac50e57ff638b036",
+    "semantic_hash": ""
+  },
+  "src/components/GreeceSwingometer/greece-engine-pre2019.js": {
+    "mtime": 1783120453.1316543,
+    "ast_hash": "df60b5d2e5692f831e23a91b2114ae95",
+    "semantic_hash": ""
+  }
+}

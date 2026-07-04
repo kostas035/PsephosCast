@@ -6,6 +6,7 @@ import { IconEye, IconEyeOff, IconZoomReset } from "./GreeceIcons";
 import { GR, GR_DISTRICT_DEMOGRAPHICS, grToLogit, grFromLogit } from "./greece-data.js";
 import { GR_MUNI_DATA, GR_MUNI_PARTY_IDS } from "./greece-municipalities.js";
 import { grNormStr, grMatchDistricts, grGetCentroidOffset, grExtractName } from "./greece-utils.js";
+import { useGreeceT, fmtMuniLoadError, fmtMinMax, fmtLean, tPartyName, tDistrictName } from "./GreeceTranslations.jsx";
 
 function buildPartyMap(parties) {
   const m = new Map();
@@ -130,7 +131,8 @@ function getFeatureFill(name, viewMode, seatData, partiesMap, minVal, maxVal, di
   }
 }
 
-const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap, electionResult, viewMode }) {
+const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap, electionResult, viewMode, lang }) {
+  const t = useGreeceT(lang);
   const qualifyingIds = useMemo(() => new Set((electionResult?.results || []).map(r => r.id)), [electionResult]);
 
   const tooltipData = useMemo(() => {
@@ -179,8 +181,8 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
   if (info.isDebug) {
     return (
       <>
-        <h4 style={{ margin: "0 0 2px", fontSize: 12, color: "#F87171", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700 }}>Unmapped Polygon</h4>
-        <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, letterSpacing: 1 }}>RAW NAME: {info.mapName}</div>
+        <h4 style={{ margin: "0 0 2px", fontSize: 12, color: "#F87171", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700 }}>{t("Unmapped Polygon")}</h4>
+        <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, letterSpacing: 1 }}>{t("RAW NAME:")} {info.mapName}</div>
       </>
     );
   }
@@ -188,13 +190,16 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
   if (info.isAthos) {
     return (
       <>
-        <h4 style={{ margin: "0 0 2px", fontSize: 12, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700 }}>Agio Oros (Mt. Athos)</h4>
-        <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, letterSpacing: 1 }}>AUTONOMOUS — NO SEATS</div>
+        <h4 style={{ margin: "0 0 2px", fontSize: 12, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700 }}>{t("Agio Oros (Mt. Athos)")}</h4>
+        <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, letterSpacing: 1 }}>{t("AUTONOMOUS — NO SEATS")}</div>
       </>
     );
   }
 
-  const title = info.districts && info.districts.length > 1 ? `${info.mapName.toUpperCase()} (AGG.)` : (info.districts?.[0]?.name || info.mapName);
+  const aggDisplayName = (lang === "el" && info.mapNameGreek) ? info.mapNameGreek : info.mapName;
+  const title = info.districts && info.districts.length > 1
+    ? (lang === "el" ? `${aggDisplayName.toUpperCase()} (ΣΥΝ.)` : `${aggDisplayName.toUpperCase()} (AGG.)`)
+    : (info.districts?.[0] ? tDistrictName(lang, info.districts[0]) : info.mapName);
 
   if (viewMode === "population") {
     const pop = grDistrictPopulation(info.districts);
@@ -202,7 +207,7 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
       <>
         <h4 style={{ margin: "0 0 4px", fontSize: 11, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 700 }}>{title}</h4>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, background: "rgba(234, 179, 8, 0.12)", padding: "3px 6px", borderRadius: 4, minWidth: 150, border: "1px solid rgba(234, 179, 8, 0.18)" }}>
-          <span style={{ color: "#EAB308", fontWeight: 600 }}>Population (2021):</span>
+          <span style={{ color: "#EAB308", fontWeight: 600 }}>{t("Population (2021):")}</span>
           <span style={{ color: "var(--text-bright)", fontWeight: 700 }}>{pop != null ? pop.toLocaleString() : "\u2014"}</span>
         </div>
       </>
@@ -233,7 +238,7 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, marginBottom: 3 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: winner.color }} />
-              <span style={{ color: winner.color, fontWeight: 700 }}>1st: {winner.name}</span>
+              <span style={{ color: winner.color, fontWeight: 700 }}>{t("1st:")} {tPartyName(lang, winner)}</span>
             </div>
             <span style={{ color: "var(--text-bright)" }}>{sorted[0][1].toFixed(1)}%</span>
           </div>
@@ -242,14 +247,14 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, marginBottom: 3 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: runnerUp.color }} />
-              <span style={{ color: runnerUp.color, fontWeight: 600 }}>2nd: {runnerUp.name}</span>
+              <span style={{ color: runnerUp.color, fontWeight: 600 }}>{t("2nd:")} {tPartyName(lang, runnerUp)}</span>
             </div>
             <span style={{ color: "var(--text-bright)" }}>{sorted[1][1].toFixed(1)}%</span>
           </div>
         )}
         {margin !== null && viewMode === "margin_of_victory" && (
           <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, marginTop: 4, borderTop: "1px solid var(--border)", paddingTop: 4 }}>
-            MARGIN: {margin.toFixed(1)}pp
+            {t("MARGIN:")} {margin.toFixed(1)}pp
           </div>
         )}
       </>
@@ -261,18 +266,18 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
       return (
         <>
           <h4 style={{ margin: "0 0 2px", fontSize: 11, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 700 }}>{title}</h4>
-          <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono }}>No data entry</div>
+          <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono }}>{t("No data entry")}</div>
         </>
       );
     }
 
     const labelLabels = {
-      age_over_65_pct: "Age 65+:",
-      tertiary_edu_pct: "Tertiary Edu:",
-      unemployment_rate: "Unemployment:",
-      foreign_citizens_pct: "Foreign Citizens:",
-      urbanization_pct: "Urbanization:",
-      primary_economy: "Primary Econ:"
+      age_over_65_pct: t("Age 65+:"),
+      tertiary_edu_pct: t("Tertiary Edu:"),
+      unemployment_rate: t("Unemployment:"),
+      foreign_citizens_pct: t("Foreign Citizens:"),
+      urbanization_pct: t("Urbanization:"),
+      primary_economy: t("Primary Econ:")
     };
 
     const val = demoData[viewMode];
@@ -282,7 +287,7 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
       <>
         <h4 style={{ margin: "0 0 4px", fontSize: 11, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 700 }}>{title}</h4>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, background: "rgba(234, 179, 8, 0.12)", padding: "3px 6px", borderRadius: 4, minWidth: 150, border: "1px solid rgba(234, 179, 8, 0.18)" }}>
-          <span style={{ color: "#EAB308", fontWeight: 600 }}>{labelLabels[viewMode] || "Value:"}</span>
+          <span style={{ color: "#EAB308", fontWeight: 600 }}>{labelLabels[viewMode] || t("Value:")}</span>
           <span style={{ color: "var(--text-bright)", fontWeight: 700 }}>{displayValue}</span>
         </div>
       </>
@@ -292,13 +297,13 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
   if (!tooltipData) return null;
   const { allDots, totalSeats, aggVotes, avgLean, seatsByParty } = tooltipData;
   const leanColor = avgLean > 0.5 ? "#60A5FA" : avgLean < -0.5 ? "#F87171" : "var(--text-main)";
-  const leanText = avgLean > 0.2 ? `RIGHT (+${avgLean.toFixed(1)})` : avgLean < -0.2 ? `LEFT (${avgLean.toFixed(1)})` : `SWING (${avgLean.toFixed(1)})`;
+  const leanText = fmtLean(lang, avgLean);
 
   return (
     <>
       <h4 style={{ margin: "0 0 2px", fontSize: 12, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700 }}>{title}</h4>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-        <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, letterSpacing: 1 }}>{totalSeats} SEATS</div>
+        <div style={{ fontSize: 9, color: "var(--text-muted)", ...S.mono, letterSpacing: 1 }}>{totalSeats} {t("SEATS")}</div>
         <div style={{ fontSize: 9, color: leanColor, ...S.mono, letterSpacing: 1 }}>{leanText}</div>
       </div>
       
@@ -314,7 +319,7 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
             <div key={pid} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono }}>
               <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                 <div style={{ width: 5, height: 5, borderRadius: "50%", background: p?.color || "var(--text-muted)" }} />
-                <span style={{ color: p?.color || "var(--text-main)" }}>{p?.name || pid}</span>
+                <span style={{ color: p?.color || "var(--text-main)" }}>{p ? tPartyName(lang, p) : pid}</span>
               </div>
               <span style={{ color: "var(--text-bright)" }}>{pct.toFixed(1)}%{ps > 0 ? ` (${ps})` : ""}</span>
             </div>
@@ -325,17 +330,18 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
   );
 });
 
-const MapTooltipPortal = memo(function MapTooltipPortal({ domRef, setterRef, partiesMap, electionResult, viewMode }) {
+const MapTooltipPortal = memo(function MapTooltipPortal({ domRef, setterRef, partiesMap, electionResult, viewMode, lang }) {
   const [info, setInfo] = useState(null);
   useEffect(() => { setterRef.current = setInfo; return () => { setterRef.current = null; }; }, [setterRef]);
   return (
     <div ref={domRef} style={{ ...S.tooltip, display: "none", left: -999, top: -999, ...viewMode !== "swingometer" ? { padding: "6px 10px" } : {}, willChange: "left, top" }}>
-      {info && <GrMapTooltipContent info={info} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} />}
+      {info && <GrMapTooltipContent info={info} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} lang={lang} />}
     </div>
   );
 });
 
-export default memo(function Map({ districtResults, parties, electionResult, isMobile, featureSeatData, geoCache, showDots = true, onToggleDots, showLabels = true, onToggleLabels, hideControls = false, isInset = false }) {
+export default memo(function Map({ districtResults, parties, electionResult, isMobile, featureSeatData, geoCache, showDots = true, onToggleDots, showLabels = true, onToggleLabels, hideControls = false, isInset = false, lang }) {
+  const t = useGreeceT(lang);
   const svgRef        = useRef(null);
   const zoomRef       = useRef(null);
   const pathFnRef     = useRef(null);
@@ -565,7 +571,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           tooltipSetRef.current?.({ isAthos: true });
         } else {
           const matched = grMatchDistricts(name, districtRef.current);
-          if (matched.length) tooltipSetRef.current?.({ districts: matched, mapName: name, isAthos: false });
+          if (matched.length) tooltipSetRef.current?.({ districts: matched, mapName: name, mapNameGreek: d.properties?.name_greek, isAthos: false });
           else tooltipSetRef.current?.({ isDebug: true, mapName: name || "UNKNOWN PROPERTY" });
         }
         if (tooltipRef.current) tooltipRef.current.style.display = "block";
@@ -598,7 +604,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
       const lowerFname = fname.toLowerCase();
       const [offX, offY] = grGetCentroidOffset(grNormStr(fname));
       return {
-        fname, lowerFname, centroid: pathFn.centroid(feature), offX, offY,
+        fname, nameGreek: feature.properties?.name_greek || null, lowerFname, centroid: pathFn.centroid(feature), offX, offY,
         isAthos: lowerFname.includes("athos") || lowerFname.includes("agion oros") || lowerFname.includes("agio oros"),
         isAttica: lowerFname.includes("athens") || lowerFname.includes("attica") || lowerFname.includes("piraeus") || lowerFname.includes("pireus"),
       };
@@ -693,7 +699,11 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
         const finalLabelSize = labelSize || (isBig ? "3.5px" : "5px");
         const labelGap = parseFloat(finalLabelSize) + 2; // clearance scales with font size
 
-        labelData.push({ key: `${fname}__top`, x: cx, y: cy - gridH / 2 - labelGap, text: (entry.districts.length > 1 ? fname : entry.districts[0].name).toUpperCase().slice(0, isInset ? 14 : 10), size: finalLabelSize, ff: "var(--ff-body)", ls: "0.4", fill: "var(--text-bright)" });
+        // `fname` (above) is the English key used to look up seat data — keep it
+        // untouched. Only the label TEXT switches to the Greek polygon name.
+        const fnameDisplay = (lang === "el" && m.nameGreek) ? m.nameGreek : fname;
+        const labelText = entry.districts.length > 1 ? fnameDisplay : tDistrictName(lang, entry.districts[0]);
+        labelData.push({ key: `${fname}__top`, x: cx, y: cy - gridH / 2 - labelGap, text: labelText.toUpperCase().slice(0, isInset ? 14 : 10), size: finalLabelSize, ff: "var(--ff-body)", ls: "0.4", fill: "var(--text-bright)" });
         dots.forEach((dot, i) => dotData.push({ key: `${fname}__${i}`, cx: startX + (i % COLS) * STEP, cy: startY + Math.floor(i / COLS) * STEP, r: DOT_R, color: dot.color }));
       });
 
@@ -709,7 +719,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
       );
     }, 80);
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
-  }, [geoReady, featureSeatData, isInset, showDots, showLabels]);
+  }, [geoReady, featureSeatData, isInset, showDots, showLabels, lang]);
 
   useEffect(() => {
     if (!geoReady || !svgRef.current) return;
@@ -735,43 +745,43 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
     <div style={isInset ? { position: "relative", width: "100%", height: "100%", display: "flex", flexDirection: "column" } : { ...S.card, padding: 12, position: "relative", height: "100%", minHeight: isMobile ? 400 : 600, display: "flex", flexDirection: "column" }}>
       {!isInset && !hideControls && (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-          <span style={S.label}>Electoral Map</span>
-          
+          <span style={S.label}>{t("Electoral Map")}</span>
+
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <select 
-                value={viewMode} 
+              <select
+                value={viewMode}
                 onChange={(e) => setViewMode(e.target.value)}
-                style={{ 
-                  background: "var(--bg-mid, #1e293b)", 
-                  color: "var(--text-main, #f8fafc)", 
-                  border: "1px solid var(--border, #334155)", 
-                  borderRadius: 4, 
-                  padding: "4px 8px", 
-                  fontSize: 10, 
-                  fontFamily: "var(--ff-body)", 
+                style={{
+                  background: "var(--bg-mid, #1e293b)",
+                  color: "var(--text-main, #f8fafc)",
+                  border: "1px solid var(--border, #334155)",
+                  borderRadius: 4,
+                  padding: "4px 8px",
+                  fontSize: 10,
+                  fontFamily: "var(--ff-body)",
                   fontWeight: 600,
                   cursor: "pointer",
                   outline: "none"
                 }}
               >
-                <option value="swingometer">🗳️ Swingometer</option>
-                <option value="margin_of_victory">📊 Margin of Victory</option>
-                <option value="runner_up">🥈 Runner-Up Party</option>
-                <option value="age_over_65_pct">👴 Age 65+ (%)</option>
-                <option value="tertiary_edu_pct">🎓 Tertiary Edu (%)</option>
-                <option value="unemployment_rate">💼 Unemployment (%)</option>
-                <option value="foreign_citizens_pct">🌐 Foreign Citizens (%)</option>
-                <option value="urbanization_pct">🏙️ Urbanization (%)</option>
-                <option value="primary_economy">🚜 Primary Economy</option>
-                <option value="population">👥 Population (2021)</option>
-                <option value="municipality">🏛️ Municipality Breakdown</option>
+                <option value="swingometer">{t("🗳️ Swingometer")}</option>
+                <option value="margin_of_victory">{t("📊 Margin of Victory")}</option>
+                <option value="runner_up">{t("🥈 Runner-Up Party")}</option>
+                <option value="age_over_65_pct">{t("👴 Age 65+ (%)")}</option>
+                <option value="tertiary_edu_pct">{t("🎓 Tertiary Edu (%)")}</option>
+                <option value="unemployment_rate">{t("💼 Unemployment (%)")}</option>
+                <option value="foreign_citizens_pct">{t("🌐 Foreign Citizens (%)")}</option>
+                <option value="urbanization_pct">{t("🏙️ Urbanization (%)")}</option>
+                <option value="primary_economy">{t("🚜 Primary Economy")}</option>
+                <option value="population">{t("👥 Population (2021)")}</option>
+                <option value="municipality">{t("🏛️ Municipality Breakdown")}</option>
               </select>
             </div>
 
             {viewMode === "swingometer" && (
               <div style={{ display: "flex", alignItems: "center", background: "var(--btn-bg)", padding: "4px 8px", borderRadius: 4, border: "1px solid var(--border)", gap: 6 }}>
-                <span style={{ fontSize: 8, color: "var(--text-muted)", fontFamily: "var(--ff-body)", letterSpacing: 1.2 }}>LIST ({GR.LIST_SEATS})</span>
+                <span style={{ fontSize: 8, color: "var(--text-muted)", fontFamily: "var(--ff-body)", letterSpacing: 1.2 }}>{t("LIST")} ({listDots.length || GR.LIST_SEATS})</span>
                 <div style={{ display: "flex", gap: 2 }}>
                   {listDots.map((pid, i) => <div key={i} style={{ width: 7, height: 7, borderRadius: "50%", background: partiesMap.get(pid)?.color || "var(--text-muted)" }} />)}
                 </div>
@@ -788,19 +798,19 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           <div style={{ position: "absolute", inset: 0, background: "var(--map-bg)", zIndex: 20 }}>
             <svg ref={muniSvgRef} viewBox="0 0 600 700" style={{ width: "100%", height: "100%", display: "block" }} />
             {(muniLoading || (!muniGeo && !muniError)) && (
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontSize: 12, letterSpacing: 1 }}>Loading municipalities…</div>
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontSize: 12, letterSpacing: 1 }}>{t("Loading municipalities…")}</div>
             )}
             {muniError && (
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#F87171", fontFamily: "var(--ff-body)", fontSize: 12, textAlign: "center", padding: 20 }}>Could not load municipality map ({muniError}). Ensure GreeceMun.json is in /public.</div>
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", color: "#F87171", fontFamily: "var(--ff-body)", fontSize: 12, textAlign: "center", padding: 20 }}>{fmtMuniLoadError(lang, muniError)}</div>
             )}
             {muniGeo && (
               <div style={{ position: "absolute", top: 10, left: 12, zIndex: 21, pointerEvents: "none", background: "var(--bg-mid)", border: "1px solid var(--border)", borderRadius: 4, padding: "4px 8px", fontFamily: "var(--ff-body)" }}>
-                <span style={{ fontSize: 8, fontWeight: 700, color: "var(--text-dim)", letterSpacing: 0.6, textTransform: "uppercase" }}>🏛️ Municipality Breakdown · 2023 · swings with sliders</span>
+                <span style={{ fontSize: 8, fontWeight: 700, color: "var(--text-dim)", letterSpacing: 0.6, textTransform: "uppercase" }}>{t("🏛️ Municipality Breakdown · 2023 · swings with sliders")}</span>
               </div>
             )}
             {muniGeo && !hideControls && (
               <div style={{ position: "absolute", bottom: 12, left: 12, zIndex: 21 }}>
-                <button className="icon-btn" onClick={muniResetZoom} style={{ ...S.ghostBtn, background: "var(--bg-mid)" }}><IconZoomReset size={10} /> Reset</button>
+                <button className="icon-btn" onClick={muniResetZoom} style={{ ...S.ghostBtn, background: "var(--bg-mid)" }}><IconZoomReset size={10} /> {t("Reset")}</button>
               </div>
             )}
           </div>
@@ -822,7 +832,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           pointerEvents: "none"
         }}>
           <div style={{ fontSize: 8, fontWeight: 700, color: "var(--text-dim)", marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>
-            Legend: {{
+            {lang === "el" ? "Λεζάντα" : "Legend"}: {t({
               margin_of_victory: "Margin of Victory",
               runner_up: "Runner-Up Party",
               age_over_65_pct: "Age 65+ (%)",
@@ -831,49 +841,49 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
               foreign_citizens_pct: "Foreign Citizens (%)",
               urbanization_pct: "Urbanization (%)",
               primary_economy: "Primary Economy"
-            }[viewMode]}
+            }[viewMode])}
           </div>
-          
+
           {viewMode === "margin_of_victory" ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <div style={{ height: 6, width: 120, borderRadius: 2, background: "linear-gradient(to right, rgba(150,150,150,0.2), rgba(150,150,150,1))" }} />
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 8, color: "var(--text-muted)", ...S.mono }}>
-                <span>Tight race</span>
-                <span>Safe seat</span>
+                <span>{t("Tight race")}</span>
+                <span>{t("Safe seat")}</span>
               </div>
             </div>
           ) : viewMode === "runner_up" ? (
-            <div style={{ fontSize: 8, color: "var(--text-muted)", ...S.mono }}>Color = 2nd place party</div>
+            <div style={{ fontSize: 8, color: "var(--text-muted)", ...S.mono }}>{t("Color = 2nd place party")}</div>
           ) : viewMode !== "primary_economy" ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <div style={{ 
-                height: 6, 
-                width: 120, 
-                borderRadius: 2, 
-                background: "linear-gradient(to right, rgb(245, 240, 225), rgb(153, 27, 27))" 
+              <div style={{
+                height: 6,
+                width: 120,
+                borderRadius: 2,
+                background: "linear-gradient(to right, rgb(245, 240, 225), rgb(153, 27, 27))"
               }} />
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 8, color: "var(--text-muted)", ...S.mono }}>
-                <span>Min ({minVal.toFixed(1)}%)</span>
-                <span>Max ({maxVal.toFixed(1)}%)</span>
+                <span>{fmtMinMax(lang, "min", minVal)}</span>
+                <span>{fmtMinMax(lang, "max", maxVal)}</span>
               </div>
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 3, fontSize: 8, ...S.mono }}>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 <div style={{ width: 8, height: 8, borderRadius: 1, background: "#EAB308" }} />
-                <span>Services (Yellow)</span>
+                <span>{t("Services (Yellow)")}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 <div style={{ width: 8, height: 8, borderRadius: 1, background: "#22C55E" }} />
-                <span>Agriculture (Green)</span>
+                <span>{t("Agriculture (Green)")}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 <div style={{ width: 8, height: 8, borderRadius: 1, background: "#3B82F6" }} />
-                <span>Industry (Blue)</span>
+                <span>{t("Industry (Blue)")}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                 <div style={{ width: 8, height: 8, borderRadius: 1, background: "#EC4899" }} />
-                <span>Tourism (Pink)</span>
+                <span>{t("Tourism (Pink)")}</span>
               </div>
             </div>
           )}
@@ -883,13 +893,13 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
       {!isInset && !hideControls && viewMode !== "municipality" && (
         <div style={{ position: "absolute", bottom: 50, left: 18, display: "flex", gap: 6 }}>
           <button className="icon-btn" onClick={onToggleLabels} style={{ ...S.ghostBtn, background: "var(--bg-mid)" }}>
-            {showLabels ? <IconEyeOff size={10} /> : <IconEye size={10} />} {showLabels ? "Hide names" : "District names"}
+            {showLabels ? <IconEyeOff size={10} /> : <IconEye size={10} />} {showLabels ? t("Hide names") : t("District names")}
           </button>
           <button className="icon-btn" onClick={onToggleDots} style={{ ...S.ghostBtn, background: "var(--bg-mid)" }}>
-            {showDots ? <IconEyeOff size={10} /> : <IconEye size={10} />} {showDots ? "Hide seats" : "Show seats"}
+            {showDots ? <IconEyeOff size={10} /> : <IconEye size={10} />} {showDots ? t("Hide seats") : t("Show seats")}
           </button>
           <button className="icon-btn" onClick={() => { if (svgRef.current && zoomRef.current) d3.select(svgRef.current).transition().duration(600).ease(d3.easeCubicInOut).call(zoomRef.current.transform, d3.zoomIdentity); }} style={{ ...S.ghostBtn, background: "var(--bg-mid)" }}>
-            <IconZoomReset size={10} /> Reset
+            <IconZoomReset size={10} /> {t("Reset")}
           </button>
         </div>
       )}
@@ -899,13 +909,13 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           {parties.map(p => (
             <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <div style={{ width: 7, height: 7, borderRadius: 1, background: p.color }} />
-              <span style={{ fontSize: 8, color: "var(--text-main)", fontFamily: "var(--ff-body)" }}>{p.name}</span>
+              <span style={{ fontSize: 8, color: "var(--text-main)", fontFamily: "var(--ff-body)" }}>{tPartyName(lang, p)}</span>
             </div>
           ))}
         </div>
       )}
       
-      {(!hideControls || isInset) && <MapTooltipPortal domRef={tooltipRef} setterRef={tooltipSetRef} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} />}
+      {(!hideControls || isInset) && <MapTooltipPortal domRef={tooltipRef} setterRef={tooltipSetRef} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} lang={lang} />}
 
       <div ref={muniTooltipRef} style={{ ...S.tooltip, display: "none", left: -999, top: -999, willChange: "left, top" }}>
         {(() => {
@@ -924,13 +934,13 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
                   <div key={r.pid} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                       <div style={{ width: 6, height: 6, borderRadius: "50%", background: (r.party && r.party.color) || "var(--text-muted)" }} />
-                      <span style={{ color: "var(--text-main)" }}>{(r.party && r.party.name) || r.pid}</span>
+                      <span style={{ color: "var(--text-main)" }}>{r.party ? tPartyName(lang, r.party) : r.pid}</span>
                     </div>
                     <span style={{ color: "var(--text-main)", fontWeight: 600 }}>{r.pct.toFixed(1)}%</span>
                   </div>
                 ))}
               </div>
-              {d.imputed && <div style={{ marginTop: 6, fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)" }}>≈ estimated from constituency average (no 2023 row)</div>}
+              {d.imputed && <div style={{ marginTop: 6, fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)" }}>{t("≈ estimated from constituency average (no 2023 row)")}</div>}
             </>
           );
         })()}

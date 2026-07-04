@@ -4,7 +4,7 @@ import {
 } from "react";
 import { REGIONS_DB }          from "./data.js";
 import { computeMunicipalData } from "./utils.js";
-import { S, STYLES, Slider, MeanderBar, EASE_STD, EASE_SPRING } from "./styles.jsx";
+import { S, STYLES, Slider, MeanderBar, EASE_STD, EASE_SPRING, LIGHT_VARS, DARK_VARS } from "./styles.jsx";
 import {
   IconArrowLeft, IconSun, IconMoon, IconCamera,
   IconPlus, IconZoomReset, MeanderBar as _MB,
@@ -241,13 +241,19 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
       : { ...base, scenarioName: "Oct 2023", scenarioNote: "" };
   }, [regionId, selectedScenario]);
 
-  // ── Apply global styles / theme ────────────────────────────────────────────
+  // ── Inject theme-independent global styles once (no re-injection on toggle) ──
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    let el = document.getElementById("app-styles");
-    if (!el) { el = document.createElement("style"); el.id = "app-styles"; document.head.appendChild(el); }
-    el.innerHTML = STYLES;
-  }, [theme]);
+    const id = "gr-regions-styles";
+    if (document.getElementById(id)) return;
+    const el = Object.assign(document.createElement("style"), { id, textContent: STYLES });
+    document.head.appendChild(el);
+    return () => el.remove();
+  }, []);
+
+  // Theme colours applied inline on the root element below — same render-
+  // synchronous approach as the main Greek swingometer, so switching is instant
+  // instead of waiting on an effect + global attribute mutation.
+  const themeVars = theme === "light" ? LIGHT_VARS : DARK_VARS;
 
   // ── Reload candidates when scenario / region changes ──────────────────────
   useEffect(() => {
@@ -609,10 +615,12 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
 
   return (
     <div style={{
+      ...themeVars,
       width: "100%", minHeight: "100vh",
       padding: isMobile ? "10px" : "16px 24px",
       overflowX: "hidden", margin: 0,
       backgroundColor: "var(--bg-up)", color: "var(--text-main)",
+      transition: `background 0.25s ${EASE_STD}, color 0.25s ${EASE_STD}`,
     }}>
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
