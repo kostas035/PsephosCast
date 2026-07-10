@@ -50,6 +50,9 @@ export const IconBarChart = ({ size=14 }) => (<svg width={size} height={size} vi
 // Line / trend chart (was 📈 — Metric cards)
 export const IconLineChart = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/></svg>);
 
+// Jagged line (was 📉 — Spiky/unsmoothed poll line)
+export const IconZigzag = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="2 19 7 9 10 15 13 6 16 13 22 5"/></svg>);
+
 // Die (was 🎲 — Monte Carlo forecast)
 export const IconDice = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="8" y1="8" x2="8.01" y2="8"/><line x1="16" y1="8" x2="16.01" y2="8"/><line x1="12" y1="12" x2="12.01" y2="12"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg>);
 
@@ -106,6 +109,15 @@ export const IconDocument = ({ size=14 }) => (<svg width={size} height={size} vi
 
 // Database / archive (was 🗄️ — CSV matrix)
 export const IconDatabase = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 5v6c0 1.66-4 3-9 3s-9-1.34-9-3V5"/><path d="M21 11v6c0 1.66-4 3-9 3s-9-1.34-9-3v-6"/></svg>);
+
+// Medal / ribbon (was 🥈 — Runner-Up Party map mode)
+export const IconMedal = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="15" r="6"/><path d="M9.5 10.2 7 2h4l1 4 1-4h4l-2.5 8.2"/></svg>);
+
+// Tractor (was 🚜 — Primary Economy map mode)
+export const IconTractor = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h4l1 5"/><path d="M8 9h5l3 4"/><rect x="14" y="9" width="3" height="4"/><circle cx="7" cy="17" r="4"/><circle cx="18" cy="17" r="2.5"/><path d="M11 17h3.5"/></svg>);
+
+// Stacked coins (new — GDP map mode)
+export const IconCoins = ({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>);
 
 // Flags (official colours, not currentColor)
 

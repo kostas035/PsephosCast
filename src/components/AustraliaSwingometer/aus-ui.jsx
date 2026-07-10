@@ -1,5 +1,5 @@
 // aus-ui.jsx
-import { memo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 // Easing constants
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
@@ -84,6 +84,7 @@ export const STYLES = `
     -webkit-appearance: none; appearance: none;
     outline: none; height: 4px;
     background: var(--border); border-radius: 2px;
+    touch-action: pan-y;
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; width: 14px; height: 14px;
@@ -260,22 +261,35 @@ export const MeanderBar = memo(({ margin = "12px 0" }) => (
 
 // Reusable labelled slider
 export const Slider = memo(function Slider({ label, value, min = 0, max = 100, step = 0.1, onChange, color, disabled }) {
-  const pct = ((value - min) / (max - min)) * 100;
-  const valColor = Math.abs(value) < 0.05 ? "var(--text-dim)" : "var(--text-title)";
+  const [localValue, setLocalValue] = useState(value);
+  const debounced = useRef(null);
+
+  useEffect(() => { setLocalValue(value); }, [value]);
+  useEffect(() => () => { if (debounced.current) clearTimeout(debounced.current); }, []);
+
+  const handleChange = e => {
+    const val = parseFloat(e.target.value);
+    setLocalValue(val);
+    if (debounced.current) clearTimeout(debounced.current);
+    debounced.current = setTimeout(() => onChange(val), 150);
+  };
+
+  const pct = ((localValue - min) / (max - min)) * 100;
+  const valColor = Math.abs(localValue) < 0.05 ? "var(--text-dim)" : "var(--text-title)";
   return (
     <div style={{ marginBottom: 10 }}>
       {label && (
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
           <span style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "var(--ff-body)", letterSpacing: 0.3 }}>{label}</span>
           <span style={{ fontSize: 10, fontFamily: "var(--ff-mono)", color: valColor, minWidth: 42, textAlign: "right" }}>
-            {value.toFixed(1)}%
+            {localValue.toFixed(1)}%
           </span>
         </div>
       )}
       <input
-        type="range" min={min} max={max} step={step} value={value}
+        type="range" min={min} max={max} step={step} value={localValue}
         disabled={disabled}
-        onChange={e => onChange(parseFloat(e.target.value))}
+        onChange={handleChange}
         style={{
           width: "100%", height: 5, borderRadius: 3, outline: "none", cursor: disabled ? "not-allowed" : "pointer",
           background: `linear-gradient(to right, ${color} 0%, ${color} ${pct}%, var(--border) ${pct}%)`,

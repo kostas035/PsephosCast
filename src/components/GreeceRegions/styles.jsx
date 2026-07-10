@@ -1,5 +1,5 @@
 // styles.jsx
-import { memo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
 export const EASE_OUT    = "cubic-bezier(0, 0, 0.2, 1)";
@@ -144,6 +144,7 @@ export const STYLES = `
     height: 5px;
     background: var(--border);
     border-radius: 3px;
+    touch-action: pan-y;
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -288,9 +289,22 @@ export const STYLES = `
 export const Slider = memo(function Slider({
   label, value, min = -10, max = 10, step = 0.5, onChange, color, isPct = false,
 }) {
-  const pct      = ((value - min) / (max - min)) * 100;
-  const neutral  = Math.abs(value) < 0.05;
-  const valColor = neutral ? "var(--text-dim)" : (isPct ? color : value > 0 ? "#34D399" : "#F87171");
+  const [localValue, setLocalValue] = useState(value);
+  const debounced = useRef(null);
+
+  useEffect(() => { setLocalValue(value); }, [value]);
+  useEffect(() => () => { if (debounced.current) clearTimeout(debounced.current); }, []);
+
+  const handleChange = e => {
+    const val = parseFloat(e.target.value);
+    setLocalValue(val);
+    if (debounced.current) clearTimeout(debounced.current);
+    debounced.current = setTimeout(() => onChange(val), 150);
+  };
+
+  const pct      = ((localValue - min) / (max - min)) * 100;
+  const neutral  = Math.abs(localValue) < 0.05;
+  const valColor = neutral ? "var(--text-dim)" : (isPct ? color : localValue > 0 ? "#34D399" : "#F87171");
 
   return (
     <div style={{ marginBottom: 10 }}>
@@ -300,13 +314,13 @@ export const Slider = memo(function Slider({
             {label}
           </span>
           <span style={{ fontSize: 11, fontFamily: "var(--ff-mono)", fontWeight: 700, color: valColor, minWidth: 38, textAlign: "right", transition: `color 0.2s ${EASE_STD}` }}>
-            {!isPct && value > 0 ? "+" : ""}{value.toFixed(1)}{isPct ? "%" : ""}
+            {!isPct && localValue > 0 ? "+" : ""}{localValue.toFixed(1)}{isPct ? "%" : ""}
           </span>
         </div>
       )}
       <input
-        type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
+        type="range" min={min} max={max} step={step} value={localValue}
+        onChange={handleChange}
         style={{
           width: "100%", height: 5, borderRadius: 3, outline: "none", cursor: "pointer",
           background: `linear-gradient(to right, ${color} 0%, ${color} ${pct}%, var(--border) ${pct}%)`,

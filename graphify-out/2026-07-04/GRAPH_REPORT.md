@@ -1,7 +1,7 @@
 # Graph Report - swingometer  (2026-07-04)
 
 ## Corpus Check
-- 89 files · ~385,672 words
+- 89 files · ~385,560 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary

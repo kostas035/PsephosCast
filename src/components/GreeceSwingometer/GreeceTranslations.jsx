@@ -197,8 +197,8 @@ const GREECE_APP = {
     "Η καρτέλα Δημογραφικά μετακινεί ολόκληρες ομάδες ψηφοφόρων αντί για μεμονωμένα κόμματα: προσέλευση νέων & ηλικιωμένων, αστική/αγροτική κλίση, εκπαίδευση, οικονομική επισφάλεια, και φύλο. Η μετακίνηση ενός ρυθμιστή μετατοπίζει κάθε κόμμα ταυτόχρονα βάσει του ποιοι είναι οι ψηφοφόροι του — π.χ. μια αύξηση προσέλευσης νέων ενισχύει τα νεανικά κόμματα σε όλες τις 59 περιφέρειες ταυτόχρονα.",
   "See who wins its seats, the local vote shares, and the fight for the final seat.":
     "Δείτε ποιος κερδίζει τις έδρες της, τα τοπικά ποσοστά ψήφων, και τη μάχη για την τελευταία έδρα.",
-  "The dropdown above the map changes what the colours mean: Swingometer (who leads), Margin of Victory, and Runner-Up — plus data layers like Age 65+, Tertiary Education, Unemployment, Foreign Citizens, Urbanisation, Primary Economy, and Population (2021).":
-    "Το αναπτυσσόμενο μενού πάνω από τον χάρτη αλλάζει τι σημαίνουν τα χρώματα: Σουίνγκομετρο (ποιος προηγείται), Περιθώριο Νίκης, και Δεύτερος — μαζί με στρώματα δεδομένων όπως Ηλικία 65+, Τριτοβάθμια Εκπαίδευση, Ανεργία, Αλλοδαποί, Αστικοποίηση, Πρωτογενής Τομέας, και Πληθυσμός (2021).",
+  "The menu above the map changes what the colours mean: Swingometer (who leads), Margin of Victory, and Runner-Up — plus data layers like GDP (with a year slider from 2012-2026), Age 65+, Tertiary Education, Unemployment, Foreign Citizens, Urbanisation, Primary Economy, and Population (2021).":
+    "Το μενού πάνω από τον χάρτη αλλάζει τι σημαίνουν τα χρώματα: Σουίνγκομετρο (ποιος προηγείται), Περιθώριο Νίκης, και Δεύτερος — μαζί με στρώματα δεδομένων όπως ΑΕΠ (με ρυθμιστή έτους 2012-2026), Ηλικία 65+, Τριτοβάθμια Εκπαίδευση, Ανεργία, Αλλοδαποί, Αστικοποίηση, Πρωτογενής Τομέας, και Πληθυσμός (2021).",
   "Toggle the seat dots and district names on or off, and reset the zoom, with the buttons on the map.":
     "Ενεργοποιήστε ή απενεργοποιήστε τις κουκίδες εδρών και τα ονόματα περιφερειών, και επαναφέρετε το ζουμ, με τα κουμπιά στον χάρτη.",
   "The parliament itself — each dot is one of the 300 seats, coloured by party, with a marker at the 151-seat majority line.":
@@ -343,11 +343,11 @@ const MONTE_CARLO = {
 const OPINION_POLLS = {
   "Loading live polls…": "Φόρτωση δημοσκοπήσεων…",
   "Fallback data": "Εφεδρικά δεδομένα",
-  "🔄 Refresh": "🔄 Ανανέωση",
-  "📉 Trendline": "📉 Γραμμή Τάσης",
-  "📊 Raw Polls": "📊 Ανεπεξέργαστες Δημοσκοπήσεις",
-  "📈 Smooth": "📈 Ομαλό",
-  "📉 Spiky": "📉 Ακανόνιστο",
+  "Refresh": "Ανανέωση",
+  "Trendline": "Γραμμή Τάσης",
+  "Raw Polls": "Ανεπεξέργαστες Δημοσκοπήσεις",
+  "Smooth": "Ομαλό",
+  "Spiky": "Ακανόνιστο",
   "╌╌ Dashed": "╌╌ Διακεκομμένο",
   "── Solid": "── Συνεχόμενο",
   "Toggle dashed lines": "Εναλλαγή διακεκομμένων γραμμών",
@@ -391,17 +391,15 @@ const THEME_PICKER = {
    */
 const MAP = {
   "Electoral Map": "Εκλογικός Χάρτης",
-  "🗳️ Swingometer": "🗳️ Σουίνγκομετρο",
-  "📊 Margin of Victory": "📊 Περιθώριο Νίκης",
-  "🥈 Runner-Up Party": "🥈 Δεύτερο Κόμμα",
-  "👴 Age 65+ (%)": "👴 Ηλικία 65+ (%)",
-  "🎓 Tertiary Edu (%)": "🎓 Τριτοβάθμια Εκπ. (%)",
-  "💼 Unemployment (%)": "💼 Ανεργία (%)",
-  "🌐 Foreign Citizens (%)": "🌐 Αλλοδαποί (%)",
-  "🏙️ Urbanization (%)": "🏙️ Αστικοποίηση (%)",
-  "🚜 Primary Economy": "🚜 Πρωτογενής Τομέας",
-  "👥 Population (2021)": "👥 Πληθυσμός (2021)",
-  "🏛️ Municipality Breakdown": "🏛️ Ανάλυση Δήμων",
+  "Swingometer": "Σουίνγκομετρο",
+  "GDP": "ΑΕΠ",
+  "GDP:": "ΑΕΠ:",
+  "GDP Year": "Έτος ΑΕΠ",
+  "Change vs": "Μεταβολή έναντι",
+  "≈ backcast — before the official regional GDP series": "≈ αναδρομική εκτίμηση — πριν την επίσημη περιφερειακή σειρά ΑΕΠ",
+  "≈ forecast — extrapolated from the 2016-2023 trend": "≈ πρόβλεψη — προβολή βάσει της τάσης 2016-2023",
+  "Population (2021)": "Πληθυσμός (2021)",
+  "Municipality Breakdown": "Ανάλυση Δήμων",
   "LIST": "ΕΠΙΚΡΑΤΕΙΑΣ",
   "Loading municipalities…": "Φόρτωση δήμων…",
   "🏛️ Municipality Breakdown · 2023 · swings with sliders": "🏛️ Ανάλυση Δήμων · 2023 · μετατοπίζεται με τους ρυθμιστές",

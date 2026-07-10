@@ -54,7 +54,7 @@ const HOWTO = [
 
   { s: "The map" },
   { Icon: IconMap, title: "Hover any district", text: "See who wins its seats, the local vote shares, and the fight for the final seat." },
-  { Icon: IconPalette, title: "Map views", text: "The dropdown above the map changes what the colours mean: Swingometer (who leads), Margin of Victory, and Runner-Up \u2014 plus data layers like Age 65+, Tertiary Education, Unemployment, Foreign Citizens, Urbanisation, Primary Economy, and Population (2021)." },
+  { Icon: IconPalette, title: "Map views", text: "The menu above the map changes what the colours mean: Swingometer (who leads), Margin of Victory, and Runner-Up \u2014 plus data layers like GDP (with a year slider from 2012-2026), Age 65+, Tertiary Education, Unemployment, Foreign Citizens, Urbanisation, Primary Economy, and Population (2021)." },
   { Icon: IconEye, title: "Map controls", text: "Toggle the seat dots and district names on or off, and reset the zoom, with the buttons on the map." },
 
   { s: "Reading the result" },

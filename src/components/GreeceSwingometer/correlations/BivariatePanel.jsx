@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { S } from "../GreeceStyles";
 import { CorrelationHeatmap } from "../GreecePlots.jsx";
 import GreeceScatter from "../GreeceScatter.jsx";
@@ -15,39 +15,64 @@ const getStars = (p) => {
 
 export default function BivariatePanel({ data, meta, frame, viz, DEMO_FIELDS }) {
   const [cfg, setCfg] = useState({ open: false, showTrendline: true });
+  const [sigOnly, setSigOnly] = useState(false);
+  const [sortDir, setSortDir] = useState(null); // null | "desc" | "asc" — by |Pearson r|
+
+  const displayPairs = useMemo(() => {
+    if (!data) return [];
+    let rows = sigOnly ? data.pairs.filter(p => p.pearsonP < 0.05) : data.pairs;
+    if (sortDir) {
+      rows = [...rows].sort((a, b) => {
+        const d = Math.abs(b.pearson.r || 0) - Math.abs(a.pearson.r || 0);
+        return sortDir === "desc" ? d : -d;
+      });
+    }
+    return rows;
+  }, [data, sigOnly, sortDir]);
+
   if (!data) return null;
+
+  const cycleSortDir = () => setSortDir(prev => (prev === null ? "desc" : prev === "desc" ? "asc" : null));
 
   return (
     <div style={{ ...S.card, padding: 20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12, borderBottom: "1px solid var(--divider)", paddingBottom: 10 }}>
         <span style={{ ...S.label, color: "#3B82F6", fontWeight: 700, letterSpacing: 1.5 }}>Module: Bivariate Association Matrix</span>
-        {viz.scatter && <button onClick={() => setCfg({ ...cfg, open: !cfg.open })} style={{ background: cfg.open ? "var(--bg-up)" : "transparent", border: "1px solid var(--border)", borderRadius: 6, padding: "4px 8px", cursor: "pointer", fontSize: 14 }}>⚙️</button>}
+        <button onClick={() => setCfg({ ...cfg, open: !cfg.open })} style={{ background: cfg.open ? "var(--bg-up)" : "transparent", border: "1px solid var(--border)", borderRadius: 6, padding: "4px 8px", cursor: "pointer", fontSize: 14 }}>⚙️</button>
       </div>
 
-      {cfg.open && viz.scatter && (
-        <div style={{ background: "var(--bg-base)", padding: "12px 16px", borderRadius: 6, marginBottom: 20, border: "1px solid var(--border)", display: "flex", gap: 24 }}>
+      {cfg.open && (
+        <div style={{ background: "var(--bg-base)", padding: "12px 16px", borderRadius: 6, marginBottom: 20, border: "1px solid var(--border)", display: "flex", gap: 24, flexWrap: "wrap" }}>
+          {viz.scatter && (
+            <label style={{ fontSize: 11, color: "var(--text-main)", display: "flex", alignItems: "center", gap: 8, fontWeight: 600, cursor: "pointer" }}>
+              <input type="checkbox" checked={cfg.showTrendline} onChange={() => setCfg({ ...cfg, showTrendline: !cfg.showTrendline })} />
+              Render OLS Trendline in Scatters
+            </label>
+          )}
           <label style={{ fontSize: 11, color: "var(--text-main)", display: "flex", alignItems: "center", gap: 8, fontWeight: 600, cursor: "pointer" }}>
-            <input type="checkbox" checked={cfg.showTrendline} onChange={() => setCfg({ ...cfg, showTrendline: !cfg.showTrendline })} />
-            Render OLS Trendline in Scatters
+            <input type="checkbox" checked={sigOnly} onChange={() => setSigOnly(v => !v)} />
+            Significant only (p&lt;0.05)
           </label>
         </div>
       )}
-      
+
       {viz.heatmap && <CorrelationHeatmap matrix={data.matrix} yLabels={meta.subjects} xLabels={DEMO_FIELDS.filter(d => meta.vars.includes(d.field)).map(d => d.label)} />}
-      
+
       <div style={{ marginTop: 20, overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10, fontFamily: "var(--ff-mono)", color: "var(--text-main)" }}>
           <thead>
             <tr style={{ background: "var(--bg-up)" }}>
               <th style={{ padding: 6, textAlign: "left", border: "1px solid var(--border)" }}>Dependent (Y)</th>
               <th style={{ padding: 6, textAlign: "left", border: "1px solid var(--border)" }}>Independent (X)</th>
-              <th style={{ padding: 6, textAlign: "left", border: "1px solid var(--border)" }}>Pearson r (p, 95% CI)</th>
+              <th onClick={cycleSortDir} title="Click to sort by |r|" style={{ padding: 6, textAlign: "left", border: "1px solid var(--border)", cursor: "pointer", userSelect: "none" }}>
+                Pearson r (p, 95% CI) {sortDir === "desc" ? "▼|r|" : sortDir === "asc" ? "▲|r|" : ""}
+              </th>
               <th style={{ padding: 6, textAlign: "left", border: "1px solid var(--border)" }}>Spearman ρ (p)</th>
               <th style={{ padding: 6, textAlign: "left", border: "1px solid var(--border)" }}>Kendall τ (p-val)</th>
             </tr>
           </thead>
           <tbody>
-            {data.pairs.map((p, i) => (
+            {displayPairs.map((p, i) => (
               <tr key={i} style={{ background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)" }}>
                 <td style={{ padding: 6, border: "1px solid var(--border)", fontWeight: 700 }}>{p.y.replace("base_", "")}</td>
                 <td style={{ padding: 6, border: "1px solid var(--border)" }}>{p.x.replace("base_", "")}</td>
@@ -70,7 +95,7 @@ export default function BivariatePanel({ data, meta, frame, viz, DEMO_FIELDS }) 
       </div>
 
       <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
-        {data.pairs.map((p, i) => (
+        {displayPairs.map((p, i) => (
           <div key={`readout-${i}`} style={{ fontSize: 11, color: "var(--text-main)", fontFamily: "var(--ff-body)", padding: "10px 14px", background: "var(--bg-mid)", borderLeft: "3px solid #3B82F6", borderRadius: "0 6px 6px 0", lineHeight: 1.5 }}>
             {buildReadout({ n: p.pearson.n, r: p.pearson.r, rP: p.pearsonP, rho: p.spearman.rho, ols: p.ols }, { partyName: p.y.replace("base_", ""), demoLabel: p.x.replace("base_", ""), unitLabel: meta.unit === "region" ? "regions" : "districts", baselineLabel: meta.baselineKey })}
           </div>
@@ -81,7 +106,7 @@ export default function BivariatePanel({ data, meta, frame, viz, DEMO_FIELDS }) 
         <div style={{ marginTop: 24 }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-title)", display: "block", marginBottom: 12, paddingBottom: 8, borderBottom: "1px solid var(--divider)" }}>Bivariate Scatters</span>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
-            {data.pairs.map((p, i) => {
+            {displayPairs.map((p, i) => {
               const pts = [];
               frame.forEach(row => {
                 if (typeof row[p.x] === 'number' && isFinite(row[p.x]) && typeof row[p.y] === 'number' && isFinite(row[p.y])) {

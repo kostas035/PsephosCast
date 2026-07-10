@@ -1,5 +1,5 @@
 // aus-components.jsx
-import { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback, useEffect, useRef } from "react";
 import {
   S, EASE_STD, EASE_SPRING,
   MeanderBar, Slider,
@@ -286,6 +286,37 @@ export const AusStateBreakdown = memo(function AusStateBreakdown({ stateData }) 
   );
 });
 
+// Preference-flow slider row (local state + debounce so dragging doesn't hammer the 2PP recompute)
+const PrefFlowSlider = memo(function PrefFlowSlider({ current, onChange }) {
+  const [localValue, setLocalValue] = useState(current);
+  const debounced = useRef(null);
+
+  useEffect(() => { setLocalValue(current); }, [current]);
+  useEffect(() => () => { if (debounced.current) clearTimeout(debounced.current); }, []);
+
+  const handleChange = e => {
+    const val = parseInt(e.target.value);
+    setLocalValue(val);
+    if (debounced.current) clearTimeout(debounced.current);
+    debounced.current = setTimeout(() => onChange(val), 150);
+  };
+
+  return (
+    <>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
+        <span style={{ fontSize: 9, color: "#E13940", fontFamily: "var(--ff-mono)" }}>ALP {localValue}%</span>
+        <span style={{ fontSize: 9, color: "#1C4F9C", fontFamily: "var(--ff-mono)" }}>{100 - localValue}% LNP</span>
+      </div>
+      <div style={{ height: 5, borderRadius: 3, background: "#1C4F9C", overflow: "hidden", marginBottom: 4 }}>
+        <div style={{ height: "100%", width: `${localValue}%`, background: "#E13940", borderRadius: localValue > 98 ? 3 : "3px 0 0 3px", transition: `width 0.15s ${EASE_STD}` }} />
+      </div>
+      <input type="range" min={0} max={100} step={1} value={localValue}
+        onChange={handleChange}
+        style={{ width: "100%", height: 4, borderRadius: 2, background: `linear-gradient(to right, #E13940 0%, #E13940 ${localValue}%, #1C4F9C ${localValue}%)`, WebkitAppearance: "none", outline: "none", cursor: "pointer" }} />
+    </>
+  );
+});
+
 // Sliders Panel
 export const AusSlidersPanel = memo(function AusSlidersPanel({
   primaries, lockedParties, onPrimaryChange, onToggleLock,
@@ -380,16 +411,7 @@ export const AusSlidersPanel = memo(function AusSlidersPanel({
                       <button onClick={() => onPrefChange(party.id, null)} style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", fontSize: 8, color: "var(--text-muted)", padding: "1px 4px" }} title="Reset to default">Reset</button>
                     )}
                   </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-                    <span style={{ fontSize: 9, color: "#E13940", fontFamily: "var(--ff-mono)" }}>ALP {current}%</span>
-                    <span style={{ fontSize: 9, color: "#1C4F9C", fontFamily: "var(--ff-mono)" }}>{100 - current}% LNP</span>
-                  </div>
-                  <div style={{ height: 5, borderRadius: 3, background: "#1C4F9C", overflow: "hidden", marginBottom: 4 }}>
-                    <div style={{ height: "100%", width: `${current}%`, background: "#E13940", borderRadius: current > 98 ? 3 : "3px 0 0 3px", transition: `width 0.15s ${EASE_STD}` }} />
-                  </div>
-                  <input type="range" min={0} max={100} step={1} value={current}
-                    onChange={e => onPrefChange(party.id, { toAlp: parseInt(e.target.value), toLnp: 100 - parseInt(e.target.value) })}
-                    style={{ width: "100%", height: 4, borderRadius: 2, background: `linear-gradient(to right, #E13940 0%, #E13940 ${current}%, #1C4F9C ${current}%)`, WebkitAppearance: "none", outline: "none", cursor: "pointer" }} />
+                  <PrefFlowSlider current={current} onChange={v => onPrefChange(party.id, { toAlp: v, toLnp: 100 - v })} />
                   <div style={{ fontSize: 8, color: "var(--text-dim)", marginTop: 2 }}>
                     Historical default: {defaultAlp}% → ALP {override != null && <span style={{ color: "#fbbf24" }}>(modified)</span>}
                   </div>

@@ -2,11 +2,110 @@
 import { memo, useRef, useState, useEffect, useMemo } from "react";
 import * as d3 from "d3";
 import { S, EASE_STD } from "./GreeceStyles";
-import { IconEye, IconEyeOff, IconZoomReset } from "./GreeceIcons";
+import {
+  IconEye, IconEyeOff, IconZoomReset, IconChevron,
+  IconBallot, IconBarChart, IconMedal, IconElder, IconGraduation, IconBriefcase,
+  IconGlobe, IconCityscape, IconTractor, IconCoins, IconPeople, IconBuilding,
+} from "./GreeceIcons";
 import { GR, GR_DISTRICT_DEMOGRAPHICS, grToLogit, grFromLogit } from "./greece-data.js";
 import { GR_MUNI_DATA, GR_MUNI_PARTY_IDS } from "./greece-municipalities.js";
+import { GR_DISTRICT_GDP, GR_GDP_YEARS, GR_GDP_YEAR_TYPE } from "./greece-gdp-data.js";
 import { grNormStr, grMatchDistricts, grGetCentroidOffset, grExtractName } from "./greece-utils.js";
 import { useGreeceT, fmtMuniLoadError, fmtMinMax, fmtLean, tPartyName, tDistrictName } from "./GreeceTranslations.jsx";
+
+const GR_GDP_MIN_YEAR = GR_GDP_YEARS[0];
+const GR_GDP_MAX_YEAR = GR_GDP_YEARS[GR_GDP_YEARS.length - 1];
+
+function fmtGDP(n) {
+  if (n == null || isNaN(n)) return "—";
+  if (Math.abs(n) >= 1e9) return "€" + (n / 1e9).toFixed(2) + "B";
+  if (Math.abs(n) >= 1e6) return "€" + (n / 1e6).toFixed(1) + "M";
+  return "€" + Math.round(n).toLocaleString();
+}
+
+const MAP_MODE_OPTIONS = [
+  { id: "swingometer",         label: "Swingometer",            Icon: IconBallot },
+  { id: "margin_of_victory",   label: "Margin of Victory",      Icon: IconBarChart },
+  { id: "runner_up",           label: "Runner-Up Party",        Icon: IconMedal },
+  { id: "gdp",                 label: "GDP",                    Icon: IconCoins },
+  { id: "age_over_65_pct",     label: "Age 65+ (%)",            Icon: IconElder },
+  { id: "tertiary_edu_pct",    label: "Tertiary Edu (%)",       Icon: IconGraduation },
+  { id: "unemployment_rate",   label: "Unemployment Rate (%)",  Icon: IconBriefcase },
+  { id: "foreign_citizens_pct",label: "Foreign Citizens (%)",   Icon: IconGlobe },
+  { id: "urbanization_pct",    label: "Urbanization (%)",       Icon: IconCityscape },
+  { id: "primary_economy",     label: "Primary Economy",        Icon: IconTractor },
+  { id: "population",          label: "Population (2021)",      Icon: IconPeople },
+  { id: "municipality",        label: "Municipality Breakdown", Icon: IconBuilding },
+];
+
+const MapModeMenu = memo(function MapModeMenu({ viewMode, onChange, t }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDocDown = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDocDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDocDown); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  const current = MAP_MODE_OPTIONS.find(o => o.id === viewMode) || MAP_MODE_OPTIONS[0];
+  const CurrentIcon = current.Icon;
+
+  return (
+    <div ref={rootRef} style={{ position: "relative" }}>
+      <button
+        type="button"
+        className="icon-btn"
+        onClick={() => setOpen(v => !v)}
+        style={{
+          display: "flex", alignItems: "center", gap: 6,
+          background: "var(--bg-mid, #1e293b)", color: "var(--text-main, #f8fafc)",
+          border: "1px solid var(--border, #334155)", borderRadius: 4, padding: "4px 8px",
+          fontSize: 10, fontFamily: "var(--ff-body)", fontWeight: 600, cursor: "pointer", outline: "none",
+        }}
+      >
+        <CurrentIcon size={12} />
+        <span>{t(current.label)}</span>
+        <IconChevron dir={open ? "up" : "down"} size={8} />
+      </button>
+
+      {open && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 4px)", right: 0, zIndex: 30,
+          background: "var(--bg-mid, #1e293b)", border: "1px solid var(--border, #334155)",
+          borderRadius: 6, padding: 4, minWidth: 200, boxShadow: "0 16px 40px rgba(0,0,0,0.45)",
+          display: "flex", flexDirection: "column", gap: 1, maxHeight: 320, overflowY: "auto",
+        }}>
+          {MAP_MODE_OPTIONS.map(opt => {
+            const Icon = opt.Icon;
+            const active = opt.id === viewMode;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                className="icon-btn"
+                onClick={() => { onChange(opt.id); setOpen(false); }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8, width: "100%", textAlign: "left",
+                  background: active ? "var(--tab-active, rgba(96,165,250,0.15))" : "transparent",
+                  color: active ? "#60A5FA" : "var(--text-main)",
+                  border: "1px solid transparent", borderRadius: 4, padding: "6px 8px",
+                  fontSize: 10, fontFamily: "var(--ff-body)", fontWeight: active ? 700 : 500, cursor: "pointer",
+                }}
+              >
+                <Icon size={13} />
+                <span>{t(opt.label)}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+});
 
 function buildPartyMap(parties) {
   const m = new Map();
@@ -48,7 +147,18 @@ function grDistrictPopulation(matched) {
   return found ? sum : null;
 }
 
-function getFeatureFill(name, viewMode, seatData, partiesMap, minVal, maxVal, districtResults) {
+function grDistrictGDP(matched, year) {
+  if (!matched || !matched.length) return null;
+  let sum = 0, found = false;
+  for (const d of matched) {
+    const byYear = GR_DISTRICT_GDP[d && d.id];
+    const v = byYear && byYear[year];
+    if (typeof v === "number") { sum += v; found = true; }
+  }
+  return found ? sum : null;
+}
+
+function getFeatureFill(name, viewMode, seatData, partiesMap, minVal, maxVal, districtResults, gdpYear) {
   const n = name.toLowerCase();
   if (n.includes("athos") || n.includes("agion oros") || n.includes("agio oros")) return "var(--bg-up)";
 
@@ -108,6 +218,16 @@ function getFeatureFill(name, viewMode, seatData, partiesMap, minVal, maxVal, di
     return `rgb(${r}, ${g}, ${b})`;
   }
 
+  if (viewMode === "gdp") {
+    const gdp = grDistrictGDP(matched, gdpYear);
+    if (gdp == null) return "var(--bg-up)";
+    const pct = maxVal === minVal ? 0.5 : (gdp - minVal) / (maxVal - minVal);
+    const r = Math.round(245 + (153 - 245) * pct);
+    const g = Math.round(240 + (27 - 240) * pct);
+    const b = Math.round(225 + (27 - 225) * pct);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
   const demoData = getDemoData(name, matched);
 
   if (!demoData || demoData[viewMode] === undefined) return "var(--bg-up)";
@@ -131,7 +251,7 @@ function getFeatureFill(name, viewMode, seatData, partiesMap, minVal, maxVal, di
   }
 }
 
-const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap, electionResult, viewMode, lang }) {
+const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap, electionResult, viewMode, lang, gdpYear }) {
   const t = useGreeceT(lang);
   const qualifyingIds = useMemo(() => new Set((electionResult?.results || []).map(r => r.id)), [electionResult]);
 
@@ -209,6 +329,43 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, background: "rgba(234, 179, 8, 0.12)", padding: "3px 6px", borderRadius: 4, minWidth: 150, border: "1px solid rgba(234, 179, 8, 0.18)" }}>
           <span style={{ color: "#EAB308", fontWeight: 600 }}>{t("Population (2021):")}</span>
           <span style={{ color: "var(--text-bright)", fontWeight: 700 }}>{pop != null ? pop.toLocaleString() : "\u2014"}</span>
+        </div>
+      </>
+    );
+  }
+
+  if (viewMode === "gdp") {
+    const gdp = grDistrictGDP(info.districts, gdpYear);
+    const pop = grDistrictPopulation(info.districts);
+    const hasPrevYear = gdpYear > GR_GDP_MIN_YEAR;
+    const prevGdp = hasPrevYear ? grDistrictGDP(info.districts, gdpYear - 1) : null;
+    const pctChange = (gdp != null && prevGdp != null && prevGdp !== 0) ? ((gdp - prevGdp) / prevGdp) * 100 : null;
+    const yearType = GR_GDP_YEAR_TYPE[gdpYear];
+    const changeColor = pctChange == null ? "var(--text-bright)" : pctChange > 0.05 ? "#34D399" : pctChange < -0.05 ? "#F87171" : "var(--text-bright)";
+
+    return (
+      <>
+        <h4 style={{ margin: "0 0 4px", fontSize: 11, color: "var(--text-title)", fontFamily: "var(--ff-head)", textTransform: "uppercase", letterSpacing: 0.5, fontWeight: 700 }}>{title}</h4>
+        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, background: "rgba(234, 179, 8, 0.12)", padding: "3px 6px", borderRadius: 4, minWidth: 160, border: "1px solid rgba(234, 179, 8, 0.18)" }}>
+            <span style={{ color: "#EAB308", fontWeight: 600 }}>{t("GDP:")} {gdpYear}</span>
+            <span style={{ color: "var(--text-bright)", fontWeight: 700 }}>{fmtGDP(gdp)}</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, padding: "3px 6px" }}>
+            <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>{t("Population (2021):")}</span>
+            <span style={{ color: "var(--text-bright)", fontWeight: 700 }}>{pop != null ? pop.toLocaleString() : "\u2014"}</span>
+          </div>
+          {hasPrevYear && (
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 10, ...S.mono, padding: "3px 6px", borderTop: "1px solid var(--border)", paddingTop: 6 }}>
+              <span style={{ color: "var(--text-muted)", fontWeight: 600 }}>{t("Change vs")} {gdpYear - 1}:</span>
+              <span style={{ color: changeColor, fontWeight: 700 }}>{pctChange != null ? `${pctChange > 0 ? "+" : ""}${pctChange.toFixed(1)}%` : "\u2014"}</span>
+            </div>
+          )}
+          {yearType && yearType !== "official_elstat" && (
+            <div style={{ fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)", marginTop: 2 }}>
+              {yearType === "backcast_2012_2015" ? t("\u2248 backcast \u2014 before the official regional GDP series") : t("\u2248 forecast \u2014 extrapolated from the 2016-2023 trend")}
+            </div>
+          )}
         </div>
       </>
     );
@@ -330,12 +487,12 @@ const GrMapTooltipContent = memo(function GrMapTooltipContent({ info, partiesMap
   );
 });
 
-const MapTooltipPortal = memo(function MapTooltipPortal({ domRef, setterRef, partiesMap, electionResult, viewMode, lang }) {
+const MapTooltipPortal = memo(function MapTooltipPortal({ domRef, setterRef, partiesMap, electionResult, viewMode, lang, gdpYear }) {
   const [info, setInfo] = useState(null);
   useEffect(() => { setterRef.current = setInfo; return () => { setterRef.current = null; }; }, [setterRef]);
   return (
     <div ref={domRef} style={{ ...S.tooltip, display: "none", left: -999, top: -999, ...viewMode !== "swingometer" ? { padding: "6px 10px" } : {}, willChange: "left, top" }}>
-      {info && <GrMapTooltipContent info={info} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} lang={lang} />}
+      {info && <GrMapTooltipContent info={info} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} lang={lang} gdpYear={gdpYear} />}
     </div>
   );
 });
@@ -358,6 +515,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
 
   const [geoReady, setGeoReady] = useState(false);
   const [viewMode, setViewMode] = useState("swingometer");
+  const [gdpYear, setGdpYear] = useState(GR_GDP_MAX_YEAR);
 
   const partiesMap = useMemo(() => buildPartyMap(parties), [parties]);
   partiesMapRef.current = partiesMap;
@@ -497,12 +655,17 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
       const vals = Object.values(GR_POP_2021);
       return { minVal: Math.min(...vals), maxVal: Math.max(...vals) };
     }
+    if (viewMode === "gdp") {
+      const vals = Object.values(GR_DISTRICT_GDP).map(d => d[gdpYear]).filter(v => typeof v === "number");
+      if (vals.length === 0) return { minVal: 0, maxVal: 100 };
+      return { minVal: Math.min(...vals), maxVal: Math.max(...vals) };
+    }
     if (viewMode === "swingometer" || viewMode === "margin_of_victory" || viewMode === "runner_up" || !GR_DISTRICT_DEMOGRAPHICS) return { minVal: 0, maxVal: 100 };
     const dataArray = Array.isArray(GR_DISTRICT_DEMOGRAPHICS) ? GR_DISTRICT_DEMOGRAPHICS : Object.values(GR_DISTRICT_DEMOGRAPHICS);
     const values = dataArray.map(d => d[viewMode]).filter(v => typeof v === "number" && !isNaN(v));
     if (values.length === 0) return { minVal: 0, maxVal: 100 };
     return { minVal: Math.min(...values), maxVal: Math.max(...values) };
-  }, [viewMode]);
+  }, [viewMode, gdpYear]);
 
   useEffect(() => {
     const W = 600, H = isInset ? 600 : 700;
@@ -615,8 +778,8 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
     if (!geoReady || !svgRef.current) return;
     const _meta = featureMetaRef.current || [];
     d3.select(svgRef.current).selectAll("path.prefecture")
-      .attr("fill", (d, i) => getFeatureFill((_meta[i] && _meta[i].fname) || grExtractName(d.properties), viewMode, featureSeatData, partiesMap, minVal, maxVal, districtResults));
-  }, [geoReady, featureSeatData, partiesMap, viewMode, minVal, maxVal, districtResults]);
+      .attr("fill", (d, i) => getFeatureFill((_meta[i] && _meta[i].fname) || grExtractName(d.properties), viewMode, featureSeatData, partiesMap, minVal, maxVal, districtResults, gdpYear));
+  }, [geoReady, featureSeatData, partiesMap, viewMode, minVal, maxVal, districtResults, gdpYear]);
 
   useEffect(() => {
     if (!geoReady || !svgRef.current) return;
@@ -746,36 +909,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           <span style={S.label}>{t("Electoral Map")}</span>
 
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <select
-                value={viewMode}
-                onChange={(e) => setViewMode(e.target.value)}
-                style={{
-                  background: "var(--bg-mid, #1e293b)",
-                  color: "var(--text-main, #f8fafc)",
-                  border: "1px solid var(--border, #334155)",
-                  borderRadius: 4,
-                  padding: "4px 8px",
-                  fontSize: 10,
-                  fontFamily: "var(--ff-body)",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  outline: "none"
-                }}
-              >
-                <option value="swingometer">{t("🗳️ Swingometer")}</option>
-                <option value="margin_of_victory">{t("📊 Margin of Victory")}</option>
-                <option value="runner_up">{t("🥈 Runner-Up Party")}</option>
-                <option value="age_over_65_pct">{t("👴 Age 65+ (%)")}</option>
-                <option value="tertiary_edu_pct">{t("🎓 Tertiary Edu (%)")}</option>
-                <option value="unemployment_rate">{t("💼 Unemployment (%)")}</option>
-                <option value="foreign_citizens_pct">{t("🌐 Foreign Citizens (%)")}</option>
-                <option value="urbanization_pct">{t("🏙️ Urbanization (%)")}</option>
-                <option value="primary_economy">{t("🚜 Primary Economy")}</option>
-                <option value="population">{t("👥 Population (2021)")}</option>
-                <option value="municipality">{t("🏛️ Municipality Breakdown")}</option>
-              </select>
-            </div>
+            <MapModeMenu viewMode={viewMode} onChange={setViewMode} t={t} />
 
             {viewMode === "swingometer" && (
               <div style={{ display: "flex", alignItems: "center", background: "var(--btn-bg)", padding: "4px 8px", borderRadius: 4, border: "1px solid var(--border)", gap: 6 }}>
@@ -786,6 +920,22 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {!isInset && !hideControls && viewMode === "gdp" && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10, background: "var(--btn-bg)", border: "1px solid var(--border)", borderRadius: 6, padding: "6px 10px" }}>
+          <IconCoins size={13} />
+          <span style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase", whiteSpace: "nowrap" }}>{t("GDP Year")}</span>
+          <input
+            type="range" min={GR_GDP_MIN_YEAR} max={GR_GDP_MAX_YEAR} step={1} value={gdpYear}
+            onChange={(e) => setGdpYear(parseInt(e.target.value, 10))}
+            style={{
+              flexGrow: 1, height: 5, borderRadius: 3, outline: "none", cursor: "pointer",
+              background: `linear-gradient(to right,#EAB308 0%,#EAB308 ${((gdpYear - GR_GDP_MIN_YEAR) / (GR_GDP_MAX_YEAR - GR_GDP_MIN_YEAR)) * 100}%,var(--border) ${((gdpYear - GR_GDP_MIN_YEAR) / (GR_GDP_MAX_YEAR - GR_GDP_MIN_YEAR)) * 100}%)`,
+            }}
+          />
+          <span style={{ fontSize: 11, ...S.mono, color: "#EAB308", fontWeight: 700, minWidth: 34, textAlign: "right" }}>{gdpYear}</span>
         </div>
       )}
 
@@ -830,7 +980,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
           pointerEvents: "none"
         }}>
           <div style={{ fontSize: 8, fontWeight: 700, color: "var(--text-dim)", marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>
-            {lang === "el" ? "Λεζάντα" : "Legend"}: {t({
+            {lang === "el" ? "Λεζάντα" : "Legend"}: {viewMode === "gdp" ? `${t("GDP")} (${gdpYear})` : t({
               margin_of_victory: "Margin of Victory",
               runner_up: "Runner-Up Party",
               age_over_65_pct: "Age 65+ (%)",
@@ -838,7 +988,8 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
               unemployment_rate: "Unemployment Rate (%)",
               foreign_citizens_pct: "Foreign Citizens (%)",
               urbanization_pct: "Urbanization (%)",
-              primary_economy: "Primary Economy"
+              primary_economy: "Primary Economy",
+              population: "Population (2021)"
             }[viewMode])}
           </div>
 
@@ -852,6 +1003,32 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
             </div>
           ) : viewMode === "runner_up" ? (
             <div style={{ fontSize: 8, color: "var(--text-muted)", ...S.mono }}>{t("Color = 2nd place party")}</div>
+          ) : viewMode === "gdp" ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <div style={{
+                height: 6,
+                width: 120,
+                borderRadius: 2,
+                background: "linear-gradient(to right, rgb(245, 240, 225), rgb(153, 27, 27))"
+              }} />
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 8, color: "var(--text-muted)", ...S.mono }}>
+                <span>{fmtGDP(minVal)}</span>
+                <span>{fmtGDP(maxVal)}</span>
+              </div>
+            </div>
+          ) : viewMode === "population" ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <div style={{
+                height: 6,
+                width: 120,
+                borderRadius: 2,
+                background: "linear-gradient(to right, rgb(245, 240, 225), rgb(153, 27, 27))"
+              }} />
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 8, color: "var(--text-muted)", ...S.mono }}>
+                <span>{Math.round(minVal).toLocaleString()}</span>
+                <span>{Math.round(maxVal).toLocaleString()}</span>
+              </div>
+            </div>
           ) : viewMode !== "primary_economy" ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <div style={{
@@ -913,7 +1090,7 @@ export default memo(function Map({ districtResults, parties, electionResult, isM
         </div>
       )}
       
-      {(!hideControls || isInset) && <MapTooltipPortal domRef={tooltipRef} setterRef={tooltipSetRef} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} lang={lang} />}
+      {(!hideControls || isInset) && <MapTooltipPortal domRef={tooltipRef} setterRef={tooltipSetRef} partiesMap={partiesMap} electionResult={electionResult} viewMode={viewMode} lang={lang} gdpYear={gdpYear} />}
 
       <div ref={muniTooltipRef} style={{ ...S.tooltip, display: "none", left: -999, top: -999, willChange: "left, top" }}>
         {(() => {

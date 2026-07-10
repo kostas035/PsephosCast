@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { GlobalStyles, S, MeanderBar } from "./GreeceStyles";
 import {
   IconArrowLeft, IconElder, IconGraduation, IconBriefcase, IconGlobe,
   IconCityscape, IconPeople, IconBallot, IconIsland, IconOffice,
   IconMicroscope, IconGear, IconRocket, IconClipboard, IconDocument,
-  IconBarChart, IconDatabase
+  IconBarChart, IconDatabase, IconCalendar, IconLineChart
 } from "./GreeceIcons";
 import { resolveTheme } from "./GreeceThemes.js";
 
-import { buildAnalysisFrame, BLOCS } from "./greece-analysis-data.js";
+import { buildAnalysisFrame, BLOCS, GR_UNEMPLOYMENT_YEARS, HIST_FIELD_ACCESSORS } from "./greece-analysis-data.js";
 import { pearson, spearman, kendallTau, describe, shapiroWilk, multipleOLS, tTest, mannWhitneyU, anova, tukeyHSD, kruskalWallis, olsFit, corrPValue, fisherCI, ksLilliefors, outliers, buildReadout } from "./greece-stats.js";
 import { exportCSV, exportDoc, exportXLSX, exportPDF } from "./greece-stats-export.js";
 
@@ -17,6 +17,7 @@ import DescriptivesPanel from "./correlations/DescriptivesPanel.jsx";
 import BivariatePanel from "./correlations/BivariatePanel.jsx";
 import GroupPanel from "./correlations/GroupPanel.jsx";
 import RegressionPanel from "./correlations/RegressionPanel.jsx";
+import TrendPanel from "./correlations/TrendPanel.jsx";
 import SwingPanel from "./correlations/SwingPanel.jsx";
 import ExportPreview from "./correlations/ExportPreview.jsx";
 
@@ -59,6 +60,21 @@ const DEMO_FIELDS = [
   { field: "is_urban", label: "Is Urban Center (1/0)", Icon: IconOffice }
 ];
 
+// 2009–2019 regional crisis-era covariates (see greece-unemployment-data.js /
+// greece-crisis-economics-data.js). The year-specific level needs a selected
+// year; the extremum (peak, or trough for GDP) is a fixed fact about a
+// region's crisis experience, so it's always available regardless of year.
+const econHistFields = (year) => ([
+  { field: "unemployment_hist_pct", label: `Unemployment (${year})`, Icon: IconCalendar },
+  { field: "unemployment_hist_peak", label: "Peak Unemployment (2009–2019)", Icon: IconLineChart },
+  { field: "youth_unemployment_hist_pct", label: `Youth (15-24) Unemployment (${year})`, Icon: IconCalendar },
+  { field: "youth_unemployment_hist_peak", label: "Peak Youth Unemployment (2009–2019)", Icon: IconLineChart },
+  { field: "longterm_unemployment_hist_pct", label: `Long-Term Unemployment (${year})`, Icon: IconCalendar },
+  { field: "longterm_unemployment_hist_peak", label: "Peak Long-Term Unemployment (2009–2019)", Icon: IconLineChart },
+  { field: "gdp_hist_pct", label: `GDP per Capita, €  (${year})`, Icon: IconCalendar },
+  { field: "gdp_hist_trough", label: "Crisis-era GDP Trough (2009–2019)", Icon: IconLineChart },
+]);
+
 const BLOC_OPTIONS = ["Radical & Broad Left", "Social Democracy & Center", "Conservative & Center-Right", "Radical Right & Nationalist"];
 
 const PARTY_OPTIONS = [
@@ -85,6 +101,7 @@ const ANALYSIS_MODULES = [
   { id: "bivariate", label: "Bivariate Association", desc: "Pearson r, Spearman ρ rank, Kendall τ cross-checks" },
   { id: "group", label: "Group Comparisons", desc: "ANOVA, Kruskal-Wallis, t-Test & MW U across regions/economies/splits" },
   { id: "regression", label: "OLS Linear Regression Models", desc: "Multivariable coefficients, Adjusted R², VIF Multicollinearity, Durbin-Watson" },
+  { id: "trend", label: "Temporal Trend Analysis", desc: "How correlation strength moves across several elections or several crisis years at once" },
   { id: "swing", label: "Swing & Temporal Analysis", desc: "Absolute swing correlations, biggest movers, demographic shifts" }
 ];
 
@@ -103,12 +120,24 @@ export default function GreeceCorrelations({ isMobile, theme }) {
   const [units, setUnits] = useState(["district"]);
   const [baselineKey, setBaselineKey] = useState("2023");
   const [scenarioKey, setScenarioKey] = useState("none");
+  const [unemploymentYear, setUnemploymentYear] = useState(2019);
   const [selectedSubjects, setSelectedSubjects] = useState(["ND"]);
   const [selectedVars, setSelectedVars] = useState(["age_over_65_pct"]);
   const [activeModules, setActiveModules] = useState(["bivariate", "group", "swing"]);
-  
+  // Trend module: which elections / crisis years to line up side by side.
+  const [trendElections, setTrendElections] = useState(["2023", "2019"]);
+  const [trendYears, setTrendYears] = useState([2009, 2013, 2019]);
+  // Collapses the input form to a summary strip once a run completes, so
+  // results aren't buried under the full picker — click to re-expand.
+  const [formCollapsed, setFormCollapsed] = useState(false);
+
+  const demoFields = useMemo(
+    () => [...DEMO_FIELDS, ...econHistFields(unemploymentYear)],
+    [unemploymentYear]
+  );
+
   const [vizOptions, setVizOptions] = useState({ scatter: true, distributions: false, heatmap: true, residuals: false });
-  
+
   const [isComputing, setIsComputing] = useState(false);
   const [reportData, setReportData] = useState(null);
 
@@ -137,12 +166,12 @@ export default function GreeceCorrelations({ isMobile, theme }) {
           if (savedSliders) liveSliders = JSON.parse(savedSliders);
         }
 
-        const frame = buildAnalysisFrame(unitToRun, baselineKey, scenarioKey, liveParties, liveSliders);
-        
+        const frame = buildAnalysisFrame(unitToRun, baselineKey, scenarioKey, liveParties, liveSliders, unemploymentYear);
+
         const yCols = selectedSubjects.map(sub => BLOC_OPTIONS.includes(sub) ? `base_${sub}` : `base_${sub.toLowerCase()}`);
         const xCols = selectedVars;
 
-        let results = { frame, meta: { unit: unitToRun, baselineKey, scenarioKey, subjects: selectedSubjects, vars: selectedVars } };
+        let results = { frame, meta: { unit: unitToRun, baselineKey, scenarioKey, unemploymentYear, subjects: selectedSubjects, vars: selectedVars } };
 
         if (activeModules.includes("descriptives")) {
           const desc = {};
@@ -242,6 +271,62 @@ export default function GreeceCorrelations({ isMobile, theme }) {
           results.regression = regs;
         }
 
+        if (activeModules.includes("trend")) {
+          const trend = { disabled: true };
+          const varLabel = (field) => demoFields.find(d => d.field === field)?.label || field.replace("_hist_pct", "").replace(/_/g, " ");
+
+          // Across elections: rebuild the frame per baseline (vote shares genuinely
+          // differ by election; demographics/hist covariates don't, so this is a
+          // fair like-for-like comparison of the same relationship over time).
+          if (trendElections.length >= 2 && xCols.length > 0 && yCols.length > 0) {
+            const xLabels = trendElections.map(k => BASELINE_OPTIONS.find(o => o.key === k)?.label.replace("Real ", "") || k);
+            const series = [];
+            selectedSubjects.forEach((sub, si) => {
+              const y = yCols[si];
+              xCols.forEach(x => {
+                const values = [], meta = [];
+                trendElections.forEach(ek => {
+                  const f = buildAnalysisFrame(unitToRun, ek, "none", null, null, unemploymentYear);
+                  const pe = pearson(f.map(d => d[x]), f.map(d => d[y]));
+                  values.push(pe.r);
+                  meta.push({ p: corrPValue(pe.r, pe.n), n: pe.n });
+                });
+                series.push({ label: `${sub} × ${varLabel(x)}`, values, meta });
+              });
+            });
+            trend.elections = { xLabels, series };
+            trend.disabled = false;
+          }
+
+          // Across crisis years: reuse the already-built `frame` (no rebuild) and
+          // recompute just the year-sensitive covariate via HIST_FIELD_ACCESSORS.
+          const yearSensitiveVars = xCols.filter(x => HIST_FIELD_ACCESSORS[x]);
+          if (trendYears.length >= 2 && yearSensitiveVars.length > 0 && yCols.length > 0) {
+            const sortedYears = [...trendYears].sort((a, b) => a - b);
+            const xLabels = sortedYears.map(String);
+            const series = [];
+            selectedSubjects.forEach((sub, si) => {
+              const y = yCols[si];
+              yearSensitiveVars.forEach(x => {
+                const accessor = HIST_FIELD_ACCESSORS[x];
+                const values = [], meta = [];
+                sortedYears.forEach(yr => {
+                  const xRaw = frame.map(d => accessor(d.region, yr));
+                  const yRaw = frame.map(d => d[y]);
+                  const pe = pearson(xRaw, yRaw);
+                  values.push(pe.r);
+                  meta.push({ p: corrPValue(pe.r, pe.n), n: pe.n });
+                });
+                series.push({ label: `${sub} × ${varLabel(x)}`, values, meta });
+              });
+            });
+            trend.years = { xLabels, series };
+            trend.disabled = false;
+          }
+
+          results.trend = trend;
+        }
+
         if (activeModules.includes("swing")) {
           if (scenarioKey === "none") {
             results.swing = { disabled: true };
@@ -284,6 +369,7 @@ export default function GreeceCorrelations({ isMobile, theme }) {
         }
 
         setReportData(results);
+        setFormCollapsed(true);
       } catch (err) {
         console.error("Engine Computation Error:", err);
       }
@@ -314,9 +400,21 @@ export default function GreeceCorrelations({ isMobile, theme }) {
 
       <div className="hide-on-print" style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "3fr 2fr", gap: 20, alignItems: "start" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {formCollapsed ? (
+            <div style={{ ...S.card, background: "var(--bg-mid)", padding: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--ff-body)" }}>
+                <strong style={{ color: "var(--text-title)" }}>{units[0] === "region" ? "Regions" : "Districts"}</strong> · {BASELINE_OPTIONS.find(o => o.key === baselineKey)?.label} · {selectedSubjects.length} subject(s) · {selectedVars.length} variable(s) · {activeModules.length} module(s) active
+              </div>
+              <button onClick={() => setFormCollapsed(false)} style={{ ...S.ghostBtn, fontSize: 10 }}>Edit Parameters</button>
+            </div>
+          ) : (
+          <>
           <div style={{ ...S.card, background: "var(--bg-mid)", padding: 18 }}>
-            <span style={sectionTitleStyle}>1. Data Frame Environment</span>
-            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)", gap: 16, marginTop: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={sectionTitleStyle}>1. Data Frame Environment</span>
+              {reportData && <button onClick={() => setFormCollapsed(true)} style={{ ...S.ghostBtn, fontSize: 10, marginBottom: 12 }}>Collapse Form</button>}
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)", gap: 16, marginTop: 8 }}>
               <div>
                 <label style={{ ...S.label, display: "block", marginBottom: 6 }}>Unit Layer</label>
                 <div style={{ display: "flex", gap: 8 }}>
@@ -343,6 +441,12 @@ export default function GreeceCorrelations({ isMobile, theme }) {
                   <option value="custom">Active Swingometer Configuration</option>
                 </select>
               </div>
+              <div>
+                <label style={{ ...S.label, display: "block", marginBottom: 6 }}>Unemployment Year (crisis window)</label>
+                <select style={selectStyle} value={unemploymentYear} onChange={e => setUnemploymentYear(Number(e.target.value))}>
+                  {GR_UNEMPLOYMENT_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </div>
             </div>
           </div>
 
@@ -366,7 +470,7 @@ export default function GreeceCorrelations({ isMobile, theme }) {
             <div>
               <label style={{ ...S.label, display: "block", marginBottom: 8 }}>Independent Variables</label>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                {DEMO_FIELDS.map(d => (
+                {demoFields.map(d => (
                   <button key={d.field} onClick={() => toggleArray(selectedVars, setSelectedVars, d.field)}
                     style={chipStyle(selectedVars.includes(d.field), { icon: true })}>
                     <d.Icon size={14} />{d.label}
@@ -375,6 +479,8 @@ export default function GreeceCorrelations({ isMobile, theme }) {
               </div>
             </div>
           </div>
+          </>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -419,6 +525,24 @@ export default function GreeceCorrelations({ isMobile, theme }) {
                              Residual-vs-fitted + Q–Q of residuals
                           </label>
                        )}
+                       {mod.id === 'trend' && (
+                          <>
+                          <div style={{ fontSize: 10, color: 'var(--text-dim)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>Elections to compare (pick 2+)</div>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                            {BASELINE_OPTIONS.map(o => (
+                              <button key={o.key} onClick={(e) => { e.stopPropagation(); toggleArray(trendElections, setTrendElections, o.key); }}
+                                style={chipStyle(trendElections.includes(o.key))}>{o.label.replace("Real ", "")}</button>
+                            ))}
+                          </div>
+                          <div style={{ fontSize: 10, color: 'var(--text-dim)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, marginTop: 6 }}>Crisis years to compare (pick 2+)</div>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                            {GR_UNEMPLOYMENT_YEARS.map(y => (
+                              <button key={y} onClick={(e) => { e.stopPropagation(); toggleArray(trendYears, setTrendYears, y); }}
+                                style={chipStyle(trendYears.includes(y))}>{y}</button>
+                            ))}
+                          </div>
+                          </>
+                       )}
                     </div>
                   )}
                 </div>
@@ -456,11 +580,21 @@ export default function GreeceCorrelations({ isMobile, theme }) {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <DescriptivesPanel data={reportData.descriptives} viz={vizOptions} />
-            <BivariatePanel data={reportData.bivariate} meta={reportData.meta} frame={reportData.frame} viz={vizOptions} DEMO_FIELDS={DEMO_FIELDS} />
-            <GroupPanel data={reportData.group} />
-            <RegressionPanel data={reportData.regression} meta={reportData.meta} frame={reportData.frame} viz={vizOptions} />
-            <SwingPanel data={reportData.swing} />
+            <div className="hide-on-print" style={{ display: "flex", flexWrap: "wrap", gap: 6, position: "sticky", top: 0, zIndex: 5, background: "var(--bg-base)", padding: "8px 0", borderBottom: "1px solid var(--divider)" }}>
+              {[
+                ["module-descriptives", "Descriptives"], ["module-bivariate", "Bivariate"], ["module-group", "Groups"],
+                ["module-regression", "Regression"], ["module-trend", "Trend"], ["module-swing", "Swing"],
+              ].map(([id, label]) => (
+                <button key={id} onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                  style={{ ...S.ghostBtn, fontSize: 10, padding: "5px 10px" }}>{label}</button>
+              ))}
+            </div>
+            <div id="module-descriptives"><DescriptivesPanel data={reportData.descriptives} viz={vizOptions} /></div>
+            <div id="module-bivariate"><BivariatePanel data={reportData.bivariate} meta={reportData.meta} frame={reportData.frame} viz={vizOptions} DEMO_FIELDS={demoFields} /></div>
+            <div id="module-group"><GroupPanel data={reportData.group} /></div>
+            <div id="module-regression"><RegressionPanel data={reportData.regression} meta={reportData.meta} frame={reportData.frame} viz={vizOptions} /></div>
+            <div id="module-trend"><TrendPanel data={reportData.trend} isDark={themeDef.base === "dark"} /></div>
+            <div id="module-swing"><SwingPanel data={reportData.swing} /></div>
             <ExportPreview reportData={reportData} />
           </div>
         )}

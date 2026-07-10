@@ -109,7 +109,29 @@ export const CY_PARTY_LINEAGE = {
   volt: "kosp", alma: "disy", adk: "others", neo: "disy", sypol: "edek" 
 };
 
+// Official May 2026 district-level results (CyStat certified). Main six qualifying
+// parties are the exact published %; minor non-qualifying parties are backfilled
+// proportionally to their national vote share so each district sums to 100.
+export const CY_DISTRICT_OFFICIAL_SEATS = {
+  "2026": {
+    nicosia:   { disy:5, akel:5, elam:3, diko:3, alma:2, adk:1 },
+    limassol:  { disy:4, akel:3, elam:2, diko:1, alma:1, adk:1 },
+    famagusta: { disy:3, akel:3, elam:2, diko:1, alma:1, adk:1 },
+    larnaca:   { disy:2, akel:2, elam:1, diko:1, alma:0, adk:0 },
+    paphos:    { disy:2, akel:1, elam:0, diko:1, alma:0, adk:1 },
+    kyrenia:   { disy:1, akel:1, elam:0, diko:1, alma:0, adk:0 },
+  },
+};
+
 export const CY_DISTRICT_BASELINES = {
+  "2026": {
+    nicosia:   { disy:27.1, akel:21.7, elam:10.5, diko:7.9,  alma:7.8, adk:5.4, edek:3.786, kekk:3.721, dipa:3.660, volt:3.595, kosp:2.274, others:2.563 },
+    limassol:  { disy:25.3, akel:21.7, elam:10.7, diko:10.7, alma:6.3, adk:6.9, edek:3.555, kekk:3.493, dipa:3.436, volt:3.375, kosp:2.135, others:2.406 },
+    famagusta: { disy:28.5, akel:26.5, elam:13.5, diko:7.9,  alma:3.9, adk:5.1, edek:2.820, kekk:2.772, dipa:2.726, volt:2.678, kosp:1.694, others:1.909 },
+    larnaca:   { disy:26.6, akel:29.4, elam:10.8, diko:14.0, alma:3.6, adk:5.1, edek:2.028, kekk:1.994, dipa:1.961, volt:1.926, kosp:1.218, others:1.373 },
+    paphos:    { disy:29.5, akel:22.1, elam:7.8,  diko:16.8, alma:4.1, adk:3.3, edek:3.168, kekk:3.114, dipa:3.062, volt:3.008, kosp:1.903, others:2.145 },
+    kyrenia:   { disy:26.3, akel:27.8, elam:9.1,  diko:10.3, alma:6.2, adk:5.2, edek:2.917, kekk:2.867, dipa:2.819, volt:2.770, kosp:1.752, others:1.975 },
+  },
   "2021": {
     nicosia:   { disy: 25.47, akel: 21.06, diko: 10.99, elam: 6.12, edek: 7.41, dipa: 6.73, kosp: 6.85, solid: 2.48, kekk: 2.21, others: 3.95 },
     limassol:  { disy: 28.54, akel: 22.05, diko: 13.26, elam: 6.53, edek: 4.78, dipa: 6.43, kosp: 3.33, solid: 3.43, kekk: 2.74, others: 2.55 },
@@ -154,7 +176,6 @@ function generateDerivedBaseline(scenarioId) {
   return derived;
 }
 
-CY_DISTRICT_BASELINES["2026"] = generateDerivedBaseline("2026");
 CY_DISTRICT_BASELINES["2016"] = generateDerivedBaseline("2016");
 
 // SVG map geometry

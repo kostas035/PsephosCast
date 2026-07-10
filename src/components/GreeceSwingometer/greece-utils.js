@@ -126,7 +126,7 @@ export const GR_HEMI_POSITIONS = (() => {
   return pos.sort((a,b) => b.angle-a.angle || a.r-b.r);
 })();
 
-export const DEFAULT_HIDDEN_PARTIES = ["SP", "NIKI", "PE", "M25", "FL", "NA", "DPK", "ELAS", "ELPIDA"];
+export const DEFAULT_HIDDEN_PARTIES = ["SP", "NIKI", "PE", "M25", "FL", "NA", "DPK"];
 export const PARTY_PATTERNS = [ {key:"ND", re:/\bN\.?D\.?\b|new democracy/i}, {key:"SYRIZA", re:/\bSYRIZA\b/i}, {key:"PASOK", re:/\bPASOK\b|\bKINAL\b/i}, {key:"KKE", re:/\bK\.?K\.?E\.?\b|communist/i}, {key:"SP", re:/\bSP\b|\bspartans\b/i}, {key:"EL", re:/\bE\.?L\.?\b|greek solution/i}, {key:"NIKI", re:/\bNIKI\b/i}, {key:"PE", re:/\bP\.?E\.?\b|course of freedom/i}, {key:"M25", re:/\bM(?:ERA)?25\b/i}, {key:"FL", re:/\bF\.?L\.?\b|voice of reason/i}, {key:"NA", re:/\bNA\b|new left/i}, {key:"DPK", re:/\bDPK\b|democrats/i}, {key:"ELPIDA", re:/\bELPIDA\b|\bKA\b|karystianou|elpid/i}, {key:"ELAS", re:/\bELAS\b|\bX\b|tsipras/i} ];
 export const POLL_PARTIES_MAPPING = PARTY_PATTERNS.map(p => ({ key: p.key, dictKey: p.key.toLowerCase() === "m25" ? "mera25" : p.key.toLowerCase() === "sp" ? "spartans" : p.key.toLowerCase() === "dpk" ? "other" : p.key.toLowerCase() }));
 

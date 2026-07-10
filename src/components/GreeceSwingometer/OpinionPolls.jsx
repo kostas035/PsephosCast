@@ -4,6 +4,7 @@ import { S, EASE_STD } from "./GreeceStyles";
 import { GR_PARTY_DICT } from "./greece-data.js";
 import { DEFAULT_HIDDEN_PARTIES, POLL_PARTIES_MAPPING } from "./greece-utils.js";
 import { useGreeceT, tPartyNameById } from "./GreeceTranslations.jsx";
+import { IconRefresh, IconBarChart, IconLineChart, IconZigzag } from "./GreeceIcons.jsx";
 
 // Prevents white-box browser focus flash on button click
 const BTN_BASE = { outline: "none", WebkitTapHighlightColor: "transparent", userSelect: "none" };
@@ -260,9 +261,9 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
         <div style={S.label}>{source || t("Loading live polls…")}</div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {error && <div style={{ fontSize: 9, color: "var(--text-dim)", fontFamily: "var(--ff-body)", background: "#ef444422", padding: "3px 6px", borderRadius: 4 }}>{t("Fallback data")}</div>}
-          <button className="icon-btn" onClick={reload} disabled={loading} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", opacity: loading ? 0.5 : 1 }}>{t("🔄 Refresh")}</button>
-          <button className="icon-btn" onClick={() => setShowTrend(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showTrend ? "#60A5FA" : "var(--text-muted)" }}>{showTrend ? t("📉 Trendline") : t("📊 Raw Polls")}</button>
-          <button className="icon-btn" onClick={() => setIsSmooth(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)" }}>{isSmooth ? t("📈 Smooth") : t("📉 Spiky")}</button>
+          <button className="icon-btn" onClick={reload} disabled={loading} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", opacity: loading ? 0.5 : 1 }}><IconRefresh size={11} />{t("Refresh")}</button>
+          <button className="icon-btn" onClick={() => setShowTrend(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showTrend ? "#60A5FA" : "var(--text-muted)" }}>{showTrend ? <IconLineChart size={11} /> : <IconBarChart size={11} />}{showTrend ? t("Trendline") : t("Raw Polls")}</button>
+          <button className="icon-btn" onClick={() => setIsSmooth(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)" }}>{isSmooth ? <IconLineChart size={11} /> : <IconZigzag size={11} />}{isSmooth ? t("Smooth") : t("Spiky")}</button>
           <button className="icon-btn" onClick={() => setShowDashed(s => !s)} style={{ ...BTN_BASE, ...S.ghostBtn, padding: "4px 8px", background: "var(--btn-bg)", color: showDashed ? "#60A5FA" : "var(--text-muted)" }} title={t("Toggle dashed lines")}>{showDashed ? t("╌╌ Dashed") : t("── Solid")}</button>
         </div>
       </div>
@@ -301,7 +302,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
                       activeDot={{ r: 5 }} 
                       connectNulls 
                       isAnimationActive={false}
-                      strokeDasharray={showDashed ? (p.key === "ELAS" || p.key === "ELPIDA" ? "8 3" : "5 4") : (p.key === "ELAS" || p.key === "ELPIDA" ? "6 3" : undefined)}
+                      strokeDasharray={showDashed ? (p.key === "ELAS" || p.key === "ELPIDA" ? "8 3" : "5 4") : undefined}
                     />
                   );
                 })}

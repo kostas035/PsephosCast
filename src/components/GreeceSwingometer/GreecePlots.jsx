@@ -183,6 +183,74 @@ export const CorrelationHeatmap = memo(function CorrelationHeatmap({ matrix = []
   );
 });
 
+// Fixed categorical order (never re-cycled per selection) — the reference
+// dataviz-skill default theme, picked as a matched light/dark pair so
+// adjacent series stay CVD-separable in both app themes.
+const TREND_COLORS_LIGHT = ["#2a78d6", "#1baf7a", "#eda100", "#4a3aa7", "#e34948", "#e87ba4"];
+const TREND_COLORS_DARK  = ["#3987e5", "#199e70", "#c98500", "#9085e9", "#e66767", "#d55181"];
+const MAX_TREND_SERIES = TREND_COLORS_LIGHT.length;
+
+/* ── TEMPORAL TREND LINE CHART (correlation r across elections / crisis years) ── */
+// Legend lives in plain HTML below the SVG (like CorrelationHeatmap's plain-table
+// approach) rather than as in-chart end labels — variable names here can run long
+// ("Youth (15-24) Unemployment…") and would overflow a fixed SVG viewBox.
+export const TrendLineChart = memo(function TrendLineChart({ series = [], xLabels = [], isDark = true, height = 260, yLabel = "Pearson r" }) {
+  const shown = series.slice(0, MAX_TREND_SERIES);
+  if (xLabels.length < 2 || shown.length === 0) return <Empty h={height} />;
+  const colors = isDark ? TREND_COLORS_DARK : TREND_COLORS_LIGHT;
+
+  const W = 700, H = height, M = { t: 14, r: 20, b: 34, l: 40 };
+  const sx = d3.scalePoint().domain(xLabels).range([M.l, W - M.r]).padding(0.5);
+  const sy = d3.scaleLinear().domain([-1, 1]).range([H - M.b, M.t]);
+
+  return (
+    <div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={SVG}>
+        {sy.ticks(5).map((t, i) => (
+          <g key={i}>
+            <line x1={M.l} x2={W - M.r} y1={sy(t)} y2={sy(t)} stroke="var(--border)" opacity={t === 0 ? 0.7 : 0.25} strokeDasharray={t === 0 ? "5 3" : null} />
+            <text x={M.l - 6} y={sy(t) + 3} textAnchor="end" fontSize="9.5" fill="var(--text-dim)">{t.toFixed(1)}</text>
+          </g>
+        ))}
+        <line x1={M.l} x2={W - M.r} y1={H - M.b} y2={H - M.b} stroke="var(--border)" />
+        {xLabels.map((lbl, i) => <text key={i} x={sx(lbl)} y={H - M.b + 16} textAnchor="middle" fontSize="9.5" fill="var(--text-dim)">{lbl}</text>)}
+        <text transform={`translate(12 ${(M.t + H - M.b) / 2}) rotate(-90)`} textAnchor="middle" fontSize="10" fill="var(--text-muted)" fontWeight="600">{yLabel}</text>
+
+        {shown.map((s, si) => {
+          const color = s.color || colors[si % colors.length];
+          const pts = xLabels.map((lbl, i) => ({ lbl, v: s.values[i], meta: s.meta?.[i] })).filter(p => typeof p.v === "number" && isFinite(p.v));
+          if (pts.length === 0) return null;
+          let path = "", prevLbl = null;
+          pts.forEach(p => { path += `${prevLbl === null ? "M" : "L"}${sx(p.lbl)},${sy(p.v)} `; prevLbl = p.lbl; });
+          return (
+            <g key={si}>
+              <path d={path} fill="none" stroke={color} strokeWidth="2" />
+              {pts.map((p, i) => (
+                <circle key={i} cx={sx(p.lbl)} cy={sy(p.v)} r="4" fill={color} stroke="var(--bg-mid)" strokeWidth="1.2">
+                  <title>{`${s.label}\n${p.lbl}: r=${p.v.toFixed(3)}${p.meta ? ` (p=${p.meta.p?.toFixed(3)}, n=${p.meta.n})` : ""}`}</title>
+                </circle>
+              ))}
+            </g>
+          );
+        })}
+      </svg>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 16px", justifyContent: "center", marginTop: 6 }}>
+        {shown.map((s, si) => (
+          <div key={si} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10.5, color: "var(--text-main)", fontFamily: "var(--ff-body)" }}>
+            <span style={{ width: 9, height: 9, borderRadius: "50%", background: s.color || colors[si % colors.length], flexShrink: 0 }} />
+            {s.label}
+          </div>
+        ))}
+      </div>
+      {series.length > MAX_TREND_SERIES && (
+        <div style={{ textAlign: "center", fontSize: 10, color: "var(--text-dim)", marginTop: 4 }}>
+          +{series.length - MAX_TREND_SERIES} more series not shown — narrow your Subjects/Variables selection to compare them.
+        </div>
+      )}
+    </div>
+  );
+});
+
 const SVG = { width: "100%", height: "auto", display: "block", fontFamily: "var(--ff-body)" };
 function fmtTick(t) { return Math.abs(t) >= 10000 ? d3.format(".2s")(t) : (Math.round(t) === t ? t : t.toFixed(1)); }
 function Empty({ h }) { return <div style={{ height: h, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontSize: 12 }}>Insufficient variance to render parameters.</div>; }

@@ -15,6 +15,24 @@ import {
   grDistrictsForScenario,
 } from "./greece-data.js";
 import { grDistrictBaseVotes, grApplySwing } from "./greece-engine.js";
+import { GR_UNEMPLOYMENT_YEARS, grUnemploymentForRegion, grUnemploymentPeak, grUnemploymentChangeSince2009 } from "./greece-unemployment-data.js";
+import {
+  grYouthUnemploymentForRegion, grYouthUnemploymentPeak, grYouthUnemploymentChangeSince2009,
+  grLongtermUnemploymentForRegion, grLongtermUnemploymentPeak, grLongtermUnemploymentChangeSince2009,
+  grGdpPerCapitaForRegion, grGdpPerCapitaTrough, grGdpPerCapitaChangeSince2009,
+} from "./greece-crisis-economics-data.js";
+
+export { GR_UNEMPLOYMENT_YEARS };
+
+// Every crisis-era field the Trend module can recompute for an arbitrary year
+// straight off an already-built frame's `region`, without re-running
+// buildAnalysisFrame — see GreeceCorrelations.jsx's "crisis-years trend".
+export const HIST_FIELD_ACCESSORS = {
+  unemployment_hist_pct: grUnemploymentForRegion,
+  youth_unemployment_hist_pct: grYouthUnemploymentForRegion,
+  longterm_unemployment_hist_pct: grLongtermUnemploymentForRegion,
+  gdp_hist_pct: grGdpPerCapitaForRegion,
+};
 
 /* District ≥ this %% urban ⇒ classified "urban" (editable). */
 export const URBAN_THRESHOLD = 70;
@@ -60,7 +78,7 @@ const num = v => typeof v === "number" && isFinite(v);
 // turnout is derivable only where valid-vote counts exist (currently 2023).
 export function turnoutAvailable(baselineKey) { return !!(GR_DISTRICT_VALID_VOTES && GR_DISTRICT_VALID_VOTES[baselineKey]); }
 
-export function buildAnalysisFrame(unit = "district", baselineKey = "2023", scenarioKey = "none", liveParties = null, demSliders = null) {
+export function buildAnalysisFrame(unit = "district", baselineKey = "2023", scenarioKey = "none", liveParties = null, demSliders = null, unemploymentYear = null) {
   const baseParties = GR_SCENARIOS[baselineKey] || GR_SCENARIOS["2023"];
   const demographicsById = Object.fromEntries(GR_DISTRICT_DEMOGRAPHICS.map(d => [d.id, d]));
 
@@ -105,6 +123,25 @@ export function buildAnalysisFrame(unit = "district", baselineKey = "2023", scen
       turnout_pct: turnoutPct,           // ← the real turnout RATE to correlate on
       ...demo,
     };
+
+    // 2009–2019 crisis-era covariates (regional, replicated across a region's
+    // districts — see greece-unemployment-data.js / greece-crisis-economics-data.js).
+    // The *_peak/_trough/_change fields don't need a year selected; the
+    // year-specific level does.
+    row.unemployment_hist_peak = grUnemploymentPeak(row.region);
+    row.youth_unemployment_hist_peak = grYouthUnemploymentPeak(row.region);
+    row.longterm_unemployment_hist_peak = grLongtermUnemploymentPeak(row.region);
+    row.gdp_hist_trough = grGdpPerCapitaTrough(row.region);
+    if (unemploymentYear) {
+      row.unemployment_hist_pct = grUnemploymentForRegion(row.region, unemploymentYear);
+      row.unemployment_hist_change = grUnemploymentChangeSince2009(row.region, unemploymentYear);
+      row.youth_unemployment_hist_pct = grYouthUnemploymentForRegion(row.region, unemploymentYear);
+      row.youth_unemployment_hist_change = grYouthUnemploymentChangeSince2009(row.region, unemploymentYear);
+      row.longterm_unemployment_hist_pct = grLongtermUnemploymentForRegion(row.region, unemploymentYear);
+      row.longterm_unemployment_hist_change = grLongtermUnemploymentChangeSince2009(row.region, unemploymentYear);
+      row.gdp_hist_pct = grGdpPerCapitaForRegion(row.region, unemploymentYear);
+      row.gdp_hist_change = grGdpPerCapitaChangeSince2009(row.region, unemploymentYear);
+    }
 
     Object.keys(baseVotes).forEach(p => { row[`base_${p}`] = baseVotes[p]; });
     Object.entries(BLOCS).forEach(([blocName, members]) => {
@@ -162,6 +199,19 @@ export function buildAnalysisFrame(unit = "district", baselineKey = "2023", scen
         unemployment_rate: wmean(rs, "unemployment_rate", "population_size"),
         foreign_citizens_pct: wmean(rs, "foreign_citizens_pct", "population_size"),
         urbanization_pct: wmean(rs, "urbanization_pct", "population_size"),
+        // already region-granular in the source data, so no weighting needed
+        unemployment_hist_peak: grUnemploymentPeak(regionName),
+        unemployment_hist_pct: unemploymentYear ? grUnemploymentForRegion(regionName, unemploymentYear) : null,
+        unemployment_hist_change: unemploymentYear ? grUnemploymentChangeSince2009(regionName, unemploymentYear) : null,
+        youth_unemployment_hist_peak: grYouthUnemploymentPeak(regionName),
+        youth_unemployment_hist_pct: unemploymentYear ? grYouthUnemploymentForRegion(regionName, unemploymentYear) : null,
+        youth_unemployment_hist_change: unemploymentYear ? grYouthUnemploymentChangeSince2009(regionName, unemploymentYear) : null,
+        longterm_unemployment_hist_peak: grLongtermUnemploymentPeak(regionName),
+        longterm_unemployment_hist_pct: unemploymentYear ? grLongtermUnemploymentForRegion(regionName, unemploymentYear) : null,
+        longterm_unemployment_hist_change: unemploymentYear ? grLongtermUnemploymentChangeSince2009(regionName, unemploymentYear) : null,
+        gdp_hist_trough: grGdpPerCapitaTrough(regionName),
+        gdp_hist_pct: unemploymentYear ? grGdpPerCapitaForRegion(regionName, unemploymentYear) : null,
+        gdp_hist_change: unemploymentYear ? grGdpPerCapitaChangeSince2009(regionName, unemploymentYear) : null,
       };
 
       // retain grouping flags at region level (was dropped before)

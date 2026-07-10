@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 /* Easing constants */
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
@@ -31,6 +31,7 @@ const GLOBAL_CSS = `
     height: 4px;
     background: var(--border);
     border-radius: 2px;
+    touch-action: pan-y;
   }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:15px; height:15px; border-radius:50%; background:#f1f5f9; cursor:grab; border:2.5px solid var(--bg-mid); box-shadow:0 1px 4px rgba(0,0,0,0.4); transition:box-shadow 0.2s ${EASE_STD}, transform 0.15s ${EASE_SPRING}; }
   input[type="range"]::-webkit-slider-thumb:hover { box-shadow:0 0 0 5px rgba(96,165,250,0.22); transform:scale(1.18); }
@@ -73,8 +74,21 @@ export const MeanderBar = memo(() => (
 ));
 
 export const Slider = memo(function Slider({ label, value, min = -10, max = 10, step = 0.5, onChange, color }) {
-  const pct = ((value - min) / (max - min)) * 100;
-  const valColor = Math.abs(value) < 0.1 ? "var(--text-dim)" : value > 0 ? "#34D399" : "#F87171";
+  const [localValue, setLocalValue] = useState(value);
+  const debounced = useRef(null);
+
+  useEffect(() => { setLocalValue(value); }, [value]);
+  useEffect(() => () => { if (debounced.current) clearTimeout(debounced.current); }, []);
+
+  const handleChange = e => {
+    const val = parseFloat(e.target.value);
+    setLocalValue(val); // Instant UI update
+    if (debounced.current) clearTimeout(debounced.current);
+    debounced.current = setTimeout(() => onChange(val), 150); // Heavy engine update after drag settles
+  };
+
+  const pct = ((localValue - min) / (max - min)) * 100;
+  const valColor = Math.abs(localValue) < 0.1 ? "var(--text-dim)" : localValue > 0 ? "#34D399" : "#F87171";
   const trackBg = `linear-gradient(to right,${color} 0%,${color} ${pct}%,var(--border) ${pct}%)`;
 
   return (
@@ -83,13 +97,13 @@ export const Slider = memo(function Slider({ label, value, min = -10, max = 10, 
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
           <span style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "var(--ff-body)", letterSpacing: 0.3 }}>{label}</span>
           <span style={{ fontSize: 10, fontFamily: "var(--ff-mono)", color: valColor, minWidth: 38, textAlign: "right", transition: `color 0.2s ${EASE_STD}` }}>
-            {value > 0 ? "+" : ""}{value.toFixed(1)}
+            {localValue > 0 ? "+" : ""}{localValue.toFixed(1)}
           </span>
         </div>
       )}
       <input
-        type="range" min={min} max={max} step={step} value={value}
-        onChange={e => onChange(parseFloat(e.target.value))}
+        type="range" min={min} max={max} step={step} value={localValue}
+        onChange={handleChange}
         style={{ width: "100%", height: 5, background: trackBg, borderRadius: 3, outline: "none", cursor: "pointer" }}
       />
     </div>

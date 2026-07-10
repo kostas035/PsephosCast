@@ -3057,7 +3057,7 @@
       "label": "chipStyle()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_chipstyle",
       "community": 14,
@@ -3067,17 +3067,27 @@
       "label": "DEMO_FIELDS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_demo_fields",
       "community": 14,
       "norm_label": "demo_fields"
     },
     {
+      "label": "econHistFields()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greececorrelations_econhistfields",
+      "community": 14,
+      "norm_label": "econhistfields()"
+    },
+    {
       "label": "BLOC_OPTIONS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L62",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_bloc_options",
       "community": 14,
@@ -3087,7 +3097,7 @@
       "label": "PARTY_OPTIONS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L64",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_party_options",
       "community": 14,
@@ -3097,7 +3107,7 @@
       "label": "BASELINE_OPTIONS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L74",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_baseline_options",
       "community": 14,
@@ -3107,7 +3117,7 @@
       "label": "ANALYSIS_MODULES",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L83",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_analysis_modules",
       "community": 14,
@@ -3117,7 +3127,7 @@
       "label": "selectStyle",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L91",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_selectstyle",
       "community": 14,
@@ -3127,7 +3137,7 @@
       "label": "sectionTitleStyle",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L97",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_sectiontitlestyle",
       "community": 14,
@@ -3137,10 +3147,10 @@
       "label": "GreeceCorrelations()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L99",
+      "source_location": "L116",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greececorrelations_greececorrelations",
-      "community": 14,
+      "community": 28,
       "norm_label": "greececorrelations()"
     },
     {
@@ -3640,7 +3650,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconarrowleft",
-      "community": 14,
+      "community": 5,
       "norm_label": "iconarrowleft()"
     },
     {
@@ -3690,7 +3700,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconcalendar",
-      "community": 5,
+      "community": 14,
       "norm_label": "iconcalendar()"
     },
     {
@@ -3760,7 +3770,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconbarchart",
-      "community": 14,
+      "community": 5,
       "norm_label": "iconbarchart()"
     },
     {
@@ -3770,7 +3780,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconlinechart",
-      "community": 5,
+      "community": 14,
       "norm_label": "iconlinechart()"
     },
     {
@@ -3840,7 +3850,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconelder",
-      "community": 5,
+      "community": 14,
       "norm_label": "iconelder()"
     },
     {
@@ -3880,7 +3890,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconcityscape",
-      "community": 14,
+      "community": 5,
       "norm_label": "iconcityscape()"
     },
     {
@@ -3930,7 +3940,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconrocket",
-      "community": 14,
+      "community": 5,
       "norm_label": "iconrocket()"
     },
     {
@@ -4074,10 +4084,40 @@
       "norm_label": "correlationheatmap"
     },
     {
+      "label": "TREND_COLORS_LIGHT",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
+      "source_location": "L189",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greeceplots_trend_colors_light",
+      "community": 0,
+      "norm_label": "trend_colors_light"
+    },
+    {
+      "label": "TREND_COLORS_DARK",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
+      "source_location": "L190",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greeceplots_trend_colors_dark",
+      "community": 0,
+      "norm_label": "trend_colors_dark"
+    },
+    {
+      "label": "TrendLineChart",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
+      "source_location": "L197",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greeceplots_trendlinechart",
+      "community": 0,
+      "norm_label": "trendlinechart"
+    },
+    {
       "label": "SVG",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
-      "source_location": "L186",
+      "source_location": "L254",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceplots_svg",
       "community": 0,
@@ -4087,7 +4127,7 @@
       "label": "fmtTick()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
-      "source_location": "L187",
+      "source_location": "L255",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceplots_fmttick",
       "community": 0,
@@ -4097,7 +4137,7 @@
       "label": "Empty()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
-      "source_location": "L188",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceplots_empty",
       "community": 0,
@@ -4130,7 +4170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecestyles",
-      "community": 20,
+      "community": 41,
       "norm_label": "greecestyles.jsx"
     },
     {
@@ -4140,7 +4180,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecestyles_s",
-      "community": 29,
+      "community": 41,
       "norm_label": "s"
     },
     {
@@ -4150,7 +4190,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecestyles_globalstyles",
-      "community": 20,
+      "community": 41,
       "norm_label": "globalstyles"
     },
     {
@@ -4160,7 +4200,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecestyles_meanderbar",
-      "community": 20,
+      "community": 41,
       "norm_label": "meanderbar"
     },
     {
@@ -4170,7 +4210,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecestyles_slider",
-      "community": 20,
+      "community": 41,
       "norm_label": "slider"
     },
     {
@@ -4240,7 +4280,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecethemes_resolvetheme",
-      "community": 14,
+      "community": 28,
       "norm_label": "resolvetheme()"
     },
     {
@@ -4400,7 +4440,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_tpartynamebyid",
-      "community": 29,
+      "community": 13,
       "norm_label": "tpartynamebyid()"
     },
     {
@@ -4580,7 +4620,7 @@
       "source_location": "L519",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtinclbonus",
-      "community": 6,
+      "community": 42,
       "norm_label": "fmtinclbonus()"
     },
     {
@@ -4590,7 +4630,7 @@
       "source_location": "L522",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtseatsofneeded",
-      "community": 6,
+      "community": 42,
       "norm_label": "fmtseatsofneeded()"
     },
     {
@@ -4600,7 +4640,7 @@
       "source_location": "L525",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmttotalvotes",
-      "community": 6,
+      "community": 42,
       "norm_label": "fmttotalvotes()"
     },
     {
@@ -4610,7 +4650,7 @@
       "source_location": "L528",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtbelowthreshold",
-      "community": 6,
+      "community": 42,
       "norm_label": "fmtbelowthreshold()"
     },
     {
@@ -4620,7 +4660,7 @@
       "source_location": "L533",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtmajoritycoalition",
-      "community": 13,
+      "community": 43,
       "norm_label": "fmtmajoritycoalition()"
     },
     {
@@ -4750,7 +4790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_hemicycle",
-      "community": 13,
+      "community": 43,
       "norm_label": "hemicycle.jsx"
     },
     {
@@ -4760,7 +4800,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_hemicycle_grcoalitionbuilder",
-      "community": 13,
+      "community": 43,
       "norm_label": "grcoalitionbuilder"
     },
     {
@@ -4930,7 +4970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_opinionpolls",
-      "community": 29,
+      "community": 13,
       "norm_label": "opinionpolls.jsx"
     },
     {
@@ -4940,7 +4980,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_opinionpolls_btn_base",
-      "community": 29,
+      "community": 13,
       "norm_label": "btn_base"
     },
     {
@@ -4950,7 +4990,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_opinionpolls_loesssmooth",
-      "community": 29,
+      "community": 13,
       "norm_label": "loesssmooth()"
     },
     {
@@ -4960,7 +5000,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_opinionpolls_daterangeslider",
-      "community": 29,
+      "community": 13,
       "norm_label": "daterangeslider()"
     },
     {
@@ -4970,7 +5010,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_opinionpolls_opinionpolls",
-      "community": 29,
+      "community": 13,
       "norm_label": "opinionpolls()"
     },
     {
@@ -4980,7 +5020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable",
-      "community": 6,
+      "community": 42,
       "norm_label": "resultstable.jsx"
     },
     {
@@ -4990,7 +5030,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable_seats_by_scenario",
-      "community": 6,
+      "community": 42,
       "norm_label": "seats_by_scenario"
     },
     {
@@ -5000,7 +5040,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable_delta_labels",
-      "community": 6,
+      "community": 42,
       "norm_label": "delta_labels"
     },
     {
@@ -5010,7 +5050,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable_grmetricscards",
-      "community": 6,
+      "community": 42,
       "norm_label": "grmetricscards"
     },
     {
@@ -5020,7 +5060,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_seatallocationdiff",
-      "community": 29,
+      "community": 41,
       "norm_label": "seatallocationdiff.jsx"
     },
     {
@@ -5160,7 +5200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_correlations_grouppanel",
-      "community": 0,
+      "community": 41,
       "norm_label": "grouppanel.jsx"
     },
     {
@@ -5170,7 +5210,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_correlations_grouppanel_getstars",
-      "community": 0,
+      "community": 41,
       "norm_label": "getstars()"
     },
     {
@@ -5180,7 +5220,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_correlations_grouppanel_grouppanel",
-      "community": 0,
+      "community": 41,
       "norm_label": "grouppanel()"
     },
     {
@@ -5220,7 +5260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_correlations_swingpanel",
-      "community": 0,
+      "community": 41,
       "norm_label": "swingpanel.jsx"
     },
     {
@@ -5230,7 +5270,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_correlations_swingpanel_sectiontitlestyle",
-      "community": 0,
+      "community": 41,
       "norm_label": "sectiontitlestyle"
     },
     {
@@ -5240,8 +5280,68 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_correlations_swingpanel_swingpanel",
-      "community": 0,
+      "community": 41,
       "norm_label": "swingpanel()"
+    },
+    {
+      "label": "TrendPanel.jsx",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_correlations_trendpanel",
+      "community": 0,
+      "norm_label": "trendpanel.jsx"
+    },
+    {
+      "label": "sectionTitleStyle",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_correlations_trendpanel_sectiontitlestyle",
+      "community": 0,
+      "norm_label": "sectiontitlestyle"
+    },
+    {
+      "label": "getStars()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_correlations_trendpanel_getstars",
+      "community": 0,
+      "norm_label": "getstars()"
+    },
+    {
+      "label": "movementNote()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_correlations_trendpanel_movementnote",
+      "community": 0,
+      "norm_label": "movementnote()"
+    },
+    {
+      "label": "TrendBlock()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_correlations_trendpanel_trendblock",
+      "community": 0,
+      "norm_label": "trendblock()"
+    },
+    {
+      "label": "TrendPanel()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_correlations_trendpanel_trendpanel",
+      "community": 0,
+      "norm_label": "trendpanel()"
     },
     {
       "label": "greece-analysis-data.js",
@@ -5254,10 +5354,20 @@
       "norm_label": "greece-analysis-data.js"
     },
     {
+      "label": "HIST_FIELD_ACCESSORS",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_analysis_data_hist_field_accessors",
+      "community": 2,
+      "norm_label": "hist_field_accessors"
+    },
+    {
       "label": "REGIONS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L22",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_analysis_data_regions",
       "community": 2,
@@ -5267,7 +5377,7 @@
       "label": "ISLANDS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L46",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_analysis_data_islands",
       "community": 2,
@@ -5277,7 +5387,7 @@
       "label": "BLOCS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L52",
+      "source_location": "L70",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_analysis_data_blocs",
       "community": 19,
@@ -5287,7 +5397,7 @@
       "label": "num()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L59",
+      "source_location": "L77",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_analysis_data_num",
       "community": 2,
@@ -5297,7 +5407,7 @@
       "label": "turnoutAvailable()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L61",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_analysis_data_turnoutavailable",
       "community": 2,
@@ -5307,11 +5417,111 @@
       "label": "buildAnalysisFrame()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L63",
+      "source_location": "L81",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
       "community": 2,
       "norm_label": "buildanalysisframe()"
+    },
+    {
+      "label": "greece-crisis-economics-data.js",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "community": 2,
+      "norm_label": "greece-crisis-economics-data.js"
+    },
+    {
+      "label": "YEARS",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_years",
+      "community": 2,
+      "norm_label": "years"
+    },
+    {
+      "label": "series()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_series",
+      "community": 2,
+      "norm_label": "series()"
+    },
+    {
+      "label": "GR_YOUTH_UNEMPLOYMENT_BY_REGION",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_gr_youth_unemployment_by_region",
+      "community": 2,
+      "norm_label": "gr_youth_unemployment_by_region"
+    },
+    {
+      "label": "GR_LONGTERM_UNEMPLOYMENT_BY_REGION",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_gr_longterm_unemployment_by_region",
+      "community": 2,
+      "norm_label": "gr_longterm_unemployment_by_region"
+    },
+    {
+      "label": "GR_GDP_PER_CAPITA_BY_REGION",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_gr_gdp_per_capita_by_region",
+      "community": 2,
+      "norm_label": "gr_gdp_per_capita_by_region"
+    },
+    {
+      "label": "makeAccessors()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_makeaccessors",
+      "community": 2,
+      "norm_label": "makeaccessors()"
+    },
+    {
+      "label": "youthAcc",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_youthacc",
+      "community": 2,
+      "norm_label": "youthacc"
+    },
+    {
+      "label": "ltuAcc",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_ltuacc",
+      "community": 2,
+      "norm_label": "ltuacc"
+    },
+    {
+      "label": "gdpAcc",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L96",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_crisis_economics_data_gdpacc",
+      "community": 2,
+      "norm_label": "gdpacc"
     },
     {
       "label": "greece-data.js",
@@ -5340,7 +5550,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_bonus_config",
-      "community": 2,
+      "community": 42,
       "norm_label": "gr_bonus_config"
     },
     {
@@ -5380,7 +5590,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_party_dict",
-      "community": 2,
+      "community": 13,
       "norm_label": "gr_party_dict"
     },
     {
@@ -5450,7 +5660,7 @@
       "source_location": "L311",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_2015_seat_diff",
-      "community": 29,
+      "community": 41,
       "norm_label": "gr_2015_seat_diff"
     },
     {
@@ -5510,7 +5720,7 @@
       "source_location": "L400",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_scenario_turnout",
-      "community": 5,
+      "community": 2,
       "norm_label": "gr_scenario_turnout"
     },
     {
@@ -5520,7 +5730,7 @@
       "source_location": "L401",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_turnout_is_estimate",
-      "community": 5,
+      "community": 2,
       "norm_label": "gr_turnout_is_estimate"
     },
     {
@@ -5920,7 +6130,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_montecarlo_grrunmontecarlo",
-      "community": 2,
+      "community": 3,
       "norm_label": "grrunmontecarlo()"
     },
     {
@@ -6047,7 +6257,7 @@
       "label": "exportCSV()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L148",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_stats_export_exportcsv",
       "community": 19,
@@ -6057,7 +6267,7 @@
       "label": "exportXLSX()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L174",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
       "community": 19,
@@ -6067,7 +6277,7 @@
       "label": "exportDoc()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L209",
+      "source_location": "L227",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_stats_export_exportdoc",
       "community": 19,
@@ -6077,7 +6287,7 @@
       "label": "exportPDF()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L307",
+      "source_location": "L325",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_stats_export_exportpdf",
       "community": 19,
@@ -6684,6 +6894,76 @@
       "norm_label": "buildreadout()"
     },
     {
+      "label": "greece-unemployment-data.js",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data",
+      "community": 2,
+      "norm_label": "greece-unemployment-data.js"
+    },
+    {
+      "label": "GR_UNEMPLOYMENT_YEARS",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data_gr_unemployment_years",
+      "community": 2,
+      "norm_label": "gr_unemployment_years"
+    },
+    {
+      "label": "series()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data_series",
+      "community": 2,
+      "norm_label": "series()"
+    },
+    {
+      "label": "GR_UNEMPLOYMENT_BY_REGION",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data_gr_unemployment_by_region",
+      "community": 2,
+      "norm_label": "gr_unemployment_by_region"
+    },
+    {
+      "label": "grUnemploymentForRegion()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentforregion",
+      "community": 2,
+      "norm_label": "grunemploymentforregion()"
+    },
+    {
+      "label": "grUnemploymentPeak()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentpeak",
+      "community": 2,
+      "norm_label": "grunemploymentpeak()"
+    },
+    {
+      "label": "grUnemploymentChangeSince2009()",
+      "file_type": "code",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentchangesince2009",
+      "community": 2,
+      "norm_label": "grunemploymentchangesince2009()"
+    },
+    {
       "label": "greece-utils.js",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/greece-utils.js",
@@ -6710,7 +6990,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grfmtvotes",
-      "community": 6,
+      "community": 42,
       "norm_label": "grfmtvotes()"
     },
     {
@@ -6720,7 +7000,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grfmtvotesshort",
-      "community": 6,
+      "community": 42,
       "norm_label": "grfmtvotesshort()"
     },
     {
@@ -6730,7 +7010,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grextractname",
-      "community": 11,
+      "community": 30,
       "norm_label": "grextractname()"
     },
     {
@@ -6740,7 +7020,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grextractnamelocalized",
-      "community": 11,
+      "community": 30,
       "norm_label": "grextractnamelocalized()"
     },
     {
@@ -6750,7 +7030,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grgetcentroidoffset",
-      "community": 13,
+      "community": 11,
       "norm_label": "grgetcentroidoffset()"
     },
     {
@@ -6790,7 +7070,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_gr_row_radii",
-      "community": 13,
+      "community": 43,
       "norm_label": "gr_row_radii"
     },
     {
@@ -6800,7 +7080,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_gr_hemi_positions",
-      "community": 13,
+      "community": 43,
       "norm_label": "gr_hemi_positions"
     },
     {
@@ -6810,7 +7090,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_default_hidden_parties",
-      "community": 29,
+      "community": 13,
       "norm_label": "default_hidden_parties"
     },
     {
@@ -6830,7 +7110,7 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_poll_parties_mapping",
-      "community": 29,
+      "community": 13,
       "norm_label": "poll_parties_mapping"
     },
     {
@@ -14082,7 +14362,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_correlations_exportpreview",
@@ -14093,7 +14373,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_correlations_exportpreview_exportpreview",
@@ -14148,7 +14428,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_correlations_swingpanel",
@@ -14159,10 +14439,32 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_correlations_swingpanel_swingpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_correlations_trendpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_correlations_trendpanel_trendpanel",
       "confidence_score": 1.0
     },
     {
@@ -14196,6 +14498,17 @@
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greece_analysis_data_hist_field_accessors",
       "confidence_score": 1.0
     },
     {
@@ -14452,53 +14765,14 @@
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
+      "relation": "imports",
+      "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L83",
+      "source_location": "L12",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
-      "target": "src_components_greeceswingometer_greececorrelations_analysis_modules",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L74",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greececorrelations",
-      "target": "src_components_greeceswingometer_greececorrelations_baseline_options",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L62",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greececorrelations",
-      "target": "src_components_greeceswingometer_greececorrelations_bloc_options",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L33",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greececorrelations",
-      "target": "src_components_greeceswingometer_greececorrelations_chipstyle",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L50",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greececorrelations",
-      "target": "src_components_greeceswingometer_greececorrelations_demo_fields",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_gr_unemployment_years",
       "confidence_score": 1.0
     },
     {
@@ -14508,6 +14782,66 @@
       "source_location": "L99",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greececorrelations_analysis_modules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greececorrelations_baseline_options",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greececorrelations_bloc_options",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greececorrelations_chipstyle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greececorrelations_demo_fields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greececorrelations_econhistfields",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greececorrelations_greececorrelations",
       "confidence_score": 1.0
     },
@@ -14515,7 +14849,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L64",
+      "source_location": "L80",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greececorrelations_party_options",
@@ -14525,7 +14859,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L97",
+      "source_location": "L114",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greececorrelations_sectiontitlestyle",
@@ -14535,7 +14869,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L91",
+      "source_location": "L108",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greececorrelations_selectstyle",
@@ -14594,6 +14928,17 @@
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greeceicons_iconbriefcase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greeceicons_iconcalendar",
       "confidence_score": 1.0
     },
     {
@@ -14693,6 +15038,17 @@
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations",
       "target": "src_components_greeceswingometer_greeceicons_iconisland",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations",
+      "target": "src_components_greeceswingometer_greeceicons_iconlinechart",
       "confidence_score": 1.0
     },
     {
@@ -14806,12 +15162,34 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "indirect_call",
+      "context": "collection",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations_econhistfields",
+      "target": "src_components_greeceswingometer_greeceicons_iconcalendar"
+    },
+    {
+      "relation": "indirect_call",
+      "context": "collection",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greececorrelations_econhistfields",
+      "target": "src_components_greeceswingometer_greeceicons_iconlinechart"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/GreeceSwingometer/GreeceCorrelations.jsx",
-      "source_location": "L101",
+      "source_location": "L118",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greececorrelations_greececorrelations",
       "target": "src_components_greeceswingometer_greecethemes_resolvetheme"
@@ -16069,6 +16447,17 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_greeceplots",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
       "source_location": "L3",
       "weight": 1.0,
@@ -16154,7 +16543,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
-      "source_location": "L188",
+      "source_location": "L256",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greeceplots",
       "target": "src_components_greeceswingometer_greeceplots_empty",
@@ -16164,7 +16553,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
-      "source_location": "L187",
+      "source_location": "L255",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greeceplots",
       "target": "src_components_greeceswingometer_greeceplots_fmttick",
@@ -16214,10 +16603,40 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
-      "source_location": "L186",
+      "source_location": "L254",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greeceplots",
       "target": "src_components_greeceswingometer_greeceplots_svg",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
+      "source_location": "L190",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greeceplots",
+      "target": "src_components_greeceswingometer_greeceplots_trend_colors_dark",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
+      "source_location": "L189",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greeceplots",
+      "target": "src_components_greeceswingometer_greeceplots_trend_colors_light",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/GreecePlots.jsx",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greeceplots",
+      "target": "src_components_greeceswingometer_greeceplots_trendlinechart",
       "confidence_score": 1.0
     },
     {
@@ -16294,6 +16713,17 @@
       "weight": 1.0,
       "source": "src_components_greeceswingometer_correlations_bivariatepanel",
       "target": "src_components_greeceswingometer_greeceplots_correlationheatmap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_greeceplots_trendlinechart",
       "confidence_score": 1.0
     },
     {
@@ -16413,6 +16843,17 @@
       "source_location": "L1",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_correlations_swingpanel",
+      "target": "src_components_greeceswingometer_greecestyles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
       "target": "src_components_greeceswingometer_greecestyles",
       "confidence_score": 1.0
     },
@@ -16607,6 +17048,17 @@
       "source_location": "L1",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_correlations_swingpanel",
+      "target": "src_components_greeceswingometer_greecestyles_s",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
       "target": "src_components_greeceswingometer_greecestyles_s",
       "confidence_score": 1.0
     },
@@ -19052,8 +19504,113 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_correlations_trendpanel_getstars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_correlations_trendpanel_movementnote",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_correlations_trendpanel_sectiontitlestyle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_correlations_trendpanel_trendblock",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_correlations_trendpanel_trendpanel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_greece_stats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_greece_stats_fmtp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel",
+      "target": "src_components_greeceswingometer_greece_stats_fmtr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel_movementnote",
+      "target": "src_components_greeceswingometer_greece_stats_fmtr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/correlations/TrendPanel.jsx",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_correlations_trendpanel_trendblock",
+      "target": "src_components_greeceswingometer_greece_stats_fmtr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L52",
+      "source_location": "L70",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data",
       "target": "src_components_greeceswingometer_greece_analysis_data_blocs",
@@ -19063,7 +19620,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L63",
+      "source_location": "L81",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data",
       "target": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
@@ -19073,7 +19630,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L46",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_analysis_data_hist_field_accessors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data",
       "target": "src_components_greeceswingometer_greece_analysis_data_islands",
@@ -19083,7 +19650,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L59",
+      "source_location": "L77",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data",
       "target": "src_components_greeceswingometer_greece_analysis_data_num",
@@ -19093,7 +19660,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L22",
+      "source_location": "L40",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data",
       "target": "src_components_greeceswingometer_greece_analysis_data_regions",
@@ -19103,10 +19670,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L61",
+      "source_location": "L79",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data",
       "target": "src_components_greeceswingometer_greece_analysis_data_turnoutavailable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data",
       "confidence_score": 1.0
     },
     {
@@ -19220,6 +19798,61 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_gr_unemployment_years",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentchangesince2009",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentforregion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentpeak",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -19247,7 +19880,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L74",
+      "source_location": "L92",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
       "target": "src_components_greeceswingometer_greece_data_grdistrictsforscenario"
@@ -19258,7 +19891,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L87",
+      "source_location": "L105",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
       "target": "src_components_greeceswingometer_greece_engine_grapplyswing"
@@ -19269,10 +19902,133 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
-      "source_location": "L76",
+      "source_location": "L94",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
       "target": "src_components_greeceswingometer_greece_engine_grdistrictbasevotes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L137",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentchangesince2009"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentforregion"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/GreeceSwingometer/greece-analysis-data.js",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_analysis_data_buildanalysisframe",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentpeak"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_gdpacc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_gr_gdp_per_capita_by_region",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_gr_longterm_unemployment_by_region",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_gr_youth_unemployment_by_region",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_ltuacc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_makeaccessors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_series",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_years",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-crisis-economics-data.js",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_crisis_economics_data",
+      "target": "src_components_greeceswingometer_greece_crisis_economics_data_youthacc",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -20404,7 +21160,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L148",
+      "source_location": "L166",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export",
       "target": "src_components_greeceswingometer_greece_stats_export_exportcsv",
@@ -20414,7 +21170,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L209",
+      "source_location": "L227",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export",
       "target": "src_components_greeceswingometer_greece_stats_export_exportdoc",
@@ -20424,7 +21180,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L307",
+      "source_location": "L325",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export",
       "target": "src_components_greeceswingometer_greece_stats_export_exportpdf",
@@ -20434,7 +21190,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L174",
+      "source_location": "L192",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export",
       "target": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
@@ -20485,7 +21241,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L171",
+      "source_location": "L189",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
       "target": "src_components_greeceswingometer_greece_stats_export_downloadblob",
@@ -20496,7 +21252,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L304",
+      "source_location": "L322",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
       "target": "src_components_greeceswingometer_greece_stats_export_downloadblob",
@@ -20507,63 +21263,63 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L157",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
-      "target": "src_components_greeceswingometer_greece_stats_export_stamp",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L284",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
-      "target": "src_components_greeceswingometer_greece_stats_export_stamp",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L185",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
-      "target": "src_components_greeceswingometer_greece_stats_export_stamp",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L149",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
-      "target": "src_components_greeceswingometer_greece_stats_export_filestamp",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L211",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
-      "target": "src_components_greeceswingometer_greece_stats_export_filestamp",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
       "source_location": "L175",
       "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
+      "target": "src_components_greeceswingometer_greece_stats_export_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
+      "source_location": "L302",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
+      "target": "src_components_greeceswingometer_greece_stats_export_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
+      "source_location": "L203",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
+      "target": "src_components_greeceswingometer_greece_stats_export_stamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
+      "source_location": "L167",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
+      "target": "src_components_greeceswingometer_greece_stats_export_filestamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
+      "source_location": "L229",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
+      "target": "src_components_greeceswingometer_greece_stats_export_filestamp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
+      "source_location": "L193",
+      "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
       "target": "src_components_greeceswingometer_greece_stats_export_filestamp",
       "confidence_score": 1.0
@@ -20573,7 +21329,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L149",
+      "source_location": "L167",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
       "target": "src_components_greeceswingometer_greece_stats_export_getdownloadconsent",
@@ -20584,7 +21340,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L211",
+      "source_location": "L229",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
       "target": "src_components_greeceswingometer_greece_stats_export_getdownloadconsent",
@@ -20595,7 +21351,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L175",
+      "source_location": "L193",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
       "target": "src_components_greeceswingometer_greece_stats_export_getdownloadconsent",
@@ -20606,7 +21362,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L270",
+      "source_location": "L288",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
       "target": "src_components_greeceswingometer_greece_stats_export_getbase64imagefromurl",
@@ -20617,7 +21373,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L152",
+      "source_location": "L170",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportcsv",
       "target": "src_components_greeceswingometer_greece_stats_export_buildexportsheets",
@@ -20628,7 +21384,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L215",
+      "source_location": "L233",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportdoc",
       "target": "src_components_greeceswingometer_greece_stats_export_buildexportsheets",
@@ -20639,7 +21395,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L178",
+      "source_location": "L196",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
       "target": "src_components_greeceswingometer_greece_stats_export_buildexportsheets",
@@ -20650,7 +21406,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-stats-export.js",
-      "source_location": "L204",
+      "source_location": "L222",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_stats_export_exportxlsx",
       "target": "src_components_greeceswingometer_greece_stats_export_exportcsv",
@@ -22371,6 +23127,66 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_unemployment_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_gr_unemployment_by_region",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_unemployment_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_gr_unemployment_years",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_unemployment_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentchangesince2009",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_unemployment_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentforregion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_unemployment_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_grunemploymentpeak",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GreeceSwingometer/greece-unemployment-data.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "src_components_greeceswingometer_greece_unemployment_data",
+      "target": "src_components_greeceswingometer_greece_unemployment_data_series",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/greece-utils.js",
       "source_location": "L141",
       "weight": 1.0,
@@ -23039,5 +23855,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "9cbd3aa7ca96f91ddc03ba90c040fecc36991686"
+  "built_at_commit": "ca9c118227d174b67358a6f9be40e4511a6372db"
 }

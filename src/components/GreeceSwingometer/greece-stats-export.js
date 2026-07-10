@@ -142,6 +142,24 @@ export function buildExportSheets(report) {
     sheets["Regression_Models"] = regRows;
   }
 
+  if (report.trend && !report.trend.disabled) {
+    const tRows = [];
+    ["elections", "years"].forEach(axis => {
+      const block = report.trend[axis];
+      if (!block) return;
+      block.series.forEach(s => {
+        block.xLabels.forEach((lbl, i) => {
+          tRows.push({
+            Axis: axis === "elections" ? "Across Elections" : "Across Crisis Years",
+            Series: s.label, Point_Label: lbl,
+            Pearson_r: s.values[i], p_Value: s.meta?.[i]?.p, N: s.meta?.[i]?.n,
+          });
+        });
+      });
+    });
+    if (tRows.length) sheets["Trend_Analysis"] = tRows;
+  }
+
   return sheets;
 }
 

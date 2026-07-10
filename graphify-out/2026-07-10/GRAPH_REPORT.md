@@ -1,11 +1,11 @@
-# Graph Report - swingometer  (2026-07-10)
+# Graph Report - swingometer  (2026-07-08)
 
 ## Corpus Check
-- 93 files · ~393,029 words
+- 92 files · ~389,214 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 781 nodes · 1569 edges · 40 communities (33 shown, 7 thin omitted)
+- 768 nodes · 1538 edges · 40 communities (33 shown, 7 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.6)
 - Token cost: 0 input · 0 output
 
@@ -91,60 +91,60 @@ Cohesion: 0.05
 Nodes (39): PartyRow, SemiCircleChart(), IDEOLOGIES, IconArrowLeft, IconCamera, IconChevron, IconColumns, IconEye (+31 more)
 
 ### Community 2 - "greece-data.js"
-Cohesion: 0.05
-Nodes (53): BLOCS, buildAnalysisFrame(), HIST_FIELD_ACCESSORS, ISLANDS, REGIONS, generateDerivedBaseline(), GR, GR_2015_MERGE_GROUPS (+45 more)
+Cohesion: 0.07
+Nodes (44): buildAnalysisFrame(), ISLANDS, REGIONS, generateDerivedBaseline(), GR, GR_2015_MERGE_GROUPS, GR_BONUS_CONFIG, GR_DISTRICT_BASELINES (+36 more)
 
 ### Community 3 - "GreeceExport.jsx"
 Cohesion: 0.07
-Nodes (27): grRunMonteCarlo(), BG_OPTIONS, covered(), ctrl, ExportBoard(), ExportGrid(), fmtOf(), fmtPct() (+19 more)
+Nodes (25): BG_OPTIONS, covered(), ctrl, ExportBoard(), ExportGrid(), fmtOf(), fmtPct(), FORMATS (+17 more)
 
 ### Community 4 - "dependencies"
 Cohesion: 0.06
 Nodes (33): dependencies, d3, @fontsource/barlow-condensed, @fontsource/bebas-neue, @fontsource/crimson-pro, @fontsource/ibm-plex-mono, @fontsource-variable/material-symbols-outlined, html2canvas (+25 more)
 
 ### Community 5 - "GreeceApp.jsx"
-Cohesion: 0.15
-Nodes (19): HOWTO, IconArrowLeft(), IconBarChart(), IconBuilding(), IconClose(), IconContrast(), IconDice(), IconEye() (+11 more)
+Cohesion: 0.11
+Nodes (24): GR_SCENARIO_TURNOUT, GR_TURNOUT_IS_ESTIMATE, HOWTO, IconBallot(), IconBuilding(), IconCamera(), IconCityscape(), IconClose() (+16 more)
 
 ### Community 6 - "GreeceTranslations.jsx"
-Cohesion: 0.06
-Nodes (53): GrPartyControlItem(), GR_BONUS_CONFIG, GR_HEMI_POSITIONS, GR_ROW_RADII, grFmtVotes(), grFmtVotesShort(), CONTROL_PANEL, fmtAboutXIn10() (+45 more)
+Cohesion: 0.07
+Nodes (43): GrPartyControlItem(), grFmtVotes(), grFmtVotesShort(), CONTROL_PANEL, fmtAboutXIn10(), fmtBelowThreshold(), fmtChanceOfReaching(), fmtInclBonus() (+35 more)
 
 ### Community 7 - "cyprus-ui.jsx"
-Cohesion: 0.18
-Nodes (16): CyControlPanel, CY_DEM_CONTROLS, CY_IDEOLOGY_LABELS, IconColumns, IconEye, IconEyeOff, IconGear, IconLock (+8 more)
+Cohesion: 0.13
+Nodes (21): CY_DEM_CONTROLS, CY_DISTRICT_DEMOGRAPHICS, CY_IDEOLOGY_LABELS, CY_PATHS, IconArrowLeft, IconCamera, IconColumns, IconEye (+13 more)
 
 ### Community 8 - "App.jsx"
 Cohesion: 0.11
 Nodes (8): App(), CyprusApp, GreeceApp, GreeceCorrelations, GreeceRegionsApp, PrivacyModal(), WelcomeScreen(), ErrorBoundary
 
 ### Community 9 - "aus-components.jsx"
-Cohesion: 0.13
-Nodes (15): ausFmt2PP(), AusMap, IconChevron, IconGear, IconLock, IconMap, IconMinus, IconMoon (+7 more)
+Cohesion: 0.11
+Nodes (20): AusHemicycle, AusMetricsCards, AusResultsTable, AusSeatsOnLine, AusSlidersPanel, AusStateBreakdown, National2PP, SeatTally (+12 more)
 
 ### Community 10 - "CyprusApp.jsx"
-Cohesion: 0.14
-Nodes (17): CY_DISTRICT_BASELINES, CY_DISTRICT_DEMOGRAPHICS, CY_PARTY_LINEAGE, CY_PATHS, CY_RAW_DISTRICTS, CY_ROW_COUNTS, CY_SCENARIO_LABELS, CY_SCENARIO_TURNOUT (+9 more)
+Cohesion: 0.16
+Nodes (18): CY_DISTRICT_BASELINES, CY_PARTY_LINEAGE, CY_RAW_DISTRICTS, CY_ROW_COUNTS, CY_SCENARIO_LABELS, CY_SCENARIO_TURNOUT, CY_SCENARIOS, CY_TURNOUT_IS_ESTIMATE (+10 more)
 
 ### Community 11 - "Map.jsx"
-Cohesion: 0.08
-Nodes (26): GR_PARTY_DICT, grBuildScenario(), concatAsMultiPolygon(), GR_2015_GEO_MERGES, grScenarioGeoJson(), mergeFeatures(), DEFAULT_HIDDEN_PARTIES, detectColumns() (+18 more)
+Cohesion: 0.06
+Nodes (39): GR_CENTROID_OFFSETS, GR_PREFECTURE_MAP, grBuildScenario(), concatAsMultiPolygon(), GR_2015_GEO_MERGES, grScenarioGeoJson(), mergeFeatures(), GR_MUNI_DATA (+31 more)
 
 ### Community 12 - "CyprusThemePicker.jsx"
 Cohesion: 0.14
 Nodes (18): CY_PARTY_DICT, IconCheck, CyprusThemePicker(), paletteColors(), PREVIEW_IDS, applyPartyPalette(), BLUEYELLOW, CONTRAST_VARS (+10 more)
 
 ### Community 13 - "greece-utils.js"
-Cohesion: 0.09
-Nodes (23): GR_DISTRICT_GDP, GR_GDP_YEAR_TYPE, GR_GDP_YEARS, GR_MUNI_DATA, GR_MUNI_PARTY_IDS, IconCityscape(), IconCoins(), IconElder() (+15 more)
+Cohesion: 0.18
+Nodes (8): DEFAULT_HIDDEN_PARTIES, POLL_PARTIES_MAPPING, IconBarChart(), IconRefresh(), IconZigzag(), tPartyNameById(), BTN_BASE, OpinionPolls()
 
 ### Community 14 - "GreeceCorrelations.jsx"
-Cohesion: 0.10
-Nodes (21): ANALYSIS_MODULES, BASELINE_OPTIONS, BLOC_OPTIONS, DEMO_FIELDS, econHistFields(), GreeceCorrelations(), PARTY_OPTIONS, sectionTitleStyle (+13 more)
+Cohesion: 0.09
+Nodes (23): HIST_FIELD_ACCESSORS, ANALYSIS_MODULES, BASELINE_OPTIONS, BLOC_OPTIONS, DEMO_FIELDS, econHistFields(), GreeceCorrelations(), PARTY_OPTIONS (+15 more)
 
 ### Community 15 - "cyprus-components.jsx"
-Cohesion: 0.18
-Nodes (9): CyCoalitionBuilder, CyPartyControlItem, CY, CY_HEMI_POSITIONS, CY_ROW_RADII, CyHemicycle, CyDistrictMap, S (+1 more)
+Cohesion: 0.15
+Nodes (13): CyCoalitionBuilder, CyControlPanel, CyPartyControlItem, CY, CY_HEMI_POSITIONS, CY_ROW_RADII, cyFmtVotesShort(), CyHemicycle (+5 more)
 
 ### Community 16 - "ThemePicker.jsx"
 Cohesion: 0.15
@@ -155,32 +155,32 @@ Cohesion: 0.13
 Nodes (15): ausComputeNational2PP(), ausMarginalSeats(), ausProjectSeats(), ausSeatCounts(), ausStateBreakdown(), buildMatrix(), CALIBRATION, computeLocalPrimaries() (+7 more)
 
 ### Community 18 - "S"
-Cohesion: 0.19
-Nodes (11): CY_DISTRICT_OFFICIAL_SEATS, cyFromLogit(), cyToLogit(), generateDerivedBaseline(), cyAllocateAllSeats(), cyApplySwing(), cyFmtVotes(), cyFmtVotesShort() (+3 more)
+Cohesion: 0.33
+Nodes (6): GR_DISTRICT_ELECTORATE, GR_LEGACY, grIsPre2019Scenario(), grLegacyAllocateAllDistrictSeats(), grLegacyAllocateStateSeats(), grLegacyRunElection()
 
 ### Community 19 - "greece-stats-export.js"
-Cohesion: 0.13
-Nodes (20): ExportPreview(), sectionTitleStyle, gdpAcc, GR_GDP_PER_CAPITA_BY_REGION, GR_LONGTERM_UNEMPLOYMENT_BY_REGION, GR_YOUTH_UNEMPLOYMENT_BY_REGION, ltuAcc, YEARS (+12 more)
+Cohesion: 0.25
+Nodes (14): ExportPreview(), sectionTitleStyle, BLOCS, CAVEATS, buildExportSheets(), downloadBlob(), exportCSV(), exportDoc() (+6 more)
 
 ### Community 20 - "ControlPanel.jsx"
 Cohesion: 0.18
 Nodes (10): ControlPanel(), GR_DEM_CONTROLS, GR_IDEOLOGY_LABELS, GR_SCENARIO_LABELS, IconChevron(), IconColumns(), IconGear(), IconPeople() (+2 more)
 
 ### Community 21 - "aus-map.jsx"
-Cohesion: 0.17
-Nodes (13): AusDemographicsPanel, Bar, SectionHead, StatPill, ausPartyColor(), ausPartyLabel(), S, AustraliaApp() (+5 more)
+Cohesion: 0.15
+Nodes (12): AusDemographicsPanel, Bar, SectionHead, StatPill, ausFmt2PP(), ausPartyColor(), ausPartyLabel(), AusMap (+4 more)
 
 ### Community 22 - "Electoral Swingometer"
 Cohesion: 0.08
 Nodes (22): Australia — simulated preferential count (built, not yet live), Author, Cyprus — open-list PR with a district/national split, Data, Deployment, Disclaimer, Greece — reinforced proportional representation, How the electoral models work (+14 more)
 
 ### Community 23 - "MonteCarloPanel.jsx"
-Cohesion: 0.17
-Nodes (11): AusHemicycle, AusMetricsCards, AusResultsTable, AusSeatsOnLine, AusSlidersPanel, AusStateBreakdown, National2PP, PrefFlowSlider (+3 more)
+Cohesion: 0.20
+Nodes (7): gdpAcc, GR_GDP_PER_CAPITA_BY_REGION, GR_LONGTERM_UNEMPLOYMENT_BY_REGION, GR_YOUTH_UNEMPLOYMENT_BY_REGION, ltuAcc, YEARS, youthAcc
 
 ### Community 24 - "AustraliaApp.jsx"
-Cohesion: 0.50
-Nodes (4): cleanSVG(), ELECTORATE_ALIASES, getProcessedMap(), MY_SVG_MAP
+Cohesion: 0.19
+Nodes (10): AustraliaApp(), AusUrbanInsets, defaultPrefFlows(), DemographicsModal, InsetPanel, TABS, cleanSVG(), ELECTORATE_ALIASES (+2 more)
 
 ### Community 25 - "CyprusMonteCarloPanel.jsx"
 Cohesion: 0.26
@@ -203,7 +203,7 @@ Cohesion: 0.19
 Nodes (8): GroupPanel(), sectionTitleStyle, SwingPanel(), GR_2015_SEAT_DIFF, GlobalStyles, MeanderBar, S, Slider
 
 ## Knowledge Gaps
-- **182 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+177 more)
+- **179 isolated node(s):** `name`, `private`, `version`, `type`, `dev` (+174 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **7 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -211,16 +211,16 @@ Nodes (8): GroupPanel(), sectionTitleStyle, SwingPanel(), GR_2015_SEAT_DIFF, Glo
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `grDistrictElectorate()` connect `aus-demographics-adapter.js` to `greece-data.js`, `GreeceApp.jsx`?**
-  _High betweenness centrality (0.180) - this node is a cross-community bridge._
+  _High betweenness centrality (0.181) - this node is a cross-community bridge._
 - **Why does `PrivacyModal()` connect `App.jsx` to `GreeceRegionsApp.jsx`, `CyprusApp.jsx`, `GreeceApp.jsx`?**
-  _High betweenness centrality (0.171) - this node is a cross-community bridge._
+  _High betweenness centrality (0.172) - this node is a cross-community bridge._
 - **What connects `name`, `private`, `version` to the rest of the system?**
-  _182 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _179 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `greece-stats.js` be split into smaller, more focused modules?**
   _Cohesion score 0.054431960049937576 - nodes in this community are weakly interconnected._
 - **Should `GreeceRegionsApp.jsx` be split into smaller, more focused modules?**
   _Cohesion score 0.05141242937853107 - nodes in this community are weakly interconnected._
 - **Should `greece-data.js` be split into smaller, more focused modules?**
-  _Cohesion score 0.05406746031746032 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07058001397624039 - nodes in this community are weakly interconnected._
 - **Should `GreeceExport.jsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.06882591093117409 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07207207207207207 - nodes in this community are weakly interconnected._

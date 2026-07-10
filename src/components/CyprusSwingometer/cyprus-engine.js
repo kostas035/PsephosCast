@@ -1,6 +1,6 @@
 // cyprus-engine.js
 
-import { CY, cyToLogit, cyFromLogit } from "./cyprus-data.js";
+import { CY, cyToLogit, cyFromLogit, CY_DISTRICT_OFFICIAL_SEATS } from "./cyprus-data.js";
 
 // Applies logit swing from National baseline straight into the District Baseline
 export function cyApplySwing(district, effectiveParties, baseParties) {
@@ -85,108 +85,125 @@ export function cyAllocateAllSeats(nationalParties, districts, thresholdPct, sce
     }
   }
 
-  // 3. First Distribution: District Seats (Hare Quota) - DRY RUN PASS
-  const uncappedSeats = {};
-  const uncappedNational = {};
-  qParties.forEach(p => { uncappedSeats[p.id] = []; uncappedNational[p.id] = 0; });
+  // 3. District Seats. Where the certified per-district breakdown is known (see
+  //    CY_DISTRICT_OFFICIAL_SEATS), use it directly — the Hare quota on modelled
+  //    district percentages can flip marginal seats vs. the actual count. Otherwise
+  //    fall back to a Hare-quota DRY RUN pass reconciled against the national target.
+  const officialDistrictSeats = isBaseline ? CY_DISTRICT_OFFICIAL_SEATS[scenarioId] : null;
 
-  districts.forEach(d => {
-    const validVotes = Object.entries(d.votes).filter(([id]) => qIds.has(id)).reduce((sum, [_, v]) => sum + v, 0);
-    const dQuota = validVotes > 0 ? validVotes / d.seats : Infinity;
-
-    qParties.forEach(p => {
-      const v = d.votes[p.id] || 0;
-      const raw = validVotes > 0 ? v / dQuota : 0;
-      const fl = Math.floor(raw);
-      uncappedSeats[p.id].push({ distId: d.id, seats: fl, rem: raw - fl });
-      uncappedNational[p.id] += fl;
-    });
-  });
-
-  // Apply caps globally and proportionally to avoid processing order bias
   const currentNational = {};
   const districtSeats = {};
+  const unfilledDistricts = {};
   districts.forEach(d => {
      districtSeats[d.id] = Object.fromEntries(qParties.map(p => [p.id, 0]));
   });
-  const districtRemainders = [];
+  qParties.forEach(p => { currentNational[p.id] = 0; });
 
-  qParties.forEach(p => {
-     let excess = uncappedNational[p.id] - targetSeats[p.id];
-     let allocations = [...uncappedSeats[p.id]];
+  if (officialDistrictSeats) {
+    districts.forEach(d => {
+      const distSeats = officialDistrictSeats[d.id] || {};
+      qParties.forEach(p => {
+        const seats = distSeats[p.id] || 0;
+        districtSeats[d.id][p.id] = seats;
+        currentNational[p.id] += seats;
+      });
+    });
+  } else {
+    const uncappedSeats = {};
+    const uncappedNational = {};
+    qParties.forEach(p => { uncappedSeats[p.id] = []; uncappedNational[p.id] = 0; });
 
-     if (excess > 0) {
-        // Party won more base integer seats than its national target.
-        // Penalize the districts where it had the lowest fractional remainder.
-        allocations.sort((a, b) => a.rem - b.rem);
-        for (let i = 0; i < allocations.length; i++) {
-           if (excess <= 0) break;
-           if (allocations[i].seats > 0) {
-              allocations[i].seats--;
-              excess--;
-           }
-        }
-     }
+    districts.forEach(d => {
+      const validVotes = Object.entries(d.votes).filter(([id]) => qIds.has(id)).reduce((sum, [_, v]) => sum + v, 0);
+      const dQuota = validVotes > 0 ? validVotes / d.seats : Infinity;
 
-     currentNational[p.id] = 0;
-     allocations.forEach(alloc => {
-        districtSeats[alloc.distId][p.id] = alloc.seats;
-        currentNational[p.id] += alloc.seats;
-        districtRemainders.push({ distId: alloc.distId, partyId: p.id, rem: alloc.rem });
-     });
-  });
+      qParties.forEach(p => {
+        const v = d.votes[p.id] || 0;
+        const raw = validVotes > 0 ? v / dQuota : 0;
+        const fl = Math.floor(raw);
+        uncappedSeats[p.id].push({ distId: d.id, seats: fl, rem: raw - fl });
+        uncappedNational[p.id] += fl;
+      });
+    });
 
-  // 4. Second/Third Distribution: Fill shortfalls globally
-  const shortfalls = {};
-  qParties.forEach(p => shortfalls[p.id] = targetSeats[p.id] - currentNational[p.id]);
+    // Apply caps globally and proportionally to avoid processing order bias
+    const districtRemainders = [];
 
-  districtRemainders.sort((a, b) => b.rem - a.rem);
+    qParties.forEach(p => {
+       let excess = uncappedNational[p.id] - targetSeats[p.id];
+       let allocations = [...uncappedSeats[p.id]];
 
-  for (const dr of districtRemainders) {
-    const dSeatsAssigned = Object.values(districtSeats[dr.distId]).reduce((a, b) => a + b, 0);
-    const dCapacity = districts.find(d => d.id === dr.distId).seats;
-    
-    if (shortfalls[dr.partyId] > 0 && dSeatsAssigned < dCapacity) {
-      districtSeats[dr.distId][dr.partyId]++;
-      currentNational[dr.partyId]++;
-      shortfalls[dr.partyId]--;
-      dr.rem = -999; // Mark used so fallback doesn't double dip
-    }
-  }
+       if (excess > 0) {
+          // Party won more base integer seats than its national target.
+          // Penalize the districts where it had the lowest fractional remainder.
+          allocations.sort((a, b) => a.rem - b.rem);
+          for (let i = 0; i < allocations.length; i++) {
+             if (excess <= 0) break;
+             if (allocations[i].seats > 0) {
+                allocations[i].seats--;
+                excess--;
+             }
+          }
+       }
 
-  // 5. Fallback: Force fill remaining empty district seats.
-  //    IMPORTANT: always check the national cap (targetSeats) before awarding a seat —
-  //    without this guard, parties with high district remainders steal seats from
-  //    parties that legitimately need them to reach their national target.
-  const unfilledDistricts = {};
-  const remaindersByDist = {};
-  
-  districts.forEach(d => {
-     remaindersByDist[d.id] = districtRemainders
-        .filter(r => r.distId === d.id && r.rem !== -999)
-        .sort((a, b) => b.rem - a.rem);
-  });
+       allocations.forEach(alloc => {
+          districtSeats[alloc.distId][p.id] = alloc.seats;
+          currentNational[p.id] += alloc.seats;
+          districtRemainders.push({ distId: alloc.distId, partyId: p.id, rem: alloc.rem });
+       });
+    });
 
-  districts.forEach(d => {
-    let dSeatsAssigned = Object.values(districtSeats[d.id]).reduce((a, b) => a + b, 0);
-    const distRems = remaindersByDist[d.id];
-    let remIdx = 0;
+    // 4. Second/Third Distribution: Fill shortfalls globally
+    const shortfalls = {};
+    qParties.forEach(p => shortfalls[p.id] = targetSeats[p.id] - currentNational[p.id]);
 
-    while (dSeatsAssigned < d.seats) {
-      if (remIdx < distRems.length) {
-        const best = distRems[remIdx];
-        remIdx++;
-        // Skip this party if it has already reached its national target
-        if (currentNational[best.partyId] >= targetSeats[best.partyId]) continue;
-        districtSeats[d.id][best.partyId]++;
-        currentNational[best.partyId]++;
-        dSeatsAssigned++;
-      } else {
-        unfilledDistricts[d.id] = d.seats - dSeatsAssigned;
-        break;
+    districtRemainders.sort((a, b) => b.rem - a.rem);
+
+    for (const dr of districtRemainders) {
+      const dSeatsAssigned = Object.values(districtSeats[dr.distId]).reduce((a, b) => a + b, 0);
+      const dCapacity = districts.find(d => d.id === dr.distId).seats;
+
+      if (shortfalls[dr.partyId] > 0 && dSeatsAssigned < dCapacity) {
+        districtSeats[dr.distId][dr.partyId]++;
+        currentNational[dr.partyId]++;
+        shortfalls[dr.partyId]--;
+        dr.rem = -999; // Mark used so fallback doesn't double dip
       }
     }
-  });
+
+    // 5. Fallback: Force fill remaining empty district seats.
+    //    IMPORTANT: always check the national cap (targetSeats) before awarding a seat —
+    //    without this guard, parties with high district remainders steal seats from
+    //    parties that legitimately need them to reach their national target.
+    const remaindersByDist = {};
+
+    districts.forEach(d => {
+       remaindersByDist[d.id] = districtRemainders
+          .filter(r => r.distId === d.id && r.rem !== -999)
+          .sort((a, b) => b.rem - a.rem);
+    });
+
+    districts.forEach(d => {
+      let dSeatsAssigned = Object.values(districtSeats[d.id]).reduce((a, b) => a + b, 0);
+      const distRems = remaindersByDist[d.id];
+      let remIdx = 0;
+
+      while (dSeatsAssigned < d.seats) {
+        if (remIdx < distRems.length) {
+          const best = distRems[remIdx];
+          remIdx++;
+          // Skip this party if it has already reached its national target
+          if (currentNational[best.partyId] >= targetSeats[best.partyId]) continue;
+          districtSeats[d.id][best.partyId]++;
+          currentNational[best.partyId]++;
+          dSeatsAssigned++;
+        } else {
+          unfilledDistricts[d.id] = d.seats - dSeatsAssigned;
+          break;
+        }
+      }
+    });
+  }
 
   // 6. Assemble final results for the Table
   const results = withNational.map(p => {
