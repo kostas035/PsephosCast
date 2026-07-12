@@ -270,8 +270,8 @@
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/GreeceTranslations.jsx": {
-    "mtime": 1783764141.6311102,
-    "ast_hash": "864d5becb0d3e440ca357e198239a709",
+    "mtime": 1783678041.7105591,
+    "ast_hash": "e2fec812dcd6b47cc341a9c2518026ae",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/Hemicycle.jsx": {
@@ -280,8 +280,8 @@
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/Map.jsx": {
-    "mtime": 1783764615.2365108,
-    "ast_hash": "fdaaa46cc155c33641bc4f9341fc4ac3",
+    "mtime": 1783761390.6876948,
+    "ast_hash": "f54cc72caf003b2a3b1d1416e8b8e19e",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/MethodologyModal.jsx": {
@@ -492,11 +492,6 @@
   "src/components/GreeceSwingometer/greece-gdp-data.js": {
     "mtime": 1783677556.65221,
     "ast_hash": "d90782295190e9a36255bd2228a2ebf2",
-    "semantic_hash": ""
-  },
-  "src/components/GreeceSwingometer/greece-population-data.js": {
-    "mtime": 1783763570.0379286,
-    "ast_hash": "d978d80e103edbd8b55f12aa5db65a89",
     "semantic_hash": ""
   }
 }

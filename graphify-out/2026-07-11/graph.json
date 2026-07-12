@@ -3020,7 +3020,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_controlpanel_grpartycontrolitem",
-      "community": 42,
+      "community": 6,
       "norm_label": "grpartycontrolitem()"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconbuilding",
-      "community": 5,
+      "community": 13,
       "norm_label": "iconbuilding()"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconbarchart",
-      "community": 5,
+      "community": 14,
       "norm_label": "iconbarchart()"
     },
     {
@@ -3890,7 +3890,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_icongraduation",
-      "community": 14,
+      "community": 13,
       "norm_label": "icongraduation()"
     },
     {
@@ -3910,7 +3910,7 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconglobe",
-      "community": 14,
+      "community": 13,
       "norm_label": "iconglobe()"
     },
     {
@@ -3980,7 +3980,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconclipboard",
-      "community": 14,
+      "community": 5,
       "norm_label": "iconclipboard()"
     },
     {
@@ -4030,7 +4030,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greeceicons_iconcoins",
-      "community": 13,
+      "community": 5,
       "norm_label": "iconcoins()"
     },
     {
@@ -4450,7 +4450,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_usegreecet",
-      "community": 42,
+      "community": 6,
       "norm_label": "usegreecet()"
     },
     {
@@ -4460,7 +4460,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_t",
-      "community": 42,
+      "community": 6,
       "norm_label": "t()"
     },
     {
@@ -4480,7 +4480,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_tpartyname",
-      "community": 44,
+      "community": 6,
       "norm_label": "tpartyname()"
     },
     {
@@ -4490,7 +4490,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_tpartyfullname",
-      "community": 42,
+      "community": 6,
       "norm_label": "tpartyfullname()"
     },
     {
@@ -4540,7 +4540,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_tideologylabel",
-      "community": 42,
+      "community": 6,
       "norm_label": "tideologylabel()"
     },
     {
@@ -4627,7 +4627,7 @@
       "label": "METHODOLOGY",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L455",
+      "source_location": "L449",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_methodology",
       "community": 6,
@@ -4637,7 +4637,7 @@
       "label": "SEAT_DIFF",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L478",
+      "source_location": "L472",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_seat_diff",
       "community": 6,
@@ -4647,7 +4647,7 @@
       "label": "GR_EL",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L497",
+      "source_location": "L491",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_gr_el",
       "community": 6,
@@ -4657,7 +4657,7 @@
       "label": "fmtNoPartiesThreshold()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L508",
+      "source_location": "L502",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtnopartiesthreshold",
       "community": 28,
@@ -4667,7 +4667,7 @@
       "label": "fmtNationalTurnout()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L515",
+      "source_location": "L509",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtnationalturnout",
       "community": 20,
@@ -4677,147 +4677,147 @@
       "label": "fmtInclBonus()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L523",
+      "source_location": "L517",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtinclbonus",
-      "community": 30,
+      "community": 6,
       "norm_label": "fmtinclbonus()"
     },
     {
       "label": "fmtSeatsOfNeeded()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L526",
+      "source_location": "L520",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtseatsofneeded",
-      "community": 30,
+      "community": 6,
       "norm_label": "fmtseatsofneeded()"
     },
     {
       "label": "fmtTotalVotes()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L529",
+      "source_location": "L523",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmttotalvotes",
-      "community": 30,
+      "community": 6,
       "norm_label": "fmttotalvotes()"
     },
     {
       "label": "fmtBelowThreshold()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L532",
+      "source_location": "L526",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtbelowthreshold",
-      "community": 30,
+      "community": 6,
       "norm_label": "fmtbelowthreshold()"
     },
     {
       "label": "fmtMajorityCoalition()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L537",
+      "source_location": "L531",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtmajoritycoalition",
-      "community": 44,
+      "community": 6,
       "norm_label": "fmtmajoritycoalition()"
     },
     {
       "label": "fmtRunsLabel()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L547",
+      "source_location": "L541",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtrunslabel",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtrunslabel()"
     },
     {
       "label": "fmtMajorityLine()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L552",
+      "source_location": "L546",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtmajorityline",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtmajorityline()"
     },
     {
       "label": "fmtChanceOfReaching()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L555",
+      "source_location": "L549",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtchanceofreaching",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtchanceofreaching()"
     },
     {
       "label": "fmtMedianSeatsCombined()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L558",
+      "source_location": "L552",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtmedianseatscombined",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtmedianseatscombined()"
     },
     {
       "label": "fmtSeatDistFooter()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L561",
+      "source_location": "L555",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtseatdistfooter",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtseatdistfooter()"
     },
     {
       "label": "fmtMcMethodologyFooter()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L566",
+      "source_location": "L560",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtmcmethodologyfooter",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtmcmethodologyfooter()"
     },
     {
       "label": "fmtLeaderFirst()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L571",
+      "source_location": "L565",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtleaderfirst",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtleaderfirst()"
     },
     {
       "label": "fmtOutrightMajority()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L574",
+      "source_location": "L568",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtoutrightmajority",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtoutrightmajority()"
     },
     {
       "label": "fmtAboutXIn10()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L577",
+      "source_location": "L571",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtaboutxin10",
-      "community": 29,
+      "community": 6,
       "norm_label": "fmtaboutxin10()"
     },
     {
       "label": "fmtMuniLoadError()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L582",
+      "source_location": "L576",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtmuniloaderror",
       "community": 6,
@@ -4827,7 +4827,7 @@
       "label": "fmtMinMax()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L587",
+      "source_location": "L581",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtminmax",
       "community": 6,
@@ -4837,7 +4837,7 @@
       "label": "fmtLean()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L591",
+      "source_location": "L585",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greecetranslations_fmtlean",
       "community": 6,
@@ -4850,7 +4850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_hemicycle",
-      "community": 44,
+      "community": 6,
       "norm_label": "hemicycle.jsx"
     },
     {
@@ -4860,7 +4860,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_hemicycle_grcoalitionbuilder",
-      "community": 44,
+      "community": 6,
       "norm_label": "grcoalitionbuilder"
     },
     {
@@ -4877,77 +4877,17 @@
       "label": "fmtGDP()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L20",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_fmtgdp",
       "community": 13,
       "norm_label": "fmtgdp()"
     },
     {
-      "label": "fmtEUR()",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L27",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_fmteur",
-      "community": 13,
-      "norm_label": "fmteur()"
-    },
-    {
-      "label": "GDP_COLOR_LOW",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L33",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_gdp_color_low",
-      "community": 13,
-      "norm_label": "gdp_color_low"
-    },
-    {
-      "label": "GDP_COLOR_MID",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_gdp_color_mid",
-      "community": 13,
-      "norm_label": "gdp_color_mid"
-    },
-    {
-      "label": "GDP_COLOR_HIGH",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_gdp_color_high",
-      "community": 13,
-      "norm_label": "gdp_color_high"
-    },
-    {
-      "label": "lerpColor()",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L36",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_lerpcolor",
-      "community": 13,
-      "norm_label": "lerpcolor()"
-    },
-    {
-      "label": "gdpDivergingColor()",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L42",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_gdpdivergingcolor",
-      "community": 13,
-      "norm_label": "gdpdivergingcolor()"
-    },
-    {
       "label": "MAP_MODE_OPTIONS",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L54",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_map_mode_options",
       "community": 13,
@@ -4957,7 +4897,7 @@
       "label": "MapModeMenu",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L69",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_mapmodemenu",
       "community": 13,
@@ -4967,7 +4907,7 @@
       "label": "buildPartyMap()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L138",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_buildpartymap",
       "community": 13,
@@ -4977,17 +4917,17 @@
       "label": "getDemoData()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L144",
+      "source_location": "L116",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_getdemodata",
-      "community": 11,
+      "community": 13,
       "norm_label": "getdemodata()"
     },
     {
       "label": "GR_POP_2021",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L167",
+      "source_location": "L139",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_gr_pop_2021",
       "community": 13,
@@ -4997,7 +4937,7 @@
       "label": "grDistrictPopulation()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L168",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_grdistrictpopulation",
       "community": 13,
@@ -5007,37 +4947,17 @@
       "label": "grDistrictGDP()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L178",
+      "source_location": "L150",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_grdistrictgdp",
       "community": 13,
       "norm_label": "grdistrictgdp()"
     },
     {
-      "label": "grDistrictPopulationForYear()",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L189",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_grdistrictpopulationforyear",
-      "community": 13,
-      "norm_label": "grdistrictpopulationforyear()"
-    },
-    {
-      "label": "grDistrictGDPValue()",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L200",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_map_grdistrictgdpvalue",
-      "community": 13,
-      "norm_label": "grdistrictgdpvalue()"
-    },
-    {
       "label": "getFeatureFill()",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L209",
+      "source_location": "L161",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_getfeaturefill",
       "community": 13,
@@ -5047,7 +4967,7 @@
       "label": "GrMapTooltipContent",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L297",
+      "source_location": "L254",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_grmaptooltipcontent",
       "community": 13,
@@ -5057,7 +4977,7 @@
       "label": "MapTooltipPortal",
       "file_type": "code",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L540",
+      "source_location": "L490",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_map_maptooltipportal",
       "community": 13,
@@ -5070,7 +4990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_methodologymodal",
-      "community": 42,
+      "community": 6,
       "norm_label": "methodologymodal.jsx"
     },
     {
@@ -5080,7 +5000,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_methodologymodal_mono",
-      "community": 42,
+      "community": 6,
       "norm_label": "mono()"
     },
     {
@@ -5090,7 +5010,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_methodologymodal_section",
-      "community": 42,
+      "community": 6,
       "norm_label": "section()"
     },
     {
@@ -5100,7 +5020,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_methodologymodal_methodologymodal",
-      "community": 42,
+      "community": 6,
       "norm_label": "methodologymodal()"
     },
     {
@@ -5110,7 +5030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_montecarlopanel",
-      "community": 29,
+      "community": 6,
       "norm_label": "montecarlopanel.jsx"
     },
     {
@@ -5120,7 +5040,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_montecarlopanel_pct",
-      "community": 29,
+      "community": 6,
       "norm_label": "pct()"
     },
     {
@@ -5130,7 +5050,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_montecarlopanel_inwords",
-      "community": 29,
+      "community": 6,
       "norm_label": "inwords()"
     },
     {
@@ -5140,7 +5060,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_montecarlopanel_montecarlopanel",
-      "community": 29,
+      "community": 6,
       "norm_label": "montecarlopanel()"
     },
     {
@@ -5190,7 +5110,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_opinionpolls_opinionpolls",
-      "community": 42,
+      "community": 6,
       "norm_label": "opinionpolls()"
     },
     {
@@ -5200,7 +5120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable",
-      "community": 30,
+      "community": 6,
       "norm_label": "resultstable.jsx"
     },
     {
@@ -5210,7 +5130,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable_seats_by_scenario",
-      "community": 30,
+      "community": 6,
       "norm_label": "seats_by_scenario"
     },
     {
@@ -5220,7 +5140,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable_delta_labels",
-      "community": 30,
+      "community": 6,
       "norm_label": "delta_labels"
     },
     {
@@ -5230,7 +5150,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_resultstable_grmetricscards",
-      "community": 30,
+      "community": 6,
       "norm_label": "grmetricscards"
     },
     {
@@ -5610,7 +5530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data",
-      "community": 43,
+      "community": 19,
       "norm_label": "greece-crisis-economics-data.js"
     },
     {
@@ -5620,7 +5540,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_years",
-      "community": 43,
+      "community": 19,
       "norm_label": "years"
     },
     {
@@ -5630,7 +5550,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_series",
-      "community": 43,
+      "community": 19,
       "norm_label": "series()"
     },
     {
@@ -5640,7 +5560,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_gr_youth_unemployment_by_region",
-      "community": 43,
+      "community": 19,
       "norm_label": "gr_youth_unemployment_by_region"
     },
     {
@@ -5650,7 +5570,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_gr_longterm_unemployment_by_region",
-      "community": 43,
+      "community": 19,
       "norm_label": "gr_longterm_unemployment_by_region"
     },
     {
@@ -5660,7 +5580,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_gr_gdp_per_capita_by_region",
-      "community": 43,
+      "community": 19,
       "norm_label": "gr_gdp_per_capita_by_region"
     },
     {
@@ -5670,7 +5590,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_makeaccessors",
-      "community": 43,
+      "community": 19,
       "norm_label": "makeaccessors()"
     },
     {
@@ -5680,7 +5600,7 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_youthacc",
-      "community": 43,
+      "community": 19,
       "norm_label": "youthacc"
     },
     {
@@ -5690,7 +5610,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_ltuacc",
-      "community": 43,
+      "community": 19,
       "norm_label": "ltuacc"
     },
     {
@@ -5700,7 +5620,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_crisis_economics_data_gdpacc",
-      "community": 43,
+      "community": 19,
       "norm_label": "gdpacc"
     },
     {
@@ -5720,7 +5640,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr",
-      "community": 3,
+      "community": 2,
       "norm_label": "gr"
     },
     {
@@ -5730,7 +5650,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_bonus_config",
-      "community": 30,
+      "community": 6,
       "norm_label": "gr_bonus_config"
     },
     {
@@ -5850,7 +5770,7 @@
       "source_location": "L334",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_prefecture_map",
-      "community": 11,
+      "community": 2,
       "norm_label": "gr_prefecture_map"
     },
     {
@@ -5860,7 +5780,7 @@
       "source_location": "L374",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_data_gr_centroid_offsets",
-      "community": 11,
+      "community": 2,
       "norm_label": "gr_centroid_offsets"
     },
     {
@@ -6310,7 +6230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_montecarlo",
-      "community": 3,
+      "community": 2,
       "norm_label": "greece-montecarlo.js"
     },
     {
@@ -6320,7 +6240,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_montecarlo_randn",
-      "community": 3,
+      "community": 2,
       "norm_label": "randn()"
     },
     {
@@ -6330,7 +6250,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_montecarlo_studentt",
-      "community": 3,
+      "community": 2,
       "norm_label": "studentt()"
     },
     {
@@ -6340,7 +6260,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_montecarlo_percentile",
-      "community": 3,
+      "community": 2,
       "norm_label": "percentile()"
     },
     {
@@ -6360,7 +6280,7 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_montecarlo_grcoalitionprobability",
-      "community": 3,
+      "community": 2,
       "norm_label": "grcoalitionprobability()"
     },
     {
@@ -6392,36 +6312,6 @@
       "id": "src_components_greeceswingometer_greece_municipalities_gr_muni_party_ids",
       "community": 13,
       "norm_label": "gr_muni_party_ids"
-    },
-    {
-      "label": "greece-population-data.js",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/greece-population-data.js",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_greece_population_data",
-      "community": 13,
-      "norm_label": "greece-population-data.js"
-    },
-    {
-      "label": "GR_POP_YEARS",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/greece-population-data.js",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_greece_population_data_gr_pop_years",
-      "community": 13,
-      "norm_label": "gr_pop_years"
-    },
-    {
-      "label": "GR_DISTRICT_POPULATION_BY_YEAR",
-      "file_type": "code",
-      "source_file": "src/components/GreeceSwingometer/greece-population-data.js",
-      "source_location": "L11",
-      "_origin": "ast",
-      "id": "src_components_greeceswingometer_greece_population_data_gr_district_population_by_year",
-      "community": 13,
-      "norm_label": "gr_district_population_by_year"
     },
     {
       "label": "greece-stats-export.js",
@@ -7240,7 +7130,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grfmtvotes",
-      "community": 30,
+      "community": 6,
       "norm_label": "grfmtvotes()"
     },
     {
@@ -7250,7 +7140,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_grfmtvotesshort",
-      "community": 30,
+      "community": 6,
       "norm_label": "grfmtvotesshort()"
     },
     {
@@ -7320,7 +7210,7 @@
       "source_location": "L116",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_gr_row_radii",
-      "community": 44,
+      "community": 6,
       "norm_label": "gr_row_radii"
     },
     {
@@ -7330,7 +7220,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "src_components_greeceswingometer_greece_utils_gr_hemi_positions",
-      "community": 44,
+      "community": 6,
       "norm_label": "gr_hemi_positions"
     },
     {
@@ -17922,7 +17812,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L577",
+      "source_location": "L571",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtaboutxin10",
@@ -17932,7 +17822,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L532",
+      "source_location": "L526",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtbelowthreshold",
@@ -17942,7 +17832,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L555",
+      "source_location": "L549",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtchanceofreaching",
@@ -17952,7 +17842,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L523",
+      "source_location": "L517",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtinclbonus",
@@ -17962,7 +17852,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L571",
+      "source_location": "L565",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtleaderfirst",
@@ -17972,7 +17862,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L591",
+      "source_location": "L585",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtlean",
@@ -17982,7 +17872,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L537",
+      "source_location": "L531",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtmajoritycoalition",
@@ -17992,7 +17882,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L552",
+      "source_location": "L546",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtmajorityline",
@@ -18002,7 +17892,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L566",
+      "source_location": "L560",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtmcmethodologyfooter",
@@ -18012,7 +17902,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L558",
+      "source_location": "L552",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtmedianseatscombined",
@@ -18022,7 +17912,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L587",
+      "source_location": "L581",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtminmax",
@@ -18032,7 +17922,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L582",
+      "source_location": "L576",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtmuniloaderror",
@@ -18042,7 +17932,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L515",
+      "source_location": "L509",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtnationalturnout",
@@ -18052,7 +17942,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L508",
+      "source_location": "L502",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtnopartiesthreshold",
@@ -18062,7 +17952,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L574",
+      "source_location": "L568",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtoutrightmajority",
@@ -18072,7 +17962,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L547",
+      "source_location": "L541",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtrunslabel",
@@ -18082,7 +17972,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L561",
+      "source_location": "L555",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtseatdistfooter",
@@ -18092,7 +17982,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L526",
+      "source_location": "L520",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmtseatsofneeded",
@@ -18102,7 +17992,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L529",
+      "source_location": "L523",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_fmttotalvotes",
@@ -18122,7 +18012,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L497",
+      "source_location": "L491",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_gr_el",
@@ -18192,7 +18082,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L455",
+      "source_location": "L449",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_methodology",
@@ -18232,7 +18122,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/GreeceTranslations.jsx",
-      "source_location": "L478",
+      "source_location": "L472",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greecetranslations",
       "target": "src_components_greeceswingometer_greecetranslations_seat_diff",
@@ -18334,7 +18224,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations",
@@ -18422,7 +18312,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations_usegreecet",
@@ -18587,7 +18477,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations_tpartyname",
@@ -18653,7 +18543,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations_tdistrictname",
@@ -18928,7 +18818,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations_fmtmuniloaderror",
@@ -18939,7 +18829,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations_fmtminmax",
@@ -18950,7 +18840,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L15",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greecetranslations_fmtlean",
@@ -19183,7 +19073,7 @@
       "source_location": "L13",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_greece_population_data",
+      "target": "src_components_greeceswingometer_greece_utils",
       "confidence_score": 1.0
     },
     {
@@ -19194,28 +19084,6 @@
       "source_location": "L13",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_greece_population_data_gr_district_population_by_year",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_greece_utils",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L14",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greece_utils_grextractname",
       "confidence_score": 1.0
     },
@@ -19224,7 +19092,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greece_utils_grgetcentroidoffset",
@@ -19235,7 +19103,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greece_utils_grmatchdistricts",
@@ -19246,7 +19114,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_greece_utils_grnormstr",
@@ -19256,7 +19124,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L138",
+      "source_location": "L110",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_buildpartymap",
@@ -19266,17 +19134,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L27",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_fmteur",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_fmtgdp",
@@ -19286,47 +19144,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L35",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_gdp_color_high",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L33",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_gdp_color_low",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L34",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_gdp_color_mid",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L42",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_gdpdivergingcolor",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L144",
+      "source_location": "L116",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_getdemodata",
@@ -19336,7 +19154,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L209",
+      "source_location": "L161",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_getfeaturefill",
@@ -19346,7 +19164,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L167",
+      "source_location": "L139",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_gr_pop_2021",
@@ -19356,7 +19174,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L178",
+      "source_location": "L150",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_grdistrictgdp",
@@ -19366,17 +19184,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L200",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_grdistrictgdpvalue",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L168",
+      "source_location": "L140",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_grdistrictpopulation",
@@ -19386,17 +19194,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L189",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_grdistrictpopulationforyear",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L297",
+      "source_location": "L254",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_grmaptooltipcontent",
@@ -19406,17 +19204,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L36",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map",
-      "target": "src_components_greeceswingometer_map_lerpcolor",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L54",
+      "source_location": "L26",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_map_mode_options",
@@ -19426,7 +19214,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L69",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_mapmodemenu",
@@ -19436,7 +19224,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L540",
+      "source_location": "L490",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map",
       "target": "src_components_greeceswingometer_map_maptooltipportal",
@@ -19447,29 +19235,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map_gdpdivergingcolor",
-      "target": "src_components_greeceswingometer_map_lerpcolor",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L271",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map_getfeaturefill",
-      "target": "src_components_greeceswingometer_map_gdpdivergingcolor",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L151",
+      "source_location": "L123",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map_getdemodata",
       "target": "src_components_greeceswingometer_greece_utils_grnormstr",
@@ -19480,7 +19246,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L274",
+      "source_location": "L231",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map_getfeaturefill",
       "target": "src_components_greeceswingometer_map_getdemodata",
@@ -19491,7 +19257,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L260",
+      "source_location": "L212",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map_getfeaturefill",
       "target": "src_components_greeceswingometer_map_grdistrictpopulation",
@@ -19502,9 +19268,9 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L201",
+      "source_location": "L222",
       "weight": 1.0,
-      "source": "src_components_greeceswingometer_map_grdistrictgdpvalue",
+      "source": "src_components_greeceswingometer_map_getfeaturefill",
       "target": "src_components_greeceswingometer_map_grdistrictgdp",
       "confidence_score": 1.0
     },
@@ -19513,29 +19279,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L204",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map_grdistrictgdpvalue",
-      "target": "src_components_greeceswingometer_map_grdistrictpopulationforyear",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L270",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_map_getfeaturefill",
-      "target": "src_components_greeceswingometer_map_grdistrictgdpvalue",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/Map.jsx",
-      "source_location": "L224",
+      "source_location": "L176",
       "weight": 1.0,
       "source": "src_components_greeceswingometer_map_getfeaturefill",
       "target": "src_components_greeceswingometer_greece_utils_grmatchdistricts",
@@ -21914,26 +21658,6 @@
       "weight": 1.0,
       "source": "src_components_greeceswingometer_greece_municipalities",
       "target": "src_components_greeceswingometer_greece_municipalities_gr_muni_party_ids",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-population-data.js",
-      "source_location": "L11",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_population_data",
-      "target": "src_components_greeceswingometer_greece_population_data_gr_district_population_by_year",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GreeceSwingometer/greece-population-data.js",
-      "source_location": "L9",
-      "weight": 1.0,
-      "source": "src_components_greeceswingometer_greece_population_data",
-      "target": "src_components_greeceswingometer_greece_population_data_gr_pop_years",
       "confidence_score": 1.0
     },
     {

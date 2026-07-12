@@ -382,10 +382,13 @@ export function grApplySwing(district, effectiveParties, baseParties, sliderValu
   baseParties.forEach(bp => {
     const dBase = Math.max(0.001, district.baseVotes[bp.id] ?? bp.basePercentage);
     
-    // DAMPING FORMULA: clamps dominant parties (dBase > 65%) to 0.25x to prevent absurd
-    // ceilings; for micro-parties (dBase < 5%) the multiplier exceeds 1.0, amplifying swings
+    // DAMPING FORMULA: strongholds still resist the full national swing (a party's
+    // best areas don't crater exactly as fast as its national number), but only
+    // down to a 0.4x floor — not 0.25x — so a big enough national collapse can
+    // actually cut through a stronghold instead of leaving it looking untouchable.
+    // For micro-parties (dBase < 5%) the multiplier exceeds 1.0, amplifying swings
     // so they can realistically cross 3% locally.
-    const damping = Math.max(0.25, 1.0 - ((dBase - 5) / 60) * 0.75);
+    const damping = Math.max(0.4, 1.0 - ((dBase - 5) / 90) * 0.6);
     let logitVal = grToLogit(dBase) + (logitSwing[bp.id] ?? 0) * damping;
 
     // Geographic demographic coupling: concentrate each slider's effect where that

@@ -28,8 +28,6 @@
   "26": "aus-data.js",
   "27": "aus-demographics-adapter.js",
   "28": "usePolls.js",
-  "29": "MonteCarloPanel.jsx",
-  "30": "ResultsTable.jsx",
   "31": "CLAUDE.md",
   "32": "eslint.config.js",
   "33": "MarginalSeats",
@@ -40,8 +38,5 @@
   "38": "anovaOneWay",
   "39": "finiteOnly",
   "40": "vite.config.js",
-  "41": "GreeceStyles.jsx",
-  "42": "useGreeceT",
-  "43": "greece-crisis-economics-data.js",
-  "44": "Hemicycle.jsx"
+  "41": "GreeceStyles.jsx"
 }
