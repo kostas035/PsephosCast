@@ -245,6 +245,11 @@ const CONTROL_PANEL = {
   "Swing Controls": "Χειριστήρια Μετατόπισης",
   "Baseline": "Βάση",
   "May 2026 Polling Average": "Μέσος Όρος Δημοσκοπήσεων Μαΐου 2026",
+  "Custom Scenario": "Προσαρμοσμένο Σενάριο",
+  "Pick at least 2 Parties": "Επιλέξτε Τουλάχιστον 2 Κόμματα",
+  "Choose the parties for your custom scenario. You need at least two to continue.":
+    "Επιλέξτε τα κόμματα για το προσαρμοσμένο σενάριό σας. Χρειάζεστε τουλάχιστον δύο για να συνεχίσετε.",
+  "Add Party": "Προσθήκη Κόμματος",
   "June 2023 Legislative": "Βουλευτικές Εκλογές Ιουνίου 2023",
   "July 2019 Legislative": "Βουλευτικές Εκλογές Ιουλίου 2019",
   "Electoral Threshold (%)": "Εκλογικό Όριο (%)",

@@ -1,6 +1,6 @@
 import { useState, useMemo, useDeferredValue, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { S, EASE_SPRING, EASE_STD } from "./GreeceStyles";
+import { S, EASE_SPRING, EASE_STD, Dropdown } from "./GreeceStyles";
 import { GR } from "./greece-data.js";
 import { IconChevron } from "./GreeceIcons";
 import { grRunMonteCarlo, grCoalitionProbability } from "./greece-montecarlo.js";
@@ -169,12 +169,17 @@ export default function MonteCarloPanel({ effectiveParties, parties, threshold, 
                   <input type="range" min={0.5} max={6} step={0.5} value={sigma} onChange={(e) => setSigma(parseFloat(e.target.value))}
                     style={{ width: "100%", height: 5, borderRadius: 4, outline: "none", cursor: "pointer", background: `linear-gradient(to right,#60A5FA 0%,#60A5FA ${((sigma - 0.5) / 5.5) * 100}%,var(--border) ${((sigma - 0.5) / 5.5) * 100}%)` }} />
                 </div>
-                <select value={iterations} onChange={(e) => setIterations(parseInt(e.target.value))} style={{ ...S.editInput, cursor: "pointer", padding: "4px 6px", height: 26 }}>
-                  <option value={2000}>{t("2k runs")}</option>
-                  <option value={4000}>{t("4k runs")}</option>
-                  <option value={10000}>{t("10k runs")}</option>
-                  <option value={20000}>{t("20k runs")}</option>
-                </select>
+                <Dropdown
+                  value={iterations}
+                  onChange={(v) => setIterations(parseInt(v))}
+                  style={{ padding: "4px 6px", height: 26 }}
+                  options={[
+                    { value: 2000, label: t("2k runs") },
+                    { value: 4000, label: t("4k runs") },
+                    { value: 10000, label: t("10k runs") },
+                    { value: 20000, label: t("20k runs") },
+                  ]}
+                />
               </div>
             </div>
 

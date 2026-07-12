@@ -1,4 +1,5 @@
 import { memo, useEffect, useRef, useState } from "react";
+import { IconChevron } from "./GreeceIcons";
 
 /* Easing constants */
 export const EASE_STD    = "cubic-bezier(0.4, 0, 0.2, 1)";
@@ -106,6 +107,78 @@ export const Slider = memo(function Slider({ label, value, min = -10, max = 10, 
         onChange={handleChange}
         style={{ width: "100%", height: 5, background: trackBg, borderRadius: 3, outline: "none", cursor: "pointer" }}
       />
+    </div>
+  );
+});
+
+// Custom-styled dropdown used in place of native <select> elements, for the same
+// smooth open/close feel as the map-mode menu (Map.jsx). options: [{ value, label }].
+export const Dropdown = memo(function Dropdown({ value, options, onChange, width, style, fontSize = 10, align = "left", disabled = false, triggerLabel }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDocDown = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDocDown);
+    document.addEventListener("keydown", onKey);
+    return () => { document.removeEventListener("mousedown", onDocDown); document.removeEventListener("keydown", onKey); };
+  }, [open]);
+
+  const current = options.find(o => String(o.value) === String(value)) || options[0];
+
+  return (
+    <div ref={rootRef} style={{ position: "relative", width: width || "auto", display: width ? "block" : "inline-block" }}>
+      <button
+        type="button"
+        className="icon-btn"
+        disabled={disabled}
+        onClick={() => setOpen(v => !v)}
+        style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, width: "100%",
+          background: "var(--btn-bg, #0f172a)", color: "var(--text-main, #f8fafc)",
+          border: "1px solid var(--border, #334155)", borderRadius: 4, padding: "6px 8px",
+          fontSize, fontFamily: "var(--ff-body)", fontWeight: 600, cursor: disabled ? "not-allowed" : "pointer",
+          outline: "none", opacity: disabled ? 0.5 : 1, whiteSpace: "nowrap",
+          ...style,
+        }}
+      >
+        <span style={{ display: "flex", alignItems: "center", gap: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{triggerLabel !== undefined ? triggerLabel : (current ? current.label : "")}</span>
+        <IconChevron dir={open ? "up" : "down"} size={8} />
+      </button>
+
+      {open && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 4px)", [align]: 0, zIndex: 30,
+          background: "var(--bg-mid, #1e293b)", border: "1px solid var(--border, #334155)",
+          borderRadius: 6, padding: 4, minWidth: "100%", width: "max-content",
+          boxShadow: "0 16px 40px rgba(0,0,0,0.45)",
+          display: "flex", flexDirection: "column", gap: 1, maxHeight: 320, overflowY: "auto",
+        }}>
+          {options.map(opt => {
+            const active = String(opt.value) === String(value);
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                className="icon-btn"
+                onClick={() => { onChange(opt.value); setOpen(false); }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8, width: "100%", textAlign: "left",
+                  background: active ? "var(--tab-active, rgba(96,165,250,0.15))" : "transparent",
+                  color: active ? "#60A5FA" : "var(--text-main)",
+                  border: "1px solid transparent", borderRadius: 4, padding: "6px 8px",
+                  fontSize, fontFamily: "var(--ff-body)", fontWeight: active ? 700 : 500, cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 });

@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { S, EASE_STD, Slider } from "./GreeceStyles";
-import { IconGear, IconTrash, IconChevron, IconColumns, IconPeople } from "./GreeceIcons";
-import { GR_IDEOLOGY_LABELS, GR_SCENARIO_LABELS } from "./greece-data.js";
-import { useGreeceT, fmtNationalTurnout, tPartyFullName, tIdeologyLabel } from "./GreeceTranslations.jsx";
+import { S, EASE_STD, Slider, Dropdown } from "./GreeceStyles";
+import { IconGear, IconTrash, IconChevron, IconColumns, IconPeople, IconPlus } from "./GreeceIcons";
+import { GR_IDEOLOGY_LABELS, GR_SCENARIO_LABELS, GR_MIN_CUSTOM_PARTIES } from "./greece-data.js";
+import { useGreeceT, fmtNationalTurnout, tPartyFullName, tPartyName, tIdeologyLabel } from "./GreeceTranslations.jsx";
 
 const GR_DEM_CONTROLS = [
   { key: "youth",     label: "Youth Turnout (18–34)",  color: "#7C3AED", tip: "Negative = youth abstain · Positive = youth mobilised" },
@@ -29,7 +29,7 @@ const IconLock = ({ locked, size = 11 }) => (
   </svg>
 );
 
-function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleLock, onEdit, onMove, onDelete, lang }) {
+function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleLock, onEdit, onMove, onDelete, canDelete, lang }) {
   const t = useGreeceT(lang);
   const [editing, setEditing] = useState(false);
   const [localPct, setLocalPct] = useState(party.userPercentage);
@@ -80,11 +80,16 @@ function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleL
             <input type="text" value={party.name} onChange={e => onEdit(party.id, "name", e.target.value)} style={{ ...S.editInput, width: 60 }} placeholder={t("Abbr.")}/>
             <input type="text" value={party.fullName} onChange={e => onEdit(party.id, "fullName", e.target.value)} style={{ ...S.editInput, flexGrow: 1 }} placeholder={t("Full Name")}/>
           </div>
-          <select value={party.ideology} onChange={e => onEdit(party.id, "ideology", parseInt(e.target.value))} style={{ ...S.editInput, width: "100%" }}>
-            {Object.entries(GR_IDEOLOGY_LABELS).map(([v, l]) => <option key={v} value={v}>{tIdeologyLabel(lang, v, l)}</option>)}
-          </select>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 5, marginTop: 4 }}>
-            <button onClick={() => onDelete(party.id)} style={{ background: "#EF44441A", color: "#EF4444", border: "1px solid #EF444444", padding: "3px 8px", borderRadius: 3, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: 9, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}><IconTrash size={10}/> {t("Delete")}</button>
+          <Dropdown
+            value={party.ideology}
+            onChange={v => onEdit(party.id, "ideology", parseInt(v))}
+            width="100%"
+            options={Object.entries(GR_IDEOLOGY_LABELS).map(([v, l]) => ({ value: v, label: tIdeologyLabel(lang, v, l) }))}
+          />
+          <div style={{ display: "flex", justifyContent: canDelete ? "space-between" : "flex-end", gap: 5, marginTop: 4 }}>
+            {canDelete && (
+              <button onClick={() => onDelete(party.id)} style={{ background: "#EF44441A", color: "#EF4444", border: "1px solid #EF444444", padding: "3px 8px", borderRadius: 3, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, fontSize: 9, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}><IconTrash size={10}/> {t("Delete")}</button>
+            )}
             <div style={{ display: "flex", gap: 5 }}>
               {[[-1, "up"], [1, "down"]].map(([dir, arrow]) => (
                 <button key={dir} className="icon-btn" onClick={() => onMove(index, dir)} disabled={dir === -1 ? index === 0 : index === totalParties - 1} style={{ ...S.ghostBtn, padding: "3px 8px" }}><IconChevron dir={arrow} size={9}/></button>
@@ -109,11 +114,44 @@ function GrPartyControlItem({ party, index, totalParties, onPctChange, onToggleL
   );
 }
 
-export default function ControlPanel({ parties, onPctChange, onToggleLock, onPartyEdit, onPartyMove, onPartyDelete, demSliders, setDemSliders, scenarioId, onScenarioChange, resetAll, threshold, setThreshold, turnoutShift, setTurnoutShift, lang }) {
+// Chip grid used while a Custom scenario has fewer than GR_MIN_CUSTOM_PARTIES parties —
+// tap any party to add it; already-added ones stay visible, highlighted, tap to remove.
+function GrPartyPicker({ allParties, selectedIds, onAdd, onRemove, lang }) {
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+      {allParties.map(p => {
+        const active = selectedIds.includes(p.id);
+        return (
+          <button
+            key={p.id}
+            className="icon-btn"
+            onClick={() => (active ? onRemove(p.id) : onAdd(p.id))}
+            style={{
+              display: "flex", alignItems: "center", gap: 6, cursor: "pointer", borderRadius: 5,
+              padding: "6px 10px", fontSize: 10, fontFamily: "var(--ff-body)",
+              background: active ? "var(--tab-active, rgba(96,165,250,0.15))" : "var(--btn-bg)",
+              color: active ? "#60A5FA" : "var(--text-main)",
+              border: `1px solid ${active ? "#60A5FA" : "var(--border)"}`,
+            }}
+          >
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: p.color, flexShrink: 0 }} />
+            <span style={{ fontWeight: 700 }}>{tPartyName(lang, p)}</span>
+            <span style={{ color: active ? "#60A5FA" : "var(--text-dim)" }}>{tPartyFullName(lang, p)}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function ControlPanel({ parties, onPctChange, onToggleLock, onPartyEdit, onPartyMove, onPartyDelete, allParties = [], onAddCustomParty, demSliders, setDemSliders, scenarioId, onScenarioChange, resetAll, threshold, setThreshold, turnoutShift, setTurnoutShift, lang }) {
   const t = useGreeceT(lang);
   const [tab, setTab] = useState("parties");
   let totalPct = 0;
   for (let i = 0; i < parties.length; i++) totalPct += parties[i].userPercentage;
+
+  const isCustom = scenarioId === "custom";
+  const addableParties = isCustom ? (allParties || []).filter(p => !parties.some(sel => sel.id === p.id)) : [];
 
   const resetDem = useCallback(() => setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 }), [setDemSliders]);
 
@@ -126,15 +164,21 @@ export default function ControlPanel({ parties, onPctChange, onToggleLock, onPar
       <div style={{ ...S.label, marginBottom: 12 }}>{t("Swing Controls")}</div>
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 8, color: "var(--text-dim)", marginBottom: 5, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>{t("Baseline")}</div>
-        <select value={scenarioId} onChange={onScenarioChange} style={{ width: "100%", ...S.editInput, padding: "6px 8px", cursor: "pointer" }}>
-          <option value="2026">{t("May 2026 Polling Average")}</option>
-          <option value="2023">{t("June 2023 Legislative")}</option>
-          <option value="2019">{t("July 2019 Legislative")}</option>
-          <option value="2015">{t("September 2015 Legislative")}</option>
-          <option value="2015jan">{t("January 2015 Legislative")}</option>
-          <option value="2012">{t("June 2012 Legislative")}</option>
-          <option value="2012may">{t("May 2012 Legislative")}</option>
-        </select>
+        <Dropdown
+          value={scenarioId}
+          onChange={v => onScenarioChange({ target: { value: v } })}
+          width="100%"
+          options={[
+            { value: "2026", label: t("May 2026 Polling Average") },
+            { value: "custom", label: t("Custom Scenario") },
+            { value: "2023", label: t("June 2023 Legislative") },
+            { value: "2019", label: t("July 2019 Legislative") },
+            { value: "2015", label: t("September 2015 Legislative") },
+            { value: "2015jan", label: t("January 2015 Legislative") },
+            { value: "2012", label: t("June 2012 Legislative") },
+            { value: "2012may", label: t("May 2012 Legislative") },
+          ]}
+        />
       </div>
       <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: "1px solid var(--divider)" }}>
         <Slider label={t("Electoral Threshold (%)")} value={threshold} min={0} max={10} step={0.5} onChange={setThreshold} color="#F59E0B"/>
@@ -156,7 +200,23 @@ export default function ControlPanel({ parties, onPctChange, onToggleLock, onPar
             <button className="icon-btn" onClick={resetDem} style={{ ...S.ghostBtn, width: "100%", justifyContent: "center", marginTop: 8 }}>{t("Reset Demographics")}</button>
           </>
         )}
-        {tab === "parties" && (
+        {tab === "parties" && (isCustom && parties.length < GR_MIN_CUSTOM_PARTIES ? (
+          <>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-title)", fontFamily: "var(--ff-body)", marginBottom: 4 }}>
+              {t("Pick at least 2 Parties")}
+            </div>
+            <div style={{ fontSize: 10, color: "var(--text-muted)", fontFamily: "var(--ff-body)", marginBottom: 10, lineHeight: 1.5 }}>
+              {t("Choose the parties for your custom scenario. You need at least two to continue.")}
+            </div>
+            <GrPartyPicker
+              allParties={allParties}
+              selectedIds={parties.map(p => p.id)}
+              onAdd={onAddCustomParty}
+              onRemove={onPartyDelete}
+              lang={lang}
+            />
+          </>
+        ) : (
           <>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, padding: "4px 8px", background: "var(--btn-bg)", borderRadius: 4, border: "1px solid var(--divider)" }}>
               <span style={{ fontSize: 8, color: "var(--text-dim)", fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>{t("Total (normalised)")}</span>
@@ -173,14 +233,27 @@ export default function ControlPanel({ parties, onPctChange, onToggleLock, onPar
                 onEdit={onPartyEdit}
                 onMove={onPartyMove}
                 onDelete={onPartyDelete}
+                canDelete={isCustom && parties.length > GR_MIN_CUSTOM_PARTIES}
                 lang={lang}
               />
             ))}
             <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
+              {isCustom && addableParties.length > 0 && (
+                <div style={{ flexGrow: 1 }}>
+                  <Dropdown
+                    value={null}
+                    triggerLabel={<><IconPlus size={10}/> {t("Add Party")}</>}
+                    onChange={onAddCustomParty}
+                    width="100%"
+                    style={{ ...S.ghostBtn, justifyContent: "center", borderStyle: "dashed" }}
+                    options={addableParties.map(p => ({ value: p.id, label: `${tPartyName(lang, p)} — ${tPartyFullName(lang, p)}` }))}
+                  />
+                </div>
+              )}
               <button className="icon-btn" onClick={resetAll} style={{ ...S.ghostBtn, flexGrow: 1, justifyContent: "center" }}>{t("Reset to Baseline")}</button>
             </div>
           </>
-        )}
+        ))}
       </div>
     </div>
   );

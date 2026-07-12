@@ -22,7 +22,7 @@
 // them crisply at any scale.
 
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
-import { S } from "./GreeceStyles";
+import { S, Dropdown } from "./GreeceStyles";
 import { GR, GR_PARTY_DICT } from "./greece-data.js";
 import { POLL_PARTIES_MAPPING, DEFAULT_HIDDEN_PARTIES } from "./greece-utils.js";
 import { grRunMonteCarlo } from "./greece-montecarlo.js";
@@ -1139,9 +1139,11 @@ function GridComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
             {/* format */}
             <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontWeight: 600 }}>Format</span>
-              <select value={activeBoard?.format || "landscape"} onChange={(e) => setFormat(e.target.value)} style={ctrl}>
-                {Object.entries(FORMATS).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
-              </select>
+              <Dropdown
+                style={ctrl} fontSize={13}
+                value={activeBoard?.format || "landscape"} onChange={setFormat}
+                options={Object.entries(FORMATS).map(([k, f]) => ({ value: k, label: f.label }))}
+              />
             </label>
 
             {/* content scale */}
@@ -1174,9 +1176,11 @@ function GridComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
             {/* quality */}
             <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <span style={{ fontSize: 12, color: "var(--text-dim)", fontFamily: "var(--ff-body)", fontWeight: 600 }}>Quality</span>
-              <select value={scale} onChange={(e) => setScale(Number(e.target.value))} style={ctrl}>
-                <option value={1}>1x</option><option value={2}>2x</option><option value={3}>3x</option>
-              </select>
+              <Dropdown
+                style={ctrl} fontSize={13}
+                value={scale} onChange={v => setScale(Number(v))}
+                options={[1, 2, 3].map(n => ({ value: n, label: `${n}x` }))}
+              />
             </label>
 
             {/* header toggle */}
@@ -1331,15 +1335,19 @@ function PosterComposer({ open, onClose, ctx, isMobile, theme, onSwitch }) {
               </div>
               <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 600, fontFamily: "var(--ff-body)" }}>Shape</span>
-                <select value={format} onChange={(e) => setFormat(e.target.value)} style={ctrl}>
-                  {Object.entries(FORMATS).map(([k, f]) => <option key={k} value={k}>{f.label}</option>)}
-                </select>
+                <Dropdown
+                  style={ctrl} fontSize={13}
+                  value={format} onChange={setFormat}
+                  options={Object.entries(FORMATS).map(([k, f]) => ({ value: k, label: f.label }))}
+                />
               </label>
               <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <span style={{ fontSize: 12, color: "var(--text-dim)", fontWeight: 600, fontFamily: "var(--ff-body)" }}>Quality</span>
-                <select value={scale} onChange={(e) => setScale(Number(e.target.value))} style={ctrl}>
-                  <option value={1}>1x</option><option value={2}>2x</option><option value={3}>3x</option>
-                </select>
+                <Dropdown
+                  style={ctrl} fontSize={13}
+                  value={scale} onChange={v => setScale(Number(v))}
+                  options={[1, 2, 3].map(n => ({ value: n, label: `${n}x` }))}
+                />
               </label>
             </div>
 

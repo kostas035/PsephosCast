@@ -50,7 +50,7 @@ export const GR_PARTY_DICT = {
   elas:    { name:"ELAS",    fullName:"Greek Left Alliance",               color:"#A41F49", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.100, urban:  0.100, education:  0.250, precarity:  0.100, gender:  0.050 } },
   elpida:     { name:"ELPIDA",     fullName:"Hope For Democracy",         color:"#d9b24d", ideology: 1, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.050, education:  0.150, precarity:  0.200, gender:  0.150 } },
   dpk:        { name: "DPK",       fullName:"Democrats Progressive Centre", color:"#ff6600", ideology: 0, sensitivities:{ youth:  0.410, seniors: -0.080, urban:  0.074, education:  0.250, precarity:  0.150, gender: -0.020 } },
-samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"#172554", ideology: 2, sensitivities:{ youth: -0.200, seniors:  0.400, urban: -0.100, education: -0.050, precarity: -0.200, gender: -0.100 } },
+samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"#162f80", ideology: 2, sensitivities:{ youth: -0.200, seniors:  0.400, urban: -0.100, education: -0.050, precarity: -0.200, gender: -0.100 } },
 
   // 2015-era parties, not standing in later scenarios
   potami:     { name:"POTAMI",     fullName:"To Potami",                  color:"#9C514A", ideology: 0, sensitivities:{ youth:  0.250, seniors: -0.150, urban:  0.350, education:  0.400, precarity: -0.150, gender:  0.100 } },
@@ -396,9 +396,22 @@ export const GR_SCENARIOS = {
   "2012may": grBuildScenario([ { id:"nd", pct:18.85 },{ id:"syriza", pct:16.79 },{ id:"pasok", pct:13.18 }, { id:"anel", pct:10.62 },{ id:"kke", pct:8.48 },{ id:"gd", pct:6.97 }, { id:"dimar", pct:6.11 },{ id:"prasinoi", pct:2.93 },{ id:"laos", pct:2.89 }, { id:"disy", pct:2.55 },{ id:"dxana", pct:2.15 },{ id:"drasi", pct:1.80 },{ id:"antarsya", pct:1.19 } ]),
 };
 
-export const GR_SCENARIO_LABELS  = { "2026":"May 2026 Polling", "2023":"June 2023", "2019":"July 2019", "2015":"September 2015", "2015jan":"January 2015", "2012":"June 2012", "2012may":"May 2012" };
-export const GR_SCENARIO_TURNOUT = { "2026":5_500_000, "2023":5_273_699, "2019":5_769_542, "2015":5_433_376, "2015jan":6_180_872, "2012":6_155_464, "2012may":6_324_136 };
-export const GR_TURNOUT_IS_ESTIMATE = { "2026":true };
+export const GR_SCENARIO_LABELS  = { "2026":"May 2026 Polling", "custom":"Custom Scenario", "2023":"June 2023", "2019":"July 2019", "2015":"September 2015", "2015jan":"January 2015", "2012":"June 2012", "2012may":"May 2012" };
+export const GR_SCENARIO_TURNOUT = { "2026":5_500_000, "custom":5_500_000, "2023":5_273_699, "2019":5_769_542, "2015":5_433_376, "2015jan":6_180_872, "2012":6_155_464, "2012may":6_324_136 };
+export const GR_TURNOUT_IS_ESTIMATE = { "2026":true, "custom":true };
+
+// A Custom scenario needs at least this many parties before it's usable —
+// below it, ControlPanel shows the "pick at least N parties" picker instead
+// of the normal slider list.
+export const GR_MIN_CUSTOM_PARTIES = 2;
+
+// Every real/easter-egg party a user can add when building a Custom scenario
+// ("other" excluded — it's the synthetic residual bucket grBuildScenario uses
+// to pad a real scenario's shares to 100%, not a party someone would pick).
+export const GR_ALL_PARTIES = Object.keys(GR_PARTY_DICT)
+  .filter(id => id !== "other")
+  .map(id => ({ id, ...GR_PARTY_DICT[id] }))
+  .sort((a, b) => a.fullName.localeCompare(b.fullName));
 
 // Per-constituency demographic data (ELSTAT)
 export const GR_DISTRICT_DEMOGRAPHICS = [

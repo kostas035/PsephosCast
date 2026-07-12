@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { GlobalStyles, S, MeanderBar } from "./GreeceStyles";
+import { GlobalStyles, S, MeanderBar, Dropdown } from "./GreeceStyles";
 import {
   IconArrowLeft, IconElder, IconGraduation, IconBriefcase, IconGlobe,
   IconCityscape, IconPeople, IconBallot, IconIsland, IconOffice,
@@ -428,24 +428,32 @@ export default function GreeceCorrelations({ isMobile, theme }) {
               </div>
               <div>
                 <label style={{ ...S.label, display: "block", marginBottom: 6 }}>Baseline Source</label>
-                <select style={selectStyle} value={baselineKey} onChange={e => setBaselineKey(e.target.value)}>
-                  {BASELINE_OPTIONS.map(o => <option key={o.key} value={o.key}>{o.label}</option>)}
-                </select>
+                <Dropdown
+                  style={selectStyle} fontSize={12} width="100%"
+                  value={baselineKey} onChange={setBaselineKey}
+                  options={BASELINE_OPTIONS.map(o => ({ value: o.key, label: o.label }))}
+                />
               </div>
               <div>
                 <label style={{ ...S.label, display: "block", marginBottom: 6 }}>Comparison Target</label>
-                <select style={selectStyle} value={scenarioKey} onChange={e => setScenarioKey(e.target.value)}>
-                  <option value="none">Static Analysis (Baseline)</option>
-                  <option value="2026">May 2026 Polling</option>
-                  {BASELINE_OPTIONS.filter(o => o.key !== baselineKey).map(o => <option key={o.key} value={o.key}>{o.label} (swing)</option>)}
-                  <option value="custom">Active Swingometer Configuration</option>
-                </select>
+                <Dropdown
+                  style={selectStyle} fontSize={12} width="100%"
+                  value={scenarioKey} onChange={setScenarioKey}
+                  options={[
+                    { value: "none", label: "Static Analysis (Baseline)" },
+                    { value: "2026", label: "May 2026 Polling" },
+                    ...BASELINE_OPTIONS.filter(o => o.key !== baselineKey).map(o => ({ value: o.key, label: `${o.label} (swing)` })),
+                    { value: "custom", label: "Active Swingometer Configuration" },
+                  ]}
+                />
               </div>
               <div>
                 <label style={{ ...S.label, display: "block", marginBottom: 6 }}>Unemployment Year (crisis window)</label>
-                <select style={selectStyle} value={unemploymentYear} onChange={e => setUnemploymentYear(Number(e.target.value))}>
-                  {GR_UNEMPLOYMENT_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
-                </select>
+                <Dropdown
+                  style={selectStyle} fontSize={12} width="100%"
+                  value={unemploymentYear} onChange={v => setUnemploymentYear(Number(v))}
+                  options={GR_UNEMPLOYMENT_YEARS.map(y => ({ value: y, label: y }))}
+                />
               </div>
             </div>
           </div>

@@ -12,7 +12,7 @@ import { resolveTheme, applyPartyPalette, DEFAULT_PALETTE } from "./GreeceThemes
 
 import {
   GR_SCENARIOS, GR_SCENARIO_LABELS, GR_SCENARIO_TURNOUT,
-  GR_TURNOUT_IS_ESTIMATE, grDistrictsForScenario
+  GR_TURNOUT_IS_ESTIMATE, grDistrictsForScenario, GR_PARTY_DICT, GR_ALL_PARTIES, GR_MIN_CUSTOM_PARTIES
 } from "./greece-data.js";
 import {
   grDistrictBaseVotes, grApplySwing, grRunElection, grAllocateAllDistrictSeats, grDistrictElectorate
@@ -99,6 +99,13 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
     const saved = typeof window !== 'undefined' ? sessionStorage.getItem('gr_state_turnoutShift') : null;
     return saved ? JSON.parse(saved) : 0;
   });
+  // The "Custom" scenario's own baseline checkpoint — reset each time a party
+  // is added or removed (see handleAddCustomParty/handleRemoveCustomParty),
+  // so the swing engine always has a fixed base to measure slider drags from.
+  const [customBase, setCustomBase] = useState(() => {
+    const saved = typeof window !== 'undefined' ? sessionStorage.getItem('gr_state_customBase') : null;
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // Silently save everything to memory as you tweak the app
   useEffect(() => {
@@ -107,7 +114,8 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
     sessionStorage.setItem('gr_state_demSliders', JSON.stringify(demSliders));
     sessionStorage.setItem('gr_state_threshold', JSON.stringify(threshold));
     sessionStorage.setItem('gr_state_turnoutShift', JSON.stringify(turnoutShift));
-  }, [scenarioId, parties, demSliders, threshold, turnoutShift]);
+    sessionStorage.setItem('gr_state_customBase', JSON.stringify(customBase));
+  }, [scenarioId, parties, demSliders, threshold, turnoutShift, customBase]);
 
   const [isPending, startTransition] = useTransition();
 
@@ -134,8 +142,8 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   }, [polls]);
 
   const scenarioBase = useCallback(
-    (id) => (id === "2026" && liveScenario2026 ? liveScenario2026 : GR_SCENARIOS[id]),
-    [liveScenario2026]
+    (id) => id === "custom" ? customBase : (id === "2026" && liveScenario2026 ? liveScenario2026 : GR_SCENARIOS[id]),
+    [liveScenario2026, customBase]
   );
 
   useEffect(() => {
@@ -225,8 +233,37 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
 
   const handlePartyEdit = useCallback((id, field, value) => { setParties(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p)); }, []);
   const handlePartyMove = useCallback((index, dir) => { setParties(prev => { if (index + dir < 0 || index + dir >= prev.length) return prev; const arr = [...prev]; [arr[index], arr[index + dir]] = [arr[index + dir], arr[index]]; return arr; }); }, []);
-  const handleDeleteParty = useCallback(id => { setParties(prev => { let target = null; const arr = prev.filter(p => { if (p.id === id) { target = p; return false; } return true; }); if (arr.length > 0 && target?.userPercentage > 0) { const add = target.userPercentage / arr.length; return arr.map(p => ({ ...p, userPercentage: p.userPercentage + add })); } return arr; }); }, []);
   const resetAll = useCallback(() => { setParties(scenarioBase(scenarioId)); setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 }); setThreshold(3.0); setTurnoutShift(0); }, [scenarioId, scenarioBase]);
+
+  // Custom-scenario party picker: adding/removing is a structural change to the
+  // scenario itself, so each call re-baselines (basePercentage = the post-change
+  // userPercentage) rather than just editing the live percentages — otherwise the
+  // district-level swing math would keep measuring against a baseline that no
+  // longer includes (or excludes) the party in question.
+  const handleAddCustomParty = useCallback((id) => {
+    const partyDef = GR_PARTY_DICT[id];
+    if (!partyDef || parties.some(p => p.id === id)) return;
+    const n = parties.length;
+    const newPct = n === 0 ? 100 : 100 / (n + 1);
+    const scale = n === 0 ? 1 : (100 - newPct) / 100;
+    const rescaled = parties.map(p => ({ ...p, userPercentage: p.userPercentage * scale, basePercentage: p.userPercentage * scale }));
+    const next = [...rescaled, { ...partyDef, id, basePercentage: newPct, userPercentage: newPct }];
+    setParties(next);
+    setCustomBase(next);
+  }, [parties]);
+
+  const handleRemoveCustomParty = useCallback((id) => {
+    // Once a custom scenario has reached the minimum, don't let it drop below —
+    // below the minimum (still picking) any removal is fine.
+    if (parties.length >= GR_MIN_CUSTOM_PARTIES && parties.length - 1 < GR_MIN_CUSTOM_PARTIES) return;
+    let removedPct = 0;
+    const remaining = parties.filter(p => { if (p.id === id) { removedPct = p.userPercentage; return false; } return true; });
+    if (remaining.length === parties.length) return;
+    const add = removedPct / remaining.length;
+    const next = remaining.map(p => ({ ...p, userPercentage: p.userPercentage + add, basePercentage: p.userPercentage + add }));
+    setParties(next);
+    setCustomBase(next);
+  }, [parties]);
 
   const handleApplyPollToProjection = useCallback((avg) => {
     if (!avg) return;
@@ -419,7 +456,9 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
           resetAll={resetAll}
           onPartyEdit={handlePartyEdit}
           onPartyMove={handlePartyMove}
-          onPartyDelete={handleDeleteParty}
+          onPartyDelete={handleRemoveCustomParty}
+          allParties={GR_ALL_PARTIES}
+          onAddCustomParty={handleAddCustomParty}
           lang={lang}
         />
 

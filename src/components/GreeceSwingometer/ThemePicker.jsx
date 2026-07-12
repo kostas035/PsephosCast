@@ -1,5 +1,5 @@
 // ThemePicker.jsx
-import { S } from "./GreeceStyles";
+import { S, Dropdown } from "./GreeceStyles";
 import { THEMES, THEME_ORDER, PALETTES, PALETTE_ORDER, resolvePalette } from "./GreeceThemes.js";
 import { GR_PARTY_DICT } from "./greece-data.js";
 import { IconCheck } from "./GreeceIcons";
@@ -80,15 +80,14 @@ export default function ThemePicker({ current, onSelect, currentPalette, onSelec
           {t("Recolours the map, parliament and tables. Red–green deficiency affects ~1 in 12 men, where a red and a green party can read as the same muddy tone — these palettes separate every party by luminance so that can't happen.")}
         </p>
 
-        <select
+        <Dropdown
           value={currentPalette}
-          onChange={e => onSelectPalette(e.target.value)}
-          style={{ ...S.editInput, width: "100%", padding: "8px 10px", fontSize: 12, cursor: "pointer" }}
-        >
-          {PALETTE_ORDER.map(id => (
-            <option key={id} value={id}>{t(PALETTES[id].label)}</option>
-          ))}
-        </select>
+          onChange={onSelectPalette}
+          width="100%"
+          fontSize={12}
+          style={{ padding: "8px 10px" }}
+          options={PALETTE_ORDER.map(id => ({ value: id, label: t(PALETTES[id].label) }))}
+        />
 
         <div style={{ marginTop: 10, padding: "10px 12px", background: "var(--btn-bg)", border: "1px solid var(--border)", borderRadius: 8 }}>
           <div style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--ff-body)", marginBottom: 8, lineHeight: 1.4 }}>{t(pal.desc)}</div>
