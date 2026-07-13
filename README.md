@@ -9,7 +9,7 @@ an election's real percentages and it reproduces the real seat count. Move the s
 there and you're looking at what the law would actually do with a different result, not a guess.
 
 This started as a personal project to understand Greek electoral law well enough to code it,
-and grew from there to Cyprus and (not yet live) Australia.
+and grew from there to Cyprus.
 
 ## What it does
 
@@ -84,15 +84,6 @@ constituency; move the sliders and it applies the same law to the hypothetical r
 threshold and remainder rules, plus a coalition builder for checking hypothetical governing
 majorities.
 
-### Australia — simulated preferential count (built, not yet live)
-
-Rather than approximating two-party-preferred swing directly, this one simulates the actual
-count: candidates are eliminated from the bottom up, preferences flow according to historical
-party-preference matrices, until two remain — a genuine division-level two-candidate-preferred
-result. Divisions with entrenched independents or strong regional parties ("local kings") carry
-their own baseline that only partially follows the national swing, since a personal vote doesn't
-move like a party vote does.
-
 ### Monte Carlo layer
 
 On top of the deterministic engine, the probabilistic layer perturbs the *current* national
@@ -117,10 +108,6 @@ tables), under CC BY-SA.
 | `/greece/correlations` | Statistics workbench over Greek demographic/voting data |
 | `/greece-regional` | Municipality-level drill-down for individual Greek regions (Crete, Macedonia, Thessaly, Epirus, Eastern Macedonia & Thrace) |
 | `/cyprus` | Cypriot parliamentary election simulator, with coalition builder and Monte Carlo |
-
-The Australian simulator is fully built but not currently wired into the router — see
-`src/App.jsx` and `src/components/AustraliaSwingometer/` if you want to re-enable it at
-`/australia`.
 
 ## Tech stack
 
@@ -151,7 +138,6 @@ src/
     GreeceSwingometer/         # national Greek simulator: engine, data, map, stats, export
     GreeceRegions/             # regional drill-down maps + per-region data files
     CyprusSwingometer/         # Cypriot simulator
-    AustraliaSwingometer/      # Australian simulator (not currently routed)
 ```
 
 Each country follows the same rough shape: a `*-data.js` (historical results, party metadata,
