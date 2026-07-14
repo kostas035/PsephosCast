@@ -3,9 +3,9 @@
 // Scenario-aware GeoJSON transform for the pre-2018 maps (May and June 2012,
 // January and September 2015). Dissolves the post-December-2018 Athens B1/B2/B3
 // and East/West Attica boundaries back into the single pre-2018 "Athens B" /
-// "Attica" constituencies, so the "2012", "2012may", "2015" and "2015jan"
-// scenarios render the 56-constituency map while every other scenario keeps
-// rendering the current 59-district GeoJSON files untouched.
+// "Attica" constituencies, so the "2009", "2012", "2012may", "2015" and
+// "2015jan" scenarios render the 56-constituency map while every other
+// scenario keeps rendering the current 59-district GeoJSON files untouched.
 import { union } from "@turf/union";
 import { grExtractName } from "./greece-utils.js";
 
@@ -52,7 +52,7 @@ function mergeFeatures(features, spec, name) {
 // ("2015" and "2015jan", cheap no-op) so 2019/2023/2026 rendering is completely
 // unaffected.
 export function grScenarioGeoJson(geoJson, scenarioId) {
-  const isPre2018 = scenarioId === "2015" || scenarioId === "2015jan" || scenarioId === "2012" || scenarioId === "2012may";
+  const isPre2018 = scenarioId === "2015" || scenarioId === "2015jan" || scenarioId === "2012" || scenarioId === "2012may" || scenarioId === "2009";
   if (!isPre2018 || !geoJson?.features) return geoJson;
 
   const consumed = new Set();

@@ -1,5 +1,6 @@
 // greece-engine.js
-import { GR, GR_BONUS_CONFIG, GR_PARTY_DICT, GR_DISTRICT_BASELINES, GR_PARTY_LINEAGE, GR_MULTIPLIERS, grToLogit, grFromLogit, GR_DISTRICT_POP, GR_DISTRICT_REGISTERED, GR_DISTRICT_TURNOUT, GR_DISTRICT_VALID_VOTES, GR_STATE_BALLOT_EXCLUDED, GR_DISTRICT_DEMOGRAPHICS, grDistrictsForScenario } from './greece-data.js';
+import { GR, GR_BONUS_CONFIG, GR_PARTY_DICT, GR_DISTRICT_BASELINES, GR_PARTY_LINEAGE, GR_MULTIPLIERS, grToLogit, grFromLogit, GR_DISTRICT_POP, GR_DISTRICT_REGISTERED, GR_DISTRICT_TURNOUT, GR_DISTRICT_VALID_VOTES, GR_STATE_BALLOT_EXCLUDED, grDistrictsForScenario } from './greece-data.js';
+import { GR_DEMO_AXES, grDemoZForScenario } from './greece-demographics.js';
 
 //  Per-constituency electorate weight (2021 census legal residents).
 //  Used ONLY for the cross-constituency remainder ranking of the second
@@ -100,16 +101,63 @@ export function grRunElection(effectiveParties, thresholdPct, turnout, scenarioI
   return { results, bonusSeats, proportionalPool: propPool, eliminated: elimNames, eliminatedDetail, winnerId: winner.id, winnerPct: winner.nationalPct, listSeats };
 }
 
+// Differential-turnout coupling strength for demSliders (Upgrade 3): a maxed slider
+// (±10) in a district ±2σ on that axis moves the district's effective electorate by
+// exp(±2·GR_TURNOUT_DEMO_K) - 1 ≈ ±12.7%. Named/exported (not a magic literal) so
+// scripts/backtest.mjs and scripts/calibrate-sensitivities.mjs can reference the same
+// value.
+export const GR_TURNOUT_DEMO_K = 0.06;
+
+// Demographic sliders reallocate SHARES (grDemoGeoNudge); this reallocates the
+// electorate ITSELF, so e.g. "seniors mobilised" also makes elderly districts weigh
+// more in the §8 cross-constituency remainder ranking. Every GR_DEMO_AXES entry is a
+// genuine population-composition axis (gender has no district-level field and isn't
+// one of them), so all of them count. Renormalized so Σ electorate is unchanged —
+// pure redistribution, like the share layer.
+function grTurnoutDemographicSkew(electorateById, scenarioId, demSliders) {
+  const z = grDemoZForScenario(scenarioId);
+  const raw = {};
+  let total = 0, rawTotal = 0;
+  for (const id in electorateById) {
+    const base = electorateById[id];
+    if (base == null) { raw[id] = null; continue; }
+    total += base;
+    const dz = z[id];
+    let s = 0;
+    if (dz) {
+      for (const axis in GR_DEMO_AXES) {
+        const sv = demSliders[axis];
+        if (!sv) continue;
+        const zz = dz[axis];
+        if (zz == null) continue;
+        s += (sv / 10) * zz;
+      }
+    }
+    raw[id] = base * Math.exp(GR_TURNOUT_DEMO_K * s);
+    rawTotal += raw[id];
+  }
+  if (!rawTotal) return electorateById;
+  const scale = total / rawTotal;
+  const out = {};
+  for (const id in raw) out[id] = raw[id] != null ? raw[id] * scale : null;
+  return out;
+}
+
 //  grDistrictElectorate — per-constituency valid-vote weight for the §8 measure,
 //  with a NON-UNIFORM national-turnout adjustment.
 //
 //  turnoutShiftPP shifts the *national* valid-vote rate by that many percentage
 //  points, applied in LOGIT space so it lands non-uniformly across constituencies
 //  (a flat multiplier would cancel out of the seat math and change nothing — this
-//  is the whole point). At shift 0 it returns each scenario's real valid votes, so
-//  the 2023 map reproduces exactly; moving it re-weights the cross-constituency
-//  remainder ranking and shuffles the marginal/carom seats.
-export function grDistrictElectorate(scenarioId, turnoutShiftPP = 0) {
+//  is the whole point). At shift 0 and no demSliders it returns each scenario's real
+//  valid votes, so the 2023 map reproduces exactly; moving either re-weights the
+//  cross-constituency remainder ranking and shuffles the marginal/carom seats.
+//
+//  demSliders, if given, additionally skews the electorate toward districts where the
+//  mobilised demographic is concentrated (grTurnoutDemographicSkew) — the "differential
+//  turnout" half of the demographic sliders that grDemoGeoNudge's share-only
+//  reallocation doesn't cover.
+export function grDistrictElectorate(scenarioId, turnoutShiftPP = 0, demSliders = null) {
   const R   = GR_DISTRICT_REGISTERED || {};
   const POP = GR_DISTRICT_POP || {};
   const VV  = GR_DISTRICT_VALID_VOTES || {};
@@ -119,22 +167,32 @@ export function grDistrictElectorate(scenarioId, turnoutShiftPP = 0) {
   const base = VV[scenarioId] || VV["2023"] || {};
   const ids = Object.keys(R).length ? Object.keys(R) : Object.keys(base);
   const wOf = id => (base[id] != null ? base[id] : (R[id] != null ? R[id] : POP[id]));
-  const out = {};
-  if (!turnoutShiftPP) { for (const id of ids) out[id] = wOf(id) ?? null; return out; }
-  // Need registered voters to define a per-district rate for the non-uniform shift.
-  let sv = 0, sr = 0;
-  for (const id of ids) { if (base[id] != null && R[id]) { sv += base[id]; sr += R[id]; } }
-  if (!sv || !sr) { for (const id of ids) out[id] = wOf(id) ?? null; return out; }
-  const clamp = x => Math.min(0.999, Math.max(0.001, x));
-  const logit = p => Math.log(p / (1 - p));
-  const sig = z => 1 / (1 + Math.exp(-z));
-  const r0 = sv / sr;                                       // baseline national valid-rate
-  const delta = logit(clamp(r0 + turnoutShiftPP / 100)) - logit(r0);  // logit shift (non-uniform)
-  for (const id of ids) {
-    if (base[id] != null && R[id]) out[id] = R[id] * sig(logit(clamp(base[id] / R[id])) + delta);
-    else out[id] = wOf(id) ?? null;
+
+  let out;
+  if (!turnoutShiftPP) {
+    out = {}; for (const id of ids) out[id] = wOf(id) ?? null;
+  } else {
+    // Need registered voters to define a per-district rate for the non-uniform shift.
+    let sv = 0, sr = 0;
+    for (const id of ids) { if (base[id] != null && R[id]) { sv += base[id]; sr += R[id]; } }
+    if (!sv || !sr) {
+      out = {}; for (const id of ids) out[id] = wOf(id) ?? null;
+    } else {
+      const clamp = x => Math.min(0.999, Math.max(0.001, x));
+      const logit = p => Math.log(p / (1 - p));
+      const sig = z => 1 / (1 + Math.exp(-z));
+      const r0 = sv / sr;                                       // baseline national valid-rate
+      const delta = logit(clamp(r0 + turnoutShiftPP / 100)) - logit(r0);  // logit shift (non-uniform)
+      out = {};
+      for (const id of ids) {
+        if (base[id] != null && R[id]) out[id] = R[id] * sig(logit(clamp(base[id] / R[id])) + delta);
+        else out[id] = wOf(id) ?? null;
+      }
+    }
   }
-  return out;
+
+  if (!demSliders) return out;
+  return grTurnoutDemographicSkew(out, scenarioId, demSliders);
 }
 //  grAllocateAllDistrictSeats — 1:1 implementation of the Greek constituency
 //  seat-distribution law (P.D. 26/2012, arts. 99–100, as amended by L.4859/2021;
@@ -317,61 +375,35 @@ export function grDistrictBaseVotes(scenarioParties, district, scenarioId) {
 //  national share (see effectivePct in grProcessFullElection / the app).
 export const GR_DEMO_GEO_K = 0.25;   // coupling strength (logit units per σ·sensitivity·slider). Tunable.
 
-// slider axis -> [ELSTAT field, sign]. youth has no direct field, so it is the
-// INVERSE of the 65+ share (more elderly ⇒ fewer young). gender has no ELSTAT
-// district field, so it stays national-only (no geographic component).
-const GR_DEMO_AXES = {
-  seniors:   ["age_over_65_pct",   +1],
-  youth:     ["age_over_65_pct",   -1],
-  urban:     ["urbanization_pct",  +1],
-  education: ["tertiary_edu_pct",  +1],
-  precarity: ["unemployment_rate", +1],
-};
-
-// Build the standardised table once at module load.
-const GR_DEMO_Z = (() => {
-  const rows = Array.isArray(GR_DISTRICT_DEMOGRAPHICS) ? GR_DISTRICT_DEMOGRAPHICS : [];
-  if (!rows.length) return {};
-  const wOf = id => (GR_DISTRICT_POP[id] || 1);
-  const fields = [...new Set(Object.values(GR_DEMO_AXES).map(([f]) => f))];
-  const stat = {};
-  fields.forEach(f => {
-    let sw = 0, swx = 0;
-    rows.forEach(r => { const w = wOf(r.id), v = r[f]; if (typeof v === 'number') { sw += w; swx += w * v; } });
-    const mean = sw ? swx / sw : 0;
-    let swv = 0; rows.forEach(r => { const w = wOf(r.id), v = r[f]; if (typeof v === 'number') swv += w * (v - mean) ** 2; });
-    stat[f] = { mean, std: Math.sqrt(sw ? swv / sw : 0) || 1 };
-  });
-  const out = {};
-  rows.forEach(r => {
-    out[r.id] = {};
-    for (const axis in GR_DEMO_AXES) {
-      const [f, sign] = GR_DEMO_AXES[axis];
-      const v = r[f];
-      out[r.id][axis] = (typeof v === 'number') ? sign * (v - stat[f].mean) / stat[f].std : 0;
-    }
-  });
-  return out;
-})();
+// GR_DEMO_AXES (slider axis -> [demographic field, sign]) and the population-weighted
+// z-score table now live in greece-demographics.js, rebuilt per scenario year instead
+// of once at module load — see grDemoZForScenario for why (unemployment/GDP geography
+// shifts a lot between e.g. the 2012 and 2023 scenarios; census fields don't).
 
 // Per-(district, party) logit nudge from the demographic sliders. Clamped so a
 // pile-up of maxed sliders can't drive a district share to an absurd extreme.
-function grDemoGeoNudge(districtId, sens, sliders) {
-  const z = GR_DEMO_Z[districtId];
-  if (!z || !sens || !sliders) return 0;
+//
+// sens drives the NATIONAL layer (grProcessFullElection) and is the fallback here;
+// sensGeo, when a party has one, overrides it per-axis for this GEOGRAPHIC layer only
+// — a party's national elasticity to a demographic wave and the geographic
+// concentration of that support are different quantities (see GR_PARTY_DICT.sensGeo).
+function grDemoGeoNudge(districtId, sens, sliders, scenarioId, sensGeo) {
+  if (!sens || !sliders) return 0;
+  const z = grDemoZForScenario(scenarioId)[districtId];
+  if (!z) return 0;
   let n = 0;
   for (const axis in GR_DEMO_AXES) {
     const sv = sliders[axis];
     if (!sv) continue;
     const zz = z[axis];
     if (zz == null) continue;
-    n += (sv / 10) * (sens[axis] || 0) * zz;
+    n += (sv / 10) * ((sensGeo?.[axis] ?? sens[axis]) || 0) * zz;
   }
   n *= GR_DEMO_GEO_K;
   return Math.max(-0.6, Math.min(0.6, n));
 }
 
-export function grApplySwing(district, effectiveParties, baseParties, sliderValues = null) {
+export function grApplySwing(district, effectiveParties, baseParties, sliderValues = null, scenarioId = null) {
   const logitSwing = {};
   baseParties.forEach(bp => {
     const ep = effectiveParties.find(e => e.id === bp.id), basePct = Math.max(0.001, bp.basePercentage);
@@ -394,8 +426,9 @@ export function grApplySwing(district, effectiveParties, baseParties, sliderValu
     // Geographic demographic coupling: concentrate each slider's effect where that
     // ELSTAT group is over/under-represented (national mean-zero, so totals are unchanged).
     if (sliderValues) {
-      const sens = bp.sensitivities || GR_PARTY_DICT[bp.id]?.sensitivities;
-      logitVal += grDemoGeoNudge(district.id, sens, sliderValues);
+      const partyDict = GR_PARTY_DICT[bp.id];
+      const sens = bp.sensitivities || partyDict?.sensitivities;
+      logitVal += grDemoGeoNudge(district.id, sens, sliderValues, scenarioId, partyDict?.sensGeo);
     }
 
     const val = grFromLogit(logitVal);
@@ -422,7 +455,7 @@ export function grProcessFullElection(scenarioParties, sliderValues, scenarioId,
   if (sum > 0) updated = updated.map(p => ({ ...p, effectivePct: (p.effectivePct / sum) * 100 }));
   
   const electionResult = grRunElection(updated, thresholdPct, turnoutTotal, scenarioId);
-  const updatedDistricts = grDistrictsForScenario(scenarioId).map(dist => grApplySwing({ ...dist, baseVotes: grDistrictBaseVotes(scenarioParties, dist, scenarioId) }, updated, scenarioParties, sliderValues));
+  const updatedDistricts = grDistrictsForScenario(scenarioId).map(dist => grApplySwing({ ...dist, baseVotes: grDistrictBaseVotes(scenarioParties, dist, scenarioId) }, updated, scenarioParties, sliderValues, scenarioId));
 
   // Attach each district's electorate weight for the §8 cross-district remainder ranking.
   // Priority: exact valid-vote count (if supplied) > population × scenario turnout > population.

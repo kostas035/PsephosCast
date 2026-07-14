@@ -40,7 +40,7 @@ export const URBAN_THRESHOLD = 70;
 export const REGIONS = {
   athens_a: "Attica", athens_b1: "Attica", athens_b2: "Attica", athens_b3: "Attica",
   // "athens_b" / "attica" (undivided) are the pre-2018 merged constituencies —
-  // only used by the "2012", "2012may", "2015" and "2015jan" district tables.
+  // only used by the "2009", "2012", "2012may", "2015" and "2015jan" district tables.
   athens_b: "Attica", attica: "Attica",
   piraeus_a: "Attica", piraeus_b: "Attica", east_attica: "Attica", west_attica: "Attica",
   thessaloniki_a: "Central Macedonia", thessaloniki_b: "Central Macedonia", chalkidiki: "Central Macedonia",
@@ -84,7 +84,7 @@ export function buildAnalysisFrame(unit = "district", baselineKey = "2023", scen
 
   let frame = [];
 
-  // Pre-2018 baselines ("2012", "2012may", "2015", "2015jan") run on the 56-
+  // Pre-2018 baselines ("2009", "2012", "2012may", "2015", "2015jan") run on the 56-
   // constituency map (undivided Athens B / Attica); every other baseline keeps
   // the current 59-district map. Picking the wrong table here would silently
   // fall back to the synthetic multiplier estimate for every district instead

@@ -12,6 +12,7 @@ import {
 import { PartyRow, SemiCircleChart } from "./components.jsx";
 import MapViewer from "./MapViewer.jsx";
 import PrivacyModal from "../PrivacyModal";
+import CookiesModal from "../CookiesModal";
 
 // MunicipalPanel
 function MunicipalPanel({ sortedMunis, municipalData, config, turnoutDelta }) {
@@ -225,6 +226,7 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
   const [mapCenter,         setMapCenter]         = useState(true);
   const [showHowToUse,      setShowHowToUse]      = useState(false);
   const [showPrivacy,       setShowPrivacy]       = useState(false);
+  const [showCookies,       setShowCookies]       = useState(false);
   const [showRegionSel,     setShowRegionSel]     = useState(false);
   const [exportImageUrl,    setExportImageUrl]    = useState(null);
   const [showExportPreview, setShowExportPreview] = useState(false);
@@ -655,6 +657,12 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg> Privacy
               </button>
+              <button className="icon-btn" onClick={() => setShowCookies(true)}
+                style={{ ...S.ghostBtn, padding: "5px 9px", justifyContent: "flex-start" }}>
+                <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+                </svg> Cookies
+              </button>
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -945,6 +953,9 @@ export default function GreeceRegionsApp({ isMobile, theme, setTheme, onBack }) 
 
       {/* Privacy Policy Modal */}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+
+      {/* Cookies Policy Modal */}
+      {showCookies && <CookiesModal onClose={() => setShowCookies(false)} />}
 
       {/* How to Use Modal */}
       {showHowToUse && (

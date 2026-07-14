@@ -94,6 +94,7 @@ const BASELINE_OPTIONS = [
   { key: "2015jan", label: "Real 2015 January Shares" },
   { key: "2012", label: "Real 2012 June Shares" },
   { key: "2012may", label: "Real 2012 May Shares" },
+  { key: "2009", label: "Real 2009 October Shares" },
 ];
 
 const ANALYSIS_MODULES = [

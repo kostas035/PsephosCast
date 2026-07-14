@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PrivacyModal from "./PrivacyModal";
+import CookiesModal from "./CookiesModal";
 
 const IconClose = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -45,6 +46,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
   const [showCredits, setShowCredits]       = useState(false);
   const [showContact, setShowContact]       = useState(false);
   const [showPrivacy, setShowPrivacy]       = useState(false);
+  const [showCookies, setShowCookies]       = useState(false);
   const [isTailwindLoaded, setIsTailwindLoaded] = useState(false);
 
   // Fallback routing if react-router isn't set up yet
@@ -450,6 +452,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
     </div>
     <div className="flex flex-col md:flex-row md:justify-end gap-md md:gap-lg font-label-sm text-label-sm mono-data uppercase items-center">
       <button onClick={() => setShowPrivacy(true)} className="text-left text-on-surface-variant hover:text-white transition-all bg-transparent border-none cursor-pointer p-0">PRIVACY_POLICY</button>
+      <button onClick={() => setShowCookies(true)} className="text-left text-on-surface-variant hover:text-white transition-all bg-transparent border-none cursor-pointer p-0">COOKIES_POLICY</button>
       <button onClick={() => setShowCredits(true)} className="text-left text-on-surface-variant hover:text-white transition-all bg-transparent border-none cursor-pointer p-0">METHODOLOGY</button>
       <button onClick={() => setShowContact(true)} className="text-left text-on-surface-variant hover:text-white transition-all bg-transparent border-none cursor-pointer p-0">SUPPORT</button>
     </div>
@@ -502,6 +505,7 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
       )}
 
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+      {showCookies && <CookiesModal onClose={() => setShowCookies(false)} />}
     </div>
   );
 }

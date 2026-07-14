@@ -10,6 +10,7 @@ const GR_DEM_CONTROLS = [
   { key: "urban",     label: "Urban / Rural Skew",     color: "#0891B2", tip: "Negative = rural surge · Positive = urban surge" },
   { key: "education", label: "Education Gradient",     color: "#10B981", tip: "Negative = low-education turnout · Positive = high-education turnout" },
   { key: "precarity", label: "Economic Precarity",     color: "#EF4444", tip: "Negative = stable electorate · Positive = precarious/unemployed mobilised" },
+  { key: "affluence", label: "Income Gradient",        color: "#F59E0B", tip: "Negative = low-income surge · Positive = affluent surge" },
   { key: "gender",    label: "Gender Representation",  color: "#EC4899", tip: "Negative = higher male turnout · Positive = higher female turnout" },
 ];
 
@@ -153,7 +154,7 @@ export default function ControlPanel({ parties, onPctChange, onToggleLock, onPar
   const isCustom = scenarioId === "custom";
   const addableParties = isCustom ? (allParties || []).filter(p => !parties.some(sel => sel.id === p.id)) : [];
 
-  const resetDem = useCallback(() => setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 }), [setDemSliders]);
+  const resetDem = useCallback(() => setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, affluence: 0, gender: 0 }), [setDemSliders]);
 
   const TabBtn = ({ id, label, icon }) => (
     <button className="tab-btn icon-btn" onClick={() => setTab(id)} style={{ padding: "5px 10px", fontSize: 9, fontFamily: "var(--ff-body)", letterSpacing: 1.5, cursor: "pointer", borderRadius: 4, background: tab === id ? "var(--tab-active)" : "transparent", color: tab === id ? "#60A5FA" : "var(--text-dim)", border: tab === id ? "1px solid var(--border)" : "1px solid transparent", display: "flex", alignItems: "center", gap: 5, textTransform: "uppercase" }}>{icon}{label}</button>
@@ -177,6 +178,7 @@ export default function ControlPanel({ parties, onPctChange, onToggleLock, onPar
             { value: "2015jan", label: t("January 2015 Legislative") },
             { value: "2012", label: t("June 2012 Legislative") },
             { value: "2012may", label: t("May 2012 Legislative") },
+            { value: "2009", label: t("October 2009 Legislative") },
           ]}
         />
       </div>

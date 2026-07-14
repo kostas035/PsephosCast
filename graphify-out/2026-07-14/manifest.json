@@ -175,13 +175,13 @@
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/ControlPanel.jsx": {
-    "mtime": 1784020413.3000755,
-    "ast_hash": "5510394e7764e50e6bb8839f42d6eaaf",
+    "mtime": 1783957680.6603343,
+    "ast_hash": "03676985f3932e8c08247068e9c92f6f",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/GreeceApp.jsx": {
-    "mtime": 1784020556.2379544,
-    "ast_hash": "1ffd88dc4196c75422d79cbf46b73917",
+    "mtime": 1783949564.892163,
+    "ast_hash": "f2a0b8b8a27e3442693979a9d835b489",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/GreeceCorrelations.jsx": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/GreeceTranslations.jsx": {
-    "mtime": 1784020448.4571621,
-    "ast_hash": "961031d8177ae8e384f24a4433c4e314",
+    "mtime": 1783957732.9770086,
+    "ast_hash": "e1b686fa95e26be93eef75e5f5d43983",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/Hemicycle.jsx": {
@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/MethodologyModal.jsx": {
-    "mtime": 1784021342.6004424,
-    "ast_hash": "800cdb2c88e306c5f2ddb5ef5041c136",
+    "mtime": 1783167156.9321165,
+    "ast_hash": "99a35a3d34295e80ef2dcb645db9cdf2",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/MonteCarloPanel.jsx": {
@@ -305,13 +305,13 @@
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/greece-data.js": {
-    "mtime": 1784020381.4918277,
-    "ast_hash": "dbce81342b551db169443464a394218c",
+    "mtime": 1783958019.5664008,
+    "ast_hash": "59cf59c175a543d705736f082e23ea22",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/greece-engine.js": {
-    "mtime": 1784020547.3496053,
-    "ast_hash": "45bddc25aefe1c7463014146b9df81e5",
+    "mtime": 1783720914.2437527,
+    "ast_hash": "6396bc5bf2683dbc53691d524ef24623",
     "semantic_hash": ""
   },
   "src/components/GreeceSwingometer/greece-geo-2015.js": {
@@ -452,46 +452,6 @@
   "src/components/CookiesModal.jsx": {
     "mtime": 1783949543.0022695,
     "ast_hash": "e9d999887704a648c1d90810e8c56333",
-    "semantic_hash": ""
-  },
-  "scripts/backtest.mjs": {
-    "mtime": 1784021048.1072035,
-    "ast_hash": "8df32d3bf28753a8c2fa6ef34b9d1d51",
-    "semantic_hash": ""
-  },
-  "scripts/baselines/zero-slider-baseline.json": {
-    "mtime": 1784019894.7670083,
-    "ast_hash": "abc6c3ae557dfdf4799b3ee9c9333698",
-    "semantic_hash": ""
-  },
-  "scripts/calibrate-sensitivities.mjs": {
-    "mtime": 1784020881.6337242,
-    "ast_hash": "b77feab1daeb5412a7703946bfe32d6a",
-    "semantic_hash": ""
-  },
-  "scripts/check-demographics.mjs": {
-    "mtime": 1784020222.242342,
-    "ast_hash": "87f935366d8c3b2ecdc4736acc797482",
-    "semantic_hash": ""
-  },
-  "scripts/check-zero-slider.mjs": {
-    "mtime": 1784019868.2293317,
-    "ast_hash": "c7767fa90683bba7dea9bff03f89b255",
-    "semantic_hash": ""
-  },
-  "scripts/lib/engine-runner.mjs": {
-    "mtime": 1784020104.616621,
-    "ast_hash": "2e4e2a69de1ffa2cbd6dcef84c0cc355",
-    "semantic_hash": ""
-  },
-  "scripts/smoke-nonzero.mjs": {
-    "mtime": 1784020577.0943384,
-    "ast_hash": "8b5e943c38f1ea12290b158775f9e63d",
-    "semantic_hash": ""
-  },
-  "src/components/GreeceSwingometer/greece-demographics.js": {
-    "mtime": 1784020204.8581512,
-    "ast_hash": "9870f141eb71dd09643b628b2ec6f885",
     "semantic_hash": ""
   }
 }

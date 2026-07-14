@@ -11,9 +11,10 @@ const SEATS_BY_SCENARIO = {
   "2015jan": { syriza: 149, nd: 76, gd: 17, potami: 17, kke: 15, anel: 13, pasok: 13 },
   "2012": { nd: 129, syriza: 71, pasok: 33, anel: 20, gd: 18, dimar: 17, kke: 12 },
   "2012may": { nd: 108, syriza: 52, pasok: 41, anel: 33, kke: 26, gd: 21, dimar: 19 },
+  "2009": { pasok: 160, nd: 91, kke: 21, laos: 15, syriza: 13 },
 };
 
-const DELTA_LABELS = { "2019": "Seats (vs '19)", "2015": "Seats (vs '15)", "2015jan": "Seats (vs Jan '15)", "2012": "Seats (vs '12)", "2012may": "Seats (vs May '12)" };
+const DELTA_LABELS = { "2019": "Seats (vs '19)", "2015": "Seats (vs '15)", "2015jan": "Seats (vs Jan '15)", "2012": "Seats (vs '12)", "2012may": "Seats (vs May '12)", "2009": "Seats (vs '09)" };
 
 export const GrMetricsCards = memo(function GrMetricsCards({ electionResult, parties, isMobile, turnout, isEstimate, lang }) {
   const t = useGreeceT(lang);

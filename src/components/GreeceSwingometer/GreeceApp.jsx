@@ -31,6 +31,7 @@ import Map from "./Map";
 import OpinionPolls from "./OpinionPolls";
 import MethodologyModal from "./MethodologyModal";
 import PrivacyModal from "../PrivacyModal";
+import CookiesModal from "../CookiesModal";
 import MonteCarloPanel from "./MonteCarloPanel";
 import GreeceExportModal from "./GreeceExport.jsx";
 import SeatAllocationDiff from "./SeatAllocationDiff.jsx";
@@ -89,7 +90,7 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   });
   const [demSliders, setDemSliders] = useState(() => {
     const saved = typeof window !== 'undefined' ? sessionStorage.getItem('gr_state_demSliders') : null;
-    return saved ? JSON.parse(saved) : { youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 };
+    return saved ? JSON.parse(saved) : { youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, affluence: 0, gender: 0 };
   });
   const [threshold, setThreshold] = useState(() => {
     const saved = typeof window !== 'undefined' ? sessionStorage.getItem('gr_state_threshold') : null;
@@ -160,6 +161,7 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   
   const [showMethodology, setShowMethodology] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showCookies, setShowCookies] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
   const [showDots, setShowDots] = useState(true);
   const [showLabels, setShowLabels] = useState(true); 
@@ -180,7 +182,7 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
     const id = e.target.value;
     setScenarioId(id);
     setParties(scenarioBase(id));
-    setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 });
+    setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, affluence: 0, gender: 0 });
   }, [scenarioBase]);
 
   const handleToggleLock = useCallback(id => {
@@ -233,7 +235,7 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
 
   const handlePartyEdit = useCallback((id, field, value) => { setParties(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p)); }, []);
   const handlePartyMove = useCallback((index, dir) => { setParties(prev => { if (index + dir < 0 || index + dir >= prev.length) return prev; const arr = [...prev]; [arr[index], arr[index + dir]] = [arr[index + dir], arr[index]]; return arr; }); }, []);
-  const resetAll = useCallback(() => { setParties(scenarioBase(scenarioId)); setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 }); setThreshold(3.0); setTurnoutShift(0); }, [scenarioId, scenarioBase]);
+  const resetAll = useCallback(() => { setParties(scenarioBase(scenarioId)); setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, affluence: 0, gender: 0 }); setThreshold(3.0); setTurnoutShift(0); }, [scenarioId, scenarioBase]);
 
   // Custom-scenario party picker: adding/removing is a structural change to the
   // scenario itself, so each call re-baselines (basePercentage = the post-change
@@ -272,7 +274,7 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
       if (scenario && scenario.length) {
         setScenarioId("2026");
         setParties(scenario);
-        setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, gender: 0 });
+        setDemSliders({ youth: 0, seniors: 0, urban: 0, education: 0, precarity: 0, affluence: 0, gender: 0 });
         if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
       }
     } catch (e) {
@@ -283,7 +285,9 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   const effectiveParties = useMemo(() => {
     return parties.map(p => {
       const s = p.sensitivities || {};
-      return { ...p, effectivePct: Math.max(0, p.userPercentage + (demSliders.youth / 10) * (s.youth || 0) + (demSliders.seniors / 10) * (s.seniors || 0) + (demSliders.urban / 10) * (s.urban || 0) + (demSliders.education / 10) * (s.education || 0) + (demSliders.precarity / 10) * (s.precarity || 0) + (demSliders.gender / 10) * (s.gender || 0)) };
+      let d = 0;
+      for (const axis in demSliders) d += (demSliders[axis] / 10) * (s[axis] || 0);
+      return { ...p, effectivePct: Math.max(0, p.userPercentage + d) };
     });
   }, [parties, demSliders]);
 
@@ -294,11 +298,11 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
   
   const { districtResults, electionResult } = useMemo(() => {
     const isLegacy = grIsPre2019Scenario(scenarioId);
-    const dResults = baseDistrictData.map(d => grApplySwing(d, effectiveParties, scenarioBase(scenarioId), demSliders));
+    const dResults = baseDistrictData.map(d => grApplySwing(d, effectiveParties, scenarioBase(scenarioId), demSliders, scenarioId));
     const eResult = isLegacy
       ? grLegacyRunElection(effectiveParties, threshold, turnout)
       : grRunElection(effectiveParties, threshold, turnout, scenarioId);
-    const elect = grDistrictElectorate(scenarioId, turnoutShift);
+    const elect = grDistrictElectorate(scenarioId, turnoutShift, demSliders);
     dResults.forEach(d => { if (elect[d.id] != null) d.electorate = elect[d.id]; });
     if (isLegacy) grLegacyAllocateAllDistrictSeats(dResults, eResult);
     else grAllocateAllDistrictSeats(dResults, eResult);
@@ -485,10 +489,12 @@ export default function GreeceApp({ isMobile, theme, setTheme }) {
           {t("Department of Economics, University of Ioannina")}
         </div>
         <button className="icon-btn" onClick={() => setShowPrivacy(true)} style={S.ghostBtn}>{t("Privacy Policy")}</button>
+        <button className="icon-btn" onClick={() => setShowCookies(true)} style={S.ghostBtn}>{t("Cookies Policy")}</button>
       </footer>
 
       {showMethodology && <MethodologyModal onClose={() => setShowMethodology(false)} lang={lang} />}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+      {showCookies && <CookiesModal onClose={() => setShowCookies(false)} />}
 
       {showHowToUse && (
         <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: isMobile ? 12 : 24, backdropFilter: "blur(4px)" }}>

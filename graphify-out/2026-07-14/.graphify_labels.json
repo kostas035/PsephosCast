@@ -34,12 +34,11 @@
   "32": "eslint.config.js",
   "33": "MarginalSeats",
   "34": "PrefFlows",
-  "35": "smoke-nonzero.mjs",
-  "36": "ControlPanel.jsx",
   "37": "TEMPLATE.js",
   "38": "anovaOneWay",
   "39": "finiteOnly",
   "40": "vite.config.js",
   "41": "GreeceStyles.jsx",
-  "43": "greece-crisis-economics-data.js"
+  "43": "greece-crisis-economics-data.js",
+  "44": "Hemicycle.jsx"
 }

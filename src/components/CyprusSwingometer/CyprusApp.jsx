@@ -15,6 +15,7 @@ import { resolveTheme, applyPartyPalette, DEFAULT_PALETTE } from "./CyprusThemes
 import CyprusThemePicker from "./CyprusThemePicker.jsx";
 import CyprusMethodologyModal from "./CyprusMethodologyModal.jsx";
 import PrivacyModal from "../PrivacyModal";
+import CookiesModal from "../CookiesModal";
 import CyMonteCarloPanel from "./CyprusMonteCarloPanel.jsx";
 
 export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
@@ -31,6 +32,7 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
   const [showThemePicker, setShowThemePicker] = useState(false);
   const [showMethodology, setShowMethodology] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showCookies, setShowCookies] = useState(false);
   const themeDef = resolveTheme(cyTheme);
   const selectTheme = useCallback((id) => {
     const t = resolveTheme(id);
@@ -321,11 +323,13 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
           Department of Economics, University of Ioannina
         </div>
         <button className="icon-btn" onClick={() => setShowPrivacy(true)} style={S.ghostBtn}>Privacy Policy</button>
+        <button className="icon-btn" onClick={() => setShowCookies(true)} style={S.ghostBtn}>Cookies Policy</button>
       </footer>
 
       {showThemePicker && <CyprusThemePicker current={cyTheme} onSelect={selectTheme} currentPalette={cyPalette} onSelectPalette={setCyPalette} onClose={() => setShowThemePicker(false)} isMobile={isMobile} />}
       {showMethodology && <CyprusMethodologyModal onClose={() => setShowMethodology(false)} />}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
+      {showCookies && <CookiesModal onClose={() => setShowCookies(false)} />}
 
       {showHowToUse && (
         <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: isMobile ? 12 : 24, backdropFilter: "blur(4px)" }}>

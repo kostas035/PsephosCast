@@ -14,6 +14,7 @@ export const GR = {
 // = the June 2023 ramp (20 seats at 25% national share, +1 per 0.5pt, capped
 // at 50 seats at 40%+). grCalcBonusSeats() reads this by scenarioId.
 export const GR_BONUS_CONFIG = {
+  "2009":  { trigger: 0,             base: 50,             step: Infinity,       cap: 50 },
   "2012may": { trigger: 0,           base: 50,             step: Infinity,       cap: 50 },
   "2012":  { trigger: 0,             base: 50,             step: Infinity,       cap: 50 },
   "2015jan": { trigger: 0,           base: 50,             step: Infinity,       cap: 50 },
@@ -34,48 +35,48 @@ export const GR_IDEOLOGY_LABELS = {
 
 export const GR_PARTY_DICT = {
   // Greek parties
-  nd:         { name:"ND",         fullName:"New Democracy",              color:"#1b5cc7", ideology: 1, sensitivities:{ youth: -0.250, seniors:  0.450, urban:  0.050, education:  0.150, precarity: -0.400, gender:  0.050 } },
-  syriza:     { name:"SYRIZA",     fullName:"SYRIZA - PS",                color:"#EF4444", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.250, urban:  0.050, education:  0.150, precarity:  0.200, gender:  0.100 } },
-  pasok:      { name:"PASOK",      fullName:"PASOK - KINAL",              color:"#16A34A", ideology:-1, sensitivities:{ youth: -0.200, seniors:  0.350, urban: -0.400, education: -0.050, precarity: -0.100, gender:  0.100 } },
-  kke:        { name:"KKE",        fullName:"Communist Party",            color:"#991B1B", ideology:-4, sensitivities:{ youth:  0.180, seniors:  0.100, urban:  0.250, education:  -0.150, precarity:  0.300, gender: -0.050 } },
-  el:         { name:"EL",         fullName:"Greek Solution",             color:"#6BB6E6", ideology: 4, sensitivities:{ youth: -0.250, seniors:  0.250, urban: -0.150, education: -0.250, precarity:  0.150, gender: -0.200 } },
-  na:         { name:"NA",         fullName:"New Left",                   color:"#7C3AED", ideology:-3, sensitivities:{ youth: -0.050, seniors:  0.100, urban:  0.250, education:  0.400, precarity: -0.150, gender:  0.050 } },
-  niki:       { name:"NIKI",       fullName:"NIKI",                       color:"#92400E", ideology: 3, sensitivities:{ youth: -0.150, seniors:  0.100, urban: -0.150, education: -0.200, precarity:  0.050, gender: -0.150 } },
-  pe:         { name:"PE",         fullName:"Course of Freedom",          color:"#D946EF", ideology:-3, sensitivities:{ youth:  0.350, seniors: -0.200, urban:  0.050, education:  0.200, precarity:  0.100, gender:  0.200 } },
-  mera25:     { name:"MeRA25",     fullName:"MeRA25",                     color:"#DC2626", ideology:-3, sensitivities:{ youth:  0.450, seniors: -0.150, urban:  0.150, education:  0.350, precarity:  0.150, gender:  0.000 } },
-  spartans:   { name:"Spartans",   fullName:"Spartans",                   color:"#E9B460", ideology: 5, sensitivities:{ youth:  0.300, seniors: -0.200, urban: -0.050, education: -0.250, precarity:  0.500, gender: -0.350 } },
-  gd:         { name:"GD",         fullName:"Golden Dawn",                color:"#374151", ideology: 5, sensitivities:{ youth:  0.200, seniors: -0.250, urban:  0.100, education: -0.300, precarity:  0.550, gender: -0.450 } },
-  fl:         { name:"FL",         fullName:"Voice of Reason",            color:"#0094FF", ideology: 4, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.100, education:  0.050, precarity:  0.100, gender: -0.300 } },
-  pat:        { name:"PAT",        fullName:"Patriotic Coalition",        color:"#1E3A8A", ideology: 4, sensitivities:{ youth: -0.100, seniors:  0.200, urban: -0.100, education: -0.150, precarity:  0.100, gender: -0.150 } },
-  elas:    { name:"ELAS",    fullName:"Greek Left Alliance",               color:"#A41F49", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.100, urban:  0.100, education:  0.250, precarity:  0.100, gender:  0.050 } },
-  elpida:     { name:"ELPIDA",     fullName:"Hope For Democracy",         color:"#d9b24d", ideology: 1, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.050, education:  0.150, precarity:  0.200, gender:  0.150 } },
-  dpk:        { name: "DPK",       fullName:"Democrats Progressive Centre", color:"#ff6600", ideology: 0, sensitivities:{ youth:  0.410, seniors: -0.080, urban:  0.074, education:  0.250, precarity:  0.150, gender: -0.020 } },
-samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"#162f80", ideology: 2, sensitivities:{ youth: -0.200, seniors:  0.400, urban: -0.100, education: -0.050, precarity: -0.200, gender: -0.100 } },
+  nd:         { name:"ND",         fullName:"New Democracy",              color:"#1b5cc7", ideology: 1, sensitivities:{ youth: -0.250, seniors:  0.450, urban:  0.050, education:  0.150, precarity: -0.400, gender:  0.050, affluence:  0.300 } },
+  syriza:     { name:"SYRIZA",     fullName:"SYRIZA - PS",                color:"#EF4444", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.250, urban:  0.050, education:  0.150, precarity:  0.200, gender:  0.100, affluence: -0.100 } },
+  pasok:      { name:"PASOK",      fullName:"PASOK - KINAL",              color:"#16A34A", ideology:-1, sensitivities:{ youth: -0.200, seniors:  0.350, urban: -0.400, education: -0.050, precarity: -0.100, gender:  0.100, affluence: -0.150 } },
+  kke:        { name:"KKE",        fullName:"Communist Party",            color:"#991B1B", ideology:-4, sensitivities:{ youth:  0.180, seniors:  0.100, urban:  0.250, education:  -0.150, precarity:  0.300, gender: -0.050, affluence: -0.300 } },
+  el:         { name:"EL",         fullName:"Greek Solution",             color:"#6BB6E6", ideology: 4, sensitivities:{ youth: -0.250, seniors:  0.250, urban: -0.150, education: -0.250, precarity:  0.150, gender: -0.200, affluence: -0.150 } },
+  na:         { name:"NA",         fullName:"New Left",                   color:"#7C3AED", ideology:-3, sensitivities:{ youth: -0.050, seniors:  0.100, urban:  0.250, education:  0.400, precarity: -0.150, gender:  0.050, affluence:  0.200 } },
+  niki:       { name:"NIKI",       fullName:"NIKI",                       color:"#92400E", ideology: 3, sensitivities:{ youth: -0.150, seniors:  0.100, urban: -0.150, education: -0.200, precarity:  0.050, gender: -0.150, affluence: -0.100 } },
+  pe:         { name:"PE",         fullName:"Course of Freedom",          color:"#D946EF", ideology:-3, sensitivities:{ youth:  0.350, seniors: -0.200, urban:  0.050, education:  0.200, precarity:  0.100, gender:  0.200, affluence:  0.000 } },
+  mera25:     { name:"MeRA25",     fullName:"MeRA25",                     color:"#DC2626", ideology:-3, sensitivities:{ youth:  0.450, seniors: -0.150, urban:  0.150, education:  0.350, precarity:  0.150, gender:  0.000, affluence:  0.050 } },
+  spartans:   { name:"Spartans",   fullName:"Spartans",                   color:"#E9B460", ideology: 5, sensitivities:{ youth:  0.300, seniors: -0.200, urban: -0.050, education: -0.250, precarity:  0.500, gender: -0.350, affluence: -0.350 } },
+  gd:         { name:"GD",         fullName:"Golden Dawn",                color:"#374151", ideology: 5, sensitivities:{ youth:  0.200, seniors: -0.250, urban:  0.100, education: -0.300, precarity:  0.550, gender: -0.450, affluence: -0.350 } },
+  fl:         { name:"FL",         fullName:"Voice of Reason",            color:"#0094FF", ideology: 4, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.100, education:  0.050, precarity:  0.100, gender: -0.300, affluence:  0.100 } },
+  pat:        { name:"PAT",        fullName:"Patriotic Coalition",        color:"#1E3A8A", ideology: 4, sensitivities:{ youth: -0.100, seniors:  0.200, urban: -0.100, education: -0.150, precarity:  0.100, gender: -0.150, affluence: -0.100 } },
+  elas:    { name:"ELAS",    fullName:"Greek Left Alliance",               color:"#A41F49", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.100, urban:  0.100, education:  0.250, precarity:  0.100, gender:  0.050, affluence: -0.050 } },
+  elpida:     { name:"ELPIDA",     fullName:"Hope For Democracy",         color:"#d9b24d", ideology: 1, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.050, education:  0.150, precarity:  0.200, gender:  0.150, affluence:  0.100 } },
+  dpk:        { name: "DPK",       fullName:"Democrats Progressive Centre", color:"#ff6600", ideology: 0, sensitivities:{ youth:  0.410, seniors: -0.080, urban:  0.074, education:  0.250, precarity:  0.150, gender: -0.020, affluence:  0.150 } },
+samaras:    { name:"SAMARAS",    fullName:"Antonis Samaras Party",       color:"#162f80", ideology: 2, sensitivities:{ youth: -0.200, seniors:  0.400, urban: -0.100, education: -0.050, precarity: -0.200, gender: -0.100, affluence:  0.200 } },
 
   // 2015-era parties, not standing in later scenarios
-  potami:     { name:"POTAMI",     fullName:"To Potami",                  color:"#9C514A", ideology: 0, sensitivities:{ youth:  0.250, seniors: -0.150, urban:  0.350, education:  0.400, precarity: -0.150, gender:  0.100 } },
-  anel:       { name:"ANEL",       fullName:"Independent Greeks",         color:"#38A3E7", ideology: 4, sensitivities:{ youth: -0.150, seniors:  0.300, urban: -0.350, education: -0.300, precarity:  0.350, gender: -0.250 } },
-  ek:         { name:"EK",         fullName:"Union of Centrists",         color:"#FF7F50", ideology: 0, sensitivities:{ youth: -0.050, seniors:  0.150, urban: -0.100, education: -0.100, precarity:  0.100, gender: -0.050 } },
-  lae:        { name:"LAE",        fullName:"Popular Unity",              color:"#B01740", ideology:-4, sensitivities:{ youth:  0.100, seniors: -0.100, urban:  0.100, education:  0.150, precarity:  0.250, gender:  0.050 } },
+  potami:     { name:"POTAMI",     fullName:"To Potami",                  color:"#9C514A", ideology: 0, sensitivities:{ youth:  0.250, seniors: -0.150, urban:  0.350, education:  0.400, precarity: -0.150, gender:  0.100, affluence:  0.300 } },
+  anel:       { name:"ANEL",       fullName:"Independent Greeks",         color:"#38A3E7", ideology: 4, sensitivities:{ youth: -0.150, seniors:  0.300, urban: -0.350, education: -0.300, precarity:  0.350, gender: -0.250, affluence: -0.200 } },
+  ek:         { name:"EK",         fullName:"Union of Centrists",         color:"#FF7F50", ideology: 0, sensitivities:{ youth: -0.050, seniors:  0.150, urban: -0.100, education: -0.100, precarity:  0.100, gender: -0.050, affluence:  0.000 } },
+  lae:        { name:"LAE",        fullName:"Popular Unity",              color:"#B01740", ideology:-4, sensitivities:{ youth:  0.100, seniors: -0.100, urban:  0.100, education:  0.150, precarity:  0.250, gender:  0.050, affluence: -0.200 } },
   // January 2015 only (gone by September 2015)
-  kidiso:     { name:"KIDISO",     fullName:"Movement of Democratic Socialists", color:"#E70C21", ideology:-1, sensitivities:{ youth: -0.100, seniors:  0.200, urban:  0.100, education:  0.200, precarity: -0.150, gender:  0.050 } },
-  teleia:     { name:"TELEIA",     fullName:"Teleia",                     color:"#64748B", ideology: 2, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.200, education:  0.350, precarity: -0.350, gender: -0.050 } },
+  kidiso:     { name:"KIDISO",     fullName:"Movement of Democratic Socialists", color:"#E70C21", ideology:-1, sensitivities:{ youth: -0.100, seniors:  0.200, urban:  0.100, education:  0.200, precarity: -0.150, gender:  0.050, affluence:  0.050 } },
+  teleia:     { name:"TELEIA",     fullName:"Teleia",                     color:"#64748B", ideology: 2, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.200, education:  0.350, precarity: -0.350, gender: -0.050, affluence:  0.300 } },
 
   // 2012-only parties, stood in both the May and June elections that year
-  dimar:      { name:"DIMAR",      fullName:"Democratic Left",            color:"#FF4100", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.050, urban:  0.250, education:  0.350, precarity:  0.050, gender:  0.100 } },
-  laos:       { name:"LAOS",       fullName:"Popular Orthodox Rally",     color:"#000080", ideology: 4, sensitivities:{ youth: -0.200, seniors:  0.300, urban: -0.250, education: -0.300, precarity:  0.200, gender: -0.200 } },
-  prasinoi:   { name:"OP",         fullName:"Ecologist Greens",           color:"#90EE90", ideology: 0, sensitivities:{ youth:  0.300, seniors: -0.200, urban:  0.300, education:  0.350, precarity: -0.050, gender:  0.150 } },
-  dxana:      { name:"DXANA",      fullName:"Recreate Greece",            color:"#F19914", ideology: 3, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.250, education:  0.350, precarity: -0.300, gender: -0.050 } },
+  dimar:      { name:"DIMAR",      fullName:"Democratic Left",            color:"#FF4100", ideology:-2, sensitivities:{ youth:  0.150, seniors: -0.050, urban:  0.250, education:  0.350, precarity:  0.050, gender:  0.100, affluence:  0.150 } },
+  laos:       { name:"LAOS",       fullName:"Popular Orthodox Rally",     color:"#000080", ideology: 4, sensitivities:{ youth: -0.200, seniors:  0.300, urban: -0.250, education: -0.300, precarity:  0.200, gender: -0.200, affluence: -0.200 } },
+  prasinoi:   { name:"OP",         fullName:"Ecologist Greens",           color:"#90EE90", ideology: 0, sensitivities:{ youth:  0.300, seniors: -0.200, urban:  0.300, education:  0.350, precarity: -0.050, gender:  0.150, affluence:  0.250 } },
+  dxana:      { name:"DXANA",      fullName:"Recreate Greece",            color:"#F19914", ideology: 3, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.250, education:  0.350, precarity: -0.300, gender: -0.050, affluence:  0.300 } },
   // May 2012 only (merged into "dxana" for June 2012)
-  disy:       { name:"DISY",       fullName:"Democratic Alliance",        color:"#f25c19", ideology: 0, sensitivities:{ youth: -0.050, seniors:  0.150, urban:  0.200, education:  0.250, precarity: -0.200, gender:  0.050 } },
-  drasi:      { name:"DRASI",      fullName:"Drasi - Liberal Alliance",   color:"#f25c19", ideology: 2, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.250, education:  0.300, precarity: -0.300, gender: -0.050 } },
-  antarsya:   { name:"ANTARSYA",   fullName:"Anticapitalist Left Cooperation", color:"#7F1D1D", ideology:-4, sensitivities:{ youth:  0.350, seniors: -0.250, urban:  0.200, education:  0.200, precarity:  0.300, gender:  0.100 } },
+  disy:       { name:"DISY",       fullName:"Democratic Alliance",        color:"#f25c19", ideology: 0, sensitivities:{ youth: -0.050, seniors:  0.150, urban:  0.200, education:  0.250, precarity: -0.200, gender:  0.050, affluence:  0.200 } },
+  drasi:      { name:"DRASI",      fullName:"Drasi - Liberal Alliance",   color:"#f25c19", ideology: 2, sensitivities:{ youth:  0.050, seniors: -0.050, urban:  0.250, education:  0.300, precarity: -0.300, gender: -0.050, affluence:  0.300 } },
+  antarsya:   { name:"ANTARSYA",   fullName:"Anticapitalist Left Cooperation", color:"#7F1D1D", ideology:-4, sensitivities:{ youth:  0.350, seniors: -0.250, urban:  0.200, education:  0.200, precarity:  0.300, gender:  0.100, affluence: -0.300 } },
 
-  other:      { name:"OTH",        fullName:"Other Parties",              color:"#9CA3AF", ideology: 0, sensitivities:{ youth:  0.000, seniors:  0.000, urban:  0.000, education:  0.000, precarity:  0.000, gender:  0.000 } },
+  other:      { name:"OTH",        fullName:"Other Parties",              color:"#9CA3AF", ideology: 0, sensitivities:{ youth:  0.000, seniors:  0.000, urban:  0.000, education:  0.000, precarity:  0.000, gender:  0.000, affluence:  0.000 } },
 
   // US easter eggs
-  us_dem:     { name:"DEM",        fullName:"Democratic Party (US)",      color:"#1D4ED8", ideology:-1, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.550, education:  0.450, precarity:  0.100, gender:  0.300 } },
-  us_rep:     { name:"GOP",        fullName:"Republican Party (US)",      color:"#E11D48", ideology: 3, sensitivities:{ youth: -0.200, seniors:  0.300, urban: -0.500, education: -0.350, precarity:  0.150, gender: -0.250 } }
+  us_dem:     { name:"DEM",        fullName:"Democratic Party (US)",      color:"#1D4ED8", ideology:-1, sensitivities:{ youth:  0.350, seniors: -0.150, urban:  0.550, education:  0.450, precarity:  0.100, gender:  0.300, affluence:  0.150 } },
+  us_rep:     { name:"GOP",        fullName:"Republican Party (US)",      color:"#E11D48", ideology: 3, sensitivities:{ youth: -0.200, seniors:  0.300, urban: -0.500, education: -0.350, precarity:  0.150, gender: -0.250, affluence: -0.100 } }
 };
 
 export const GR_PARTY_LINEAGE = {
@@ -218,7 +219,8 @@ export const GR_RAW_DISTRICTS_2015 = [
 //  June 2012 apportionment (56 pre-2018 constituencies, same undivided Athens B /
 //  Attica as GR_RAW_DISTRICTS_2015, but a DIFFERENT seat count per constituency:
 //  this is the pre-Π.Δ.4/2013 apportionment (2001 census, Π.Δ. 96/2007), the one
-//  actually in force for the May and June 2012 elections, superseded by the 2011-
+//  actually in force for the May and June 2012 elections (and, before them,
+//  October 2009 — same decree, unchanged seat table), superseded by the 2011-
 //  census numbers used from January 2015 on. Derived directly from the actual
 //  elected-MP counts per constituency (list of members of the Hellenic
 //  Parliament, 2012–2014 term) rather than from the decree text, so it is exact
@@ -287,12 +289,12 @@ export const GR_RAW_DISTRICTS_2012 = [
 
 // scenarioId -> which raw district table to use. The pre-2018 scenarios diverge
 // (56 constituencies, undivided Athens B / Attica); every other scenario keeps
-// the current 59-map. 2012 further diverges from 2015/2015jan in per-constituency
-// seat counts (different census apportionment — see GR_RAW_DISTRICTS_2012). Both
-// 2012 elections (May and June) share the same apportionment — no time for a new
-// decree in the six weeks between them.
+// the current 59-map. 2012 and 2009 further diverge from 2015/2015jan in
+// per-constituency seat counts (different census apportionment — see
+// GR_RAW_DISTRICTS_2012). 2009 and both 2012 elections (May and June) share the
+// same Π.Δ. 96/2007 apportionment — no redistricting decree between them.
 export function grDistrictsForScenario(scenarioId) {
-  if (scenarioId === "2012" || scenarioId === "2012may") return GR_RAW_DISTRICTS_2012;
+  if (scenarioId === "2012" || scenarioId === "2012may" || scenarioId === "2009") return GR_RAW_DISTRICTS_2012;
   if (scenarioId === "2015" || scenarioId === "2015jan") return GR_RAW_DISTRICTS_2015;
   return GR_RAW_DISTRICTS;
 }
@@ -394,10 +396,15 @@ export const GR_SCENARIOS = {
   "2012": grBuildScenario([ { id:"nd", pct:29.66 },{ id:"syriza", pct:26.89 },{ id:"pasok", pct:12.28 }, { id:"anel", pct:7.51 },{ id:"gd", pct:6.92 },{ id:"dimar", pct:6.25 }, { id:"kke", pct:4.50 },{ id:"dxana", pct:1.59 },{ id:"laos", pct:1.58 },{ id:"prasinoi", pct:0.88 } ]),
   // May 6, 2012 legislative election (national result; total valid votes 6,324,136).
   "2012may": grBuildScenario([ { id:"nd", pct:18.85 },{ id:"syriza", pct:16.79 },{ id:"pasok", pct:13.18 }, { id:"anel", pct:10.62 },{ id:"kke", pct:8.48 },{ id:"gd", pct:6.97 }, { id:"dimar", pct:6.11 },{ id:"prasinoi", pct:2.93 },{ id:"laos", pct:2.89 }, { id:"disy", pct:2.55 },{ id:"dxana", pct:2.15 },{ id:"drasi", pct:1.80 },{ id:"antarsya", pct:1.19 } ]),
+  // October 4, 2009 legislative election (national result; total valid votes 6,858,421).
+  // "other" (auto-filled to 100% below) absorbs Democratic Revival (0.45%), Antarsya
+  // (0.36%), Greek Ecologists (0.29%), Golden Dawn (0.29%), Union of Centrists (0.27%)
+  // and remaining minor parties (0.65%) — none cleared the 3% threshold or won a seat.
+  "2009": grBuildScenario([ { id:"pasok", pct:43.92 },{ id:"nd", pct:33.47 },{ id:"kke", pct:7.54 }, { id:"laos", pct:5.63 },{ id:"syriza", pct:4.60 },{ id:"prasinoi", pct:2.53 } ]),
 };
 
-export const GR_SCENARIO_LABELS  = { "2026":"May 2026 Polling", "custom":"Custom Scenario", "2023":"June 2023", "2019":"July 2019", "2015":"September 2015", "2015jan":"January 2015", "2012":"June 2012", "2012may":"May 2012" };
-export const GR_SCENARIO_TURNOUT = { "2026":5_500_000, "custom":5_500_000, "2023":5_273_699, "2019":5_769_542, "2015":5_433_376, "2015jan":6_180_872, "2012":6_155_464, "2012may":6_324_136 };
+export const GR_SCENARIO_LABELS  = { "2026":"May 2026 Polling", "custom":"Custom Scenario", "2023":"June 2023", "2019":"July 2019", "2015":"September 2015", "2015jan":"January 2015", "2012":"June 2012", "2012may":"May 2012", "2009":"October 2009" };
+export const GR_SCENARIO_TURNOUT = { "2026":5_500_000, "custom":5_500_000, "2023":5_273_699, "2019":5_769_542, "2015":5_433_376, "2015jan":6_180_872, "2012":6_155_464, "2012may":6_324_136, "2009":6_858_421 };
 export const GR_TURNOUT_IS_ESTIMATE = { "2026":true, "custom":true };
 
 // A Custom scenario needs at least this many parties before it's usable —
@@ -844,6 +851,78 @@ export const GR_DISTRICT_BASELINES = { "2023": {
     cephalonia:        { nd:18.0252, syriza:18.8824, pasok:11.7136, anel:7.9775, kke:15.0291, gd:7.8683, dimar:4.3668, prasinoi:2.4664, laos:1.9489, disy:1.2939, dxana:1.8033, drasi:1.4718, antarsya:1.3545 },
     lefkada:           { nd:25.2539, syriza:16.0276, pasok:13.9903, anel:6.7766, kke:13.2086, gd:5.5518, dimar:4.3516, prasinoi:2.3574, laos:1.3479, disy:1.0525, dxana:1.6865, drasi:1.2248, antarsya:3.0836 },
     zakynthos:         { nd:21.0388, syriza:16.0279, pasok:15.6025, anel:5.3809, kke:13.1822, gd:6.1126, dimar:4.9768, prasinoi:2.4501, laos:2.0588, disy:1.7780, dxana:1.2251, drasi:5.4660, antarsya:1.2846 },
+  },
+  // October 4, 2009 — official per-district vote shares for all 56 pre-2018
+  // constituencies (party vote %); ND, PASOK, KKE, LAOS, SYRIZA are exact
+  // district-level results, "prasinoi" (Ecologist Greens) is the flat national
+  // 2.53% applied to every district (no district-level breakdown available for
+  // this or the other minor parties). "other" is auto-filled to 100% by the
+  // normalisation pass below, same as every other scenario here, and absorbs
+  // Democratic Revival plus the remaining unlisted minor parties per district.
+  // Unlike 2012/2012may/2015/2015jan — whose baselines carry every party that
+  // won a seat — this "other" bucket is a REAL, seat-relevant residual (up to
+  // ~5pt in some urban districts) that the allocator can't award to its true
+  // owner. A zero-swing run therefore lands close to but not exactly on the
+  // official national seat tally (see SEATS_BY_SCENARIO."2009" in
+  // ResultsTable.jsx) — off by low single digits per party, not exact like
+  // the fully-itemised 2012/2015 baselines.
+  "2009": {
+    athens_a:          { pasok:35.52, nd:31.75, kke:9.55, laos:7.59, syriza:7.98, prasinoi:2.53 },
+    athens_b:          { pasok:40.23, nd:26.62, kke:10.84, laos:7.28, syriza:7.4, prasinoi:2.53 },
+    piraeus_a:         { pasok:38.88, nd:32.97, kke:8.11, laos:7.56, syriza:5.83, prasinoi:2.53 },
+    piraeus_b:         { pasok:44.34, nd:23.06, kke:12.88, laos:7.58, syriza:5.69, prasinoi:2.53 },
+    attica:            { pasok:43.12, nd:29.46, kke:8.23, laos:8.23, syriza:4.94, prasinoi:2.53 },
+    thessaloniki_a:    { pasok:39.11, nd:30.3, kke:9.53, laos:8.26, syriza:5.77, prasinoi:2.53 },
+    thessaloniki_b:    { pasok:38.23, nd:37.62, kke:7.57, laos:7.48, syriza:4.08, prasinoi:2.53 },
+    chalkidiki:        { pasok:41.02, nd:40.47, kke:5, laos:5.47, syriza:4.05, prasinoi:2.53 },
+    imathia:           { pasok:43.31, nd:37.01, kke:6.91, laos:6.16, syriza:3.16, prasinoi:2.53 },
+    kilkis:            { pasok:40.85, nd:39.93, kke:7.26, laos:6.39, syriza:2.49, prasinoi:2.53 },
+    pella:             { pasok:43.04, nd:41.48, kke:4.36, laos:5.51, syriza:2.52, prasinoi:2.53 },
+    pieria:            { pasok:41.37, nd:42.27, kke:5.29, laos:5.34, syriza:2.81, prasinoi:2.53 },
+    serres:            { pasok:37.1, nd:46.77, kke:5.02, laos:5.36, syriza:2.52, prasinoi:2.53 },
+    evros:             { pasok:44.74, nd:40.33, kke:3.76, laos:5.92, syriza:2.09, prasinoi:2.53 },
+    rhodope:           { pasok:53.08, nd:34.52, kke:2.48, laos:3.61, syriza:4.27, prasinoi:2.53 },
+    xanthi:            { pasok:58.79, nd:26.21, kke:2.75, laos:4.41, syriza:4.56, prasinoi:2.53 },
+    drama:             { pasok:41.63, nd:41.26, kke:3.82, laos:6.33, syriza:3.26, prasinoi:2.53 },
+    kavala:            { pasok:42.41, nd:37.38, kke:6, laos:6.01, syriza:4.06, prasinoi:2.53 },
+    kozani:            { pasok:44.08, nd:39.71, kke:5.76, laos:3.66, syriza:3.29, prasinoi:2.53 },
+    kastoria:          { pasok:34.6, nd:50.03, kke:4, laos:4.46, syriza:3.76, prasinoi:2.53 },
+    florina:           { pasok:44.02, nd:41.63, kke:4.62, laos:3.54, syriza:2.95, prasinoi:2.53 },
+    grevena:           { pasok:46.91, nd:36.64, kke:7.31, laos:3.56, syriza:2.6, prasinoi:2.53 },
+    ioannina:          { pasok:43.94, nd:36.12, kke:7.51, laos:3.5, syriza:4.9, prasinoi:2.53 },
+    arta:              { pasok:45.14, nd:38.99, kke:6.04, laos:2.58, syriza:4.67, prasinoi:2.53 },
+    preveza:           { pasok:42.98, nd:38.89, kke:8.04, laos:3.09, syriza:3.88, prasinoi:2.53 },
+    thesprotia:        { pasok:48.75, nd:36.61, kke:4.6, laos:3.06, syriza:3.47, prasinoi:2.53 },
+    larissa:           { pasok:40.81, nd:36.18, kke:9.46, laos:5.69, syriza:3.98, prasinoi:2.53 },
+    magnesia:          { pasok:40.39, nd:35.55, kke:8.79, laos:5.82, syriza:4.66, prasinoi:2.53 },
+    trikala:           { pasok:45.14, nd:37.63, kke:8.22, laos:3.8, syriza:2.54, prasinoi:2.53 },
+    karditsa:          { pasok:43.31, nd:39.83, kke:7.5, laos:4.02, syriza:2.88, prasinoi:2.53 },
+    aetolia_acarnania: { pasok:49.45, nd:35.73, kke:6.23, laos:3.03, syriza:2.82, prasinoi:2.53 },
+    boeotia:           { pasok:47.35, nd:31.08, kke:7.3, laos:6.17, syriza:3.9, prasinoi:2.53 },
+    phthiotis:         { pasok:43.85, nd:40.35, kke:4.92, laos:4.66, syriza:2.82, prasinoi:2.53 },
+    evrytania:         { pasok:51.2, nd:37.56, kke:3.24, laos:2.97, syriza:2.27, prasinoi:2.53 },
+    euboea:            { pasok:48.19, nd:31.08, kke:6.72, laos:6.01, syriza:3.9, prasinoi:2.53 },
+    phocis:            { pasok:40.22, nd:39.73, kke:6.92, laos:5.24, syriza:3.58, prasinoi:2.53 },
+    corinthia:         { pasok:46.8, nd:36.03, kke:4, laos:5.28, syriza:3.77, prasinoi:2.53 },
+    argolis:           { pasok:42.27, nd:42.55, kke:4.48, laos:4.16, syriza:3.15, prasinoi:2.53 },
+    arcadia:           { pasok:46.46, nd:36.54, kke:5.13, laos:4.79, syriza:3.76, prasinoi:2.53 },
+    laconia:           { pasok:36.47, nd:47.26, kke:4.8, laos:5.59, syriza:2.84, prasinoi:2.53 },
+    messenia:          { pasok:39.06, nd:43.26, kke:5.74, laos:5.07, syriza:3.62, prasinoi:2.53 },
+    elis:              { pasok:54.64, nd:32.75, kke:4.32, laos:3.08, syriza:2.57, prasinoi:2.53 },
+    achaea:            { pasok:52.65, nd:28.99, kke:6.6, laos:3.64, syriza:3.89, prasinoi:2.53 },
+    heraklion:         { pasok:62.74, nd:23.7, kke:4.44, laos:2.1, syriza:3.71, prasinoi:2.53 },
+    chania:            { pasok:51.11, nd:29.73, kke:5.98, laos:3.64, syriza:4.37, prasinoi:2.53 },
+    rethymno:          { pasok:57.91, nd:27.41, kke:3.75, laos:3.1, syriza:3.9, prasinoi:2.53 },
+    lasithi:           { pasok:59.37, nd:27.51, kke:3.47, laos:2.19, syriza:3.84, prasinoi:2.53 },
+    dodecanese:        { pasok:54.93, nd:30.74, kke:3.96, laos:4.12, syriza:2.71, prasinoi:2.53 },
+    cyclades:          { pasok:44.89, nd:36.03, kke:5.1, laos:4.19, syriza:4.64, prasinoi:2.53 },
+    lesbos:            { pasok:42.19, nd:31.06, kke:14.1, laos:4.03, syriza:4.43, prasinoi:2.53 },
+    samos:             { pasok:38.34, nd:29.72, kke:18.05, laos:3.97, syriza:5.13, prasinoi:2.53 },
+    chios:             { pasok:49.81, nd:33.94, kke:5.38, laos:3.55, syriza:3.37, prasinoi:2.53 },
+    corfu:             { pasok:43.36, nd:32.83, kke:11.96, laos:3.54, syriza:4.29, prasinoi:2.53 },
+    cephalonia:        { pasok:41.83, nd:33.04, kke:12.25, laos:4.67, syriza:3.73, prasinoi:2.53 },
+    lefkada:           { pasok:41.66, nd:37.01, kke:10.42, laos:2.37, syriza:5.16, prasinoi:2.53 },
+    zakynthos:         { pasok:47.55, nd:29.73, kke:11.18, laos:3.64, syriza:4.23, prasinoi:2.53 },
   },
 };
 
