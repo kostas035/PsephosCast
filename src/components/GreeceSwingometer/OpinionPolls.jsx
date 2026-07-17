@@ -109,20 +109,37 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
   // Localized date strings, sorted chronologically for the chart axis
   const chartData = useMemo(() => {
     if (!polls?.length) return [];
-    return [...polls]
+    const sorted = [...polls]
       .map(poll => {
-        const localizedDate = new Date(poll.timestamp).toLocaleString("en-GB", { 
-          day: "numeric", 
-          month: "short", 
-          year: "numeric" 
+        const localizedDate = new Date(poll.timestamp).toLocaleString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
         });
-        return { 
-          ...poll, 
-          dateLabel: localizedDate, 
-          displayDate: localizedDate 
+        return {
+          ...poll,
+          dateLabel: localizedDate,
+          displayDate: localizedDate
         };
       })
       .sort((a, b) => a.timestamp - b.timestamp); // Chronological sorting solves LOESS and Slider range inversion
+
+    // Polls that share the exact same date stack on the same pixel, so only the
+    // topmost one is clickable. `timestamp` stays the real date (used by LOESS,
+    // the tooltip, and the range slider); `plotX` is what the chart is drawn
+    // against, nudged apart just enough for every same-date poll to get its own
+    // hit target.
+    const DUP_OFFSET_MS = 12 * 60 * 60 * 1000; // 12h
+    for (let i = 0; i < sorted.length; ) {
+      let j = i + 1;
+      while (j < sorted.length && sorted[j].timestamp === sorted[i].timestamp) j++;
+      const groupSize = j - i;
+      for (let k = i; k < j; k++) {
+        sorted[k].plotX = sorted[k].timestamp + (k - i - (groupSize - 1) / 2) * DUP_OFFSET_MS;
+      }
+      i = j;
+    }
+    return sorted;
   }, [polls]);
 
   // Default view starts in 2024 — 2023 polls stay accessible by dragging the slider left.
@@ -191,7 +208,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
   const handleChartClick = useCallback((state) => {
     if (!state || !state.activePayload || !state.activePayload.length) { setPopup(null); return; }
     const ts = state.activeLabel;
-    const raw = chartData.find(d => Number(d.timestamp) === Number(ts)) || state.activePayload[0].payload;
+    const raw = chartData.find(d => Number(d.plotX) === Number(ts)) || state.activePayload[0].payload;
     if (!raw) { setPopup(null); return; }
     const coord = state.activeCoordinate || { x: state.chartX ?? 0, y: state.chartY ?? 0 };
     const W = chartBoxRef.current ? chartBoxRef.current.clientWidth : 600;
@@ -219,7 +236,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
   // chart-level handler "didn't work" on tap. Always resolves to the RAW poll.
   const openPopupFor = useCallback((payload, cx, cy) => {
     if (!payload) return;
-    const raw = chartData.find(d => Number(d.timestamp) === Number(payload.timestamp)) || payload;
+    const raw = chartData.find(d => Number(d.plotX) === Number(payload.plotX)) || payload;
     const W = chartBoxRef.current ? chartBoxRef.current.clientWidth : 600;
     const PW = 204;
     let left = (cx ?? 0) + 14;
@@ -284,7 +301,7 @@ export default function OpinionPolls({ polls = [], loading = false, error = fals
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={displayData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }} onClick={handleChartClick}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false}/>
-                <XAxis dataKey="timestamp" type="number" scale="time" domain={["dataMin", "dataMax"]} tickFormatter={formatXAxisDate} stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false}/>
+                <XAxis dataKey="plotX" type="number" scale="time" domain={["dataMin", "dataMax"]} tickFormatter={formatXAxisDate} stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false}/>
                 <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false}/>
                 <RechartsTooltip content={tooltipContent} cursor={{ stroke: "var(--border)", strokeWidth: 1, strokeDasharray: "3 3" }}/>
                 {POLL_PARTIES_MAPPING.map(p => {
