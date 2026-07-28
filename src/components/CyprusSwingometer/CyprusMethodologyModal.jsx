@@ -35,7 +35,7 @@ export default function CyprusMethodologyModal({ onClose }) {
           <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)", borderBottom: "1px solid var(--divider)", paddingBottom: 6 }}>Part A · National seat totals</div>
 
           <Section step="A1" title="Electoral threshold">
-            <p style={{ margin: 0 }}>A party must clear <strong>{CY.THRESHOLD}%</strong> of the valid national vote to win seats (adjustable in the panel). Parties below it are excluded and their shares drop out of the denominator; each surviving party's share is recomputed against the qualifying pool.</p>
+            <p style={{ margin: 0 }}>A party must clear a national vote-share threshold to win seats (adjustable in the panel, defaulting to whatever was legally in force for the selected scenario). The threshold was <strong>1.8%</strong> from 1996 through the 2011 election, then raised to <strong>3.6%</strong> from 2016 onward. Parties below it are excluded and their shares drop out of the denominator; each surviving party's share is recomputed against the qualifying pool.</p>
           </Section>
 
           <Section step="A2" title="National target seats — Hare quota + largest remainder">
@@ -46,8 +46,8 @@ export default function CyprusMethodologyModal({ onClose }) {
             </Mono>
           </Section>
 
-          <Section step="A3" title="Certified-result override (the three baselines)">
-            <p style={{ margin: 0 }}>Because a quota run on rounded <em>percentages</em> can flip a marginal seat versus the official raw-vote count, when the inputs exactly match a historical scenario the engine pins the national totals to the <strong>certified results</strong> — 2026, 2021 and 2016 — so each baseline reproduces reality precisely. The moment you move any slider, the live Hare calculation takes over.</p>
+          <Section step="A3" title="Certified-result override (the five baselines)">
+            <p style={{ margin: 0 }}>Because a quota run on rounded <em>percentages</em> can flip a marginal seat versus the official raw-vote count, when the inputs exactly match a historical scenario the engine pins the national totals to the <strong>certified results</strong> — 2026, 2021, 2016, 2011 and 2006 — so each baseline reproduces reality precisely. The moment you move any slider, the live Hare calculation takes over.</p>
           </Section>
 
           <div style={{ fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)", borderBottom: "1px solid var(--divider)", paddingBottom: 6 }}>Part B · District distribution</div>
@@ -70,7 +70,7 @@ export default function CyprusMethodologyModal({ onClose }) {
               swing(p) = logit(nationalEffective) − logit(nationalBase)<br/>
               districtShare(p) = logit⁻¹( logit(districtBase) + swing(p) )
             </Mono>
-            <p style={{ margin: "8px 0 0", color: "var(--text-muted)", fontSize: 13 }}>District baselines are the real 2021 constituency results; other scenarios derive their geography by applying this swing from 2021, with successor/new parties inheriting a parent's geography through a lineage map.</p>
+            <p style={{ margin: "8px 0 0", color: "var(--text-muted)", fontSize: 13 }}>District baselines are the real constituency results for 2021, 2011 and 2006; 2016's geography is derived by applying this swing from 2021, with successor/new parties inheriting a parent's geography through a lineage map.</p>
           </Section>
 
           <Section step="C2" title="Demographic model">
@@ -86,7 +86,9 @@ export default function CyprusMethodologyModal({ onClose }) {
           <Section title="Scenarios & data sources">
             <ul style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>
               <li><strong>2026 / 2021 / 2016:</strong> official certified results (Statistical Service of Cyprus / Election Service).</li>
-              <li><strong>District baselines:</strong> 2021 constituency results; other years derived by logit swing.</li>
+              <li><strong>2011 / 2006:</strong> official national and district results reconstructed from Wikipedia's certified-results tables, cross-checked against the Cyprus Mail's contemporaneous district report (2006) and Christophoros Christophorou's eklektor.org election archive (2011). The 2011 district-level breakdown rests on a single source and is flagged as high-confidence rather than primary-verified.</li>
+              <li><strong>District baselines:</strong> real constituency results for 2021, 2011 and 2006; 2016 derived by logit swing.</li>
+              <li><strong>Map census layers</strong> (Population, Foreign Citizens, Urbanization, Household Size): CYSTAT Census of Population &amp; Housing 2021 district releases. District-level unemployment, age structure and education attainment are not publicly published below the national level, so those layers aren't offered — Cyprus has no NUTS3 subdivision, so Eurostat can't fill the gap either.</li>
             </ul>
           </Section>
 

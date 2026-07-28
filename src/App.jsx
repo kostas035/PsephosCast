@@ -23,6 +23,7 @@ const GreeceApp          = lazy(() => import("./components/GreeceSwingometer/Gre
 const CyprusApp          = lazy(() => import("./components/CyprusSwingometer/CyprusApp"));
 const GreeceRegionsApp   = lazy(() => import("./components/GreeceRegions/GreeceRegionsApp"));
 const GreeceCorrelations = lazy(() => import("./components/GreeceSwingometer/GreeceCorrelations"));
+const USAApp              = lazy(() => import("./components/USASwingometer/USAApp"));
 
 const GLOBAL_CSS = `
   :root { --ff-head:'Barlow Condensed',sans-serif; --ff-body:'Barlow Condensed',sans-serif; --ff-mono:'IBM Plex Mono',monospace; }
@@ -116,6 +117,7 @@ export default function App() {
               <Route path="/greece" element={<GreeceApp isMobile={isMobile} theme={theme} setTheme={setTheme} />} />
               <Route path="/greece/correlations" element={<GreeceCorrelations isMobile={isMobile} theme={theme} setTheme={setTheme} />} />
               <Route path="/cyprus" element={<CyprusApp isMobile={isMobile} theme={theme} setTheme={setTheme} />} />
+              <Route path="/usa" element={<USAApp isMobile={isMobile} theme={theme} setTheme={setTheme} />} />
               <Route path="/greece-regional" element={<GreeceRegionsApp isMobile={isMobile} theme={theme} setTheme={setTheme} onBack={() => window.history.back()} />} />
             </Routes>
           </Suspense>

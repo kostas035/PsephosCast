@@ -82,6 +82,14 @@ export function cyAllocateAllSeats(nationalParties, districts, thresholdPct, sce
       // Official May 2016 results (56 seats total)
       targetSeats = { disy: 18, akel: 16, diko: 9, edek: 3, sypol: 3, solid: 3, kosp: 2, elam: 2 };
       qParties.forEach(p => { if (targetSeats[p.id] === undefined) targetSeats[p.id] = 0; });
+    } else if (scenarioId === "2011") {
+      // Official May 2011 results (56 seats total)
+      targetSeats = { disy: 20, akel: 19, diko: 9, edek: 5, euroko: 2, kosp: 1 };
+      qParties.forEach(p => { if (targetSeats[p.id] === undefined) targetSeats[p.id] = 0; });
+    } else if (scenarioId === "2006") {
+      // Official May 2006 results (56 seats total)
+      targetSeats = { akel: 18, disy: 18, diko: 11, edek: 5, euroko: 3, kosp: 1 };
+      qParties.forEach(p => { if (targetSeats[p.id] === undefined) targetSeats[p.id] = 0; });
     }
   }
 

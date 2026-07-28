@@ -36,25 +36,34 @@ export const CY_PARTY_DICT = {
   kekk:   { name:"KEKK",  fullName:"United Cypriot Hunters",   color:"#65A30D", ideology: 3, sensitivities:{ youth: 0.00, seniors: 0.00, urban: 0.00, education: 0.00, migration: 0.00, gender: 0.00 } },
   sypol:  { name:"SYPOL", fullName:"Citizens' Alliance",       color:"#F97316", ideology: 0, sensitivities:{ youth: 0.10, seniors:-0.10, urban: 0.05, education: 0.00, migration: 0.00, gender: 0.00 } },
   solid:  { name:"SOLID", fullName:"Solidarity Movement",      color:"#0284C7", ideology: 4, sensitivities:{ youth: 0.00, seniors: 0.10, urban:-0.10, education:-0.10, migration: 0.20, gender: 0.00 } },
+  euroko: { name:"EUROKO",fullName:"European Party",           color:"#0EA5E9", ideology: 1, sensitivities:{ youth:-0.30, seniors: 0.40, urban: 0.15, education: 0.20, migration: 0.10, gender: 0.05 } },
   others: { name:"OTH",   fullName:"Other Parties",            color:"#9CA3AF", ideology: 0, sensitivities:{ youth: 0.00, seniors: 0.00, urban: 0.00, education: 0.00, migration: 0.00, gender: 0.00 } },
 };
 
+// District magnitudes shift between elections as seats are periodically reapportioned to
+// population (e.g. one seat moved from Nicosia to Larnaca between 2006 and 2011).
 export const CY_RAW_DISTRICTS = [
-  { id:"nicosia",   name:"Nicosia",   seats: { "2026":19, "2021":20, "2016":20 }, lean: 0.5, primary:"disy" },
-  { id:"limassol",  name:"Limassol",  seats: { "2026":12, "2021":12, "2016":12 }, lean:-1.0, primary:"akel" },
-  { id:"famagusta", name:"Famagusta", seats: { "2026":11, "2021":11, "2016":11 }, lean: 2.5, primary:"disy" },
-  { id:"larnaca",   name:"Larnaca",   seats: { "2026": 6, "2021": 6, "2016": 6 }, lean:-1.5, primary:"akel" },
-  { id:"paphos",    name:"Paphos",    seats: { "2026": 5, "2021": 4, "2016": 4 }, lean: 0.0, primary:"diko" },
-  { id:"kyrenia",   name:"Kyrenia",   seats: { "2026": 3, "2021": 3, "2016": 3 }, lean: 1.5, primary:"disy" },
+  { id:"nicosia",   name:"Nicosia",   seats: { "2026":19, "2021":20, "2016":20, "2011":20, "2006":21 }, lean: 0.5, primary:"disy" },
+  { id:"limassol",  name:"Limassol",  seats: { "2026":12, "2021":12, "2016":12, "2011":12, "2006":12 }, lean:-1.0, primary:"akel" },
+  { id:"famagusta", name:"Famagusta", seats: { "2026":11, "2021":11, "2016":11, "2011":11, "2006":11 }, lean: 2.5, primary:"disy" },
+  { id:"larnaca",   name:"Larnaca",   seats: { "2026": 6, "2021": 6, "2016": 6, "2011": 6, "2006": 5 }, lean:-1.5, primary:"akel" },
+  { id:"paphos",    name:"Paphos",    seats: { "2026": 5, "2021": 4, "2016": 4, "2011": 4, "2006": 4 }, lean: 0.0, primary:"diko" },
+  { id:"kyrenia",   name:"Kyrenia",   seats: { "2026": 3, "2021": 3, "2016": 3, "2011": 3, "2006": 3 }, lean: 1.5, primary:"disy" },
 ];
 
+// Sources: CYSTAT Census of Population & Housing 2021 — "Final Results" press release
+// (9 Aug 2024, gov.cy) for population and foreign_citizens_pct; "Preliminary Results by
+// District and Municipality" (4 Aug 2023, library.cystat.gov.cy) for urbanization_pct
+// (fixes an earlier data-entry error that had Famagusta at 0% instead of 100%); household
+// size from CYSTAT's May 2022 district release. Kyrenia's residual free area (Kokkina and
+// a handful of villages) is not separately enumerated in any of these releases.
 export const CY_DISTRICT_DEMOGRAPHICS = {
-  nicosia:   { foreign_citizens_pct: 17.3, urbanization_pct: 73.1, avg_household_size: 2.51 },
-  limassol:  { foreign_citizens_pct: 21.7, urbanization_pct: 67.9, avg_household_size: 2.59 },
-  famagusta: { foreign_citizens_pct: 23.6, urbanization_pct: 0.0,  avg_household_size: 2.66 },
-  larnaca:   { foreign_citizens_pct: 19.2, urbanization_pct: 54.1, avg_household_size: 2.62 },
-  paphos:    { foreign_citizens_pct: 40.0, urbanization_pct: 59.2, avg_household_size: 2.55 },
-  kyrenia:   { foreign_citizens_pct: null, urbanization_pct: null, avg_household_size: null },
+  nicosia:   { population: 350035, foreign_citizens_pct: 17.3, urbanization_pct: 73.0,  avg_household_size: 2.6 },
+  limassol:  { population: 262157, foreign_citizens_pct: 21.7, urbanization_pct: 75.7,  avg_household_size: 2.6 },
+  famagusta: { population:  54318, foreign_citizens_pct: 23.6, urbanization_pct: 100.0, avg_household_size: 2.8 },
+  larnaca:   { population: 155765, foreign_citizens_pct: 19.2, urbanization_pct: 58.1,  avg_household_size: 2.7 },
+  paphos:    { population: 101106, foreign_citizens_pct: 40.0, urbanization_pct: 70.5,  avg_household_size: 2.5 },
+  kyrenia:   { population: null,   foreign_citizens_pct: null, urbanization_pct: null,  avg_household_size: null },
 };
 
 function cyBuildScenario(data) {
@@ -87,11 +96,29 @@ export const CY_SCENARIOS = {
     { id:"edek", pct:21732 }, { id:"sypol", pct:21114 }, { id:"solid", pct:18424 },
     { id:"kosp", pct:16909 }, { id:"elam", pct:13041 }, { id:"others", pct:11217 },
   ]),
+  // Exact 2011 Official Results (Total Valid: 404,577). Threshold was 1.8% at the time.
+  // Source: en.wikipedia.org/wiki/2011_Cypriot_legislative_election (cross-checked against
+  // el.wikipedia.org and eklektor.org).
+  "2011": cyBuildScenario([
+    { id:"disy", pct:138682 }, { id:"akel", pct:132171 }, { id:"diko", pct:63763 },
+    { id:"edek", pct:36113 }, { id:"euroko", pct:15711 }, { id:"kosp", pct:8960 },
+    { id:"elam", pct:4354 }, { id:"others", pct:4823 },
+  ]),
+  // Exact 2006 Official Results (Total Valid: 421,087). Threshold was 1.8% at the time.
+  // Source: en.wikipedia.org/wiki/2006_Cypriot_legislative_election, cross-checked against
+  // the Cyprus Mail's district-level results (archive.cyprus-mail.com).
+  "2006": cyBuildScenario([
+    { id:"akel", pct:131066 }, { id:"disy", pct:127776 }, { id:"diko", pct:75458 },
+    { id:"edek", pct:37533 }, { id:"euroko", pct:24196 }, { id:"kosp", pct:8193 },
+    { id:"others", pct:16865 },
+  ]),
 };
 
-export const CY_SCENARIO_LABELS     = { "2026":"May 2026 Results", "2021":"May 2021 Results", "2016":"May 2016 Results" };
-export const CY_SCENARIO_TURNOUT    = { "2026":372060, "2021":357712, "2016":351389 };
-export const CY_TURNOUT_IS_ESTIMATE = { "2026":false, "2021":false, "2016":false };
+export const CY_SCENARIO_LABELS     = { "2026":"May 2026 Results", "2021":"May 2021 Results", "2016":"May 2016 Results", "2011":"May 2011 Results", "2006":"May 2006 Results" };
+export const CY_SCENARIO_TURNOUT    = { "2026":372060, "2021":357712, "2016":351389, "2011":404577, "2006":421087 };
+export const CY_TURNOUT_IS_ESTIMATE = { "2026":false, "2021":false, "2016":false, "2011":false, "2006":false };
+// Legal qualifying threshold in force at each election (raised from 1.8% to 3.6% in 2016).
+export const CY_SCENARIO_THRESHOLD  = { "2026":3.6, "2021":3.6, "2016":3.6, "2011":1.8, "2006":1.8 };
 
 export const CY_DEM_CONTROLS = [
   { key:"youth",     label:"Youth Turnout (18–30)", color:"#7C3AED", tip:"Negative = youth abstain · Positive = youth mobilised" },
@@ -121,6 +148,26 @@ export const CY_DISTRICT_OFFICIAL_SEATS = {
     paphos:    { disy:2, akel:1, elam:0, diko:1, alma:0, adk:1 },
     kyrenia:   { disy:1, akel:1, elam:0, diko:1, alma:0, adk:0 },
   },
+  // 2011 / 2006 district seat tables reconstructed from eklektor.org (Christophoros
+  // Christophorou's election archive) — internally consistent with both the certified
+  // national totals and each district's magnitude, but not pulled directly from a live
+  // Ministry of Interior page this session. Treat as high-confidence, not primary-verified.
+  "2011": {
+    nicosia:   { disy:7, akel:6, diko:3, edek:2, euroko:1, kosp:1 },
+    limassol:  { disy:4, akel:5, diko:2, edek:1, euroko:0, kosp:0 },
+    famagusta: { disy:4, akel:4, diko:1, edek:1, euroko:1, kosp:0 },
+    larnaca:   { disy:3, akel:2, diko:1, edek:0, euroko:0, kosp:0 },
+    paphos:    { disy:1, akel:1, diko:1, edek:1, euroko:0, kosp:0 },
+    kyrenia:   { disy:1, akel:1, diko:1, edek:0, euroko:0, kosp:0 },
+  },
+  "2006": {
+    nicosia:   { akel:6, disy:6, diko:5, edek:2, euroko:1, kosp:1 },
+    limassol:  { akel:4, disy:4, diko:2, edek:1, euroko:1, kosp:0 },
+    famagusta: { akel:4, disy:4, diko:1, edek:1, euroko:1, kosp:0 },
+    larnaca:   { akel:2, disy:2, diko:1, edek:0, euroko:0, kosp:0 },
+    paphos:    { akel:1, disy:1, diko:1, edek:1, euroko:0, kosp:0 },
+    kyrenia:   { akel:1, disy:1, diko:1, edek:0, euroko:0, kosp:0 },
+  },
 };
 
 export const CY_DISTRICT_BASELINES = {
@@ -139,7 +186,29 @@ export const CY_DISTRICT_BASELINES = {
     larnaca:   { disy: 26.11, akel: 26.33, diko: 9.70,  elam: 7.66, edek: 8.72, dipa: 7.03, kosp: 2.18, solid: 0.88, kekk: 3.18, others: 1.89 },
     paphos:    { disy: 29.88, akel: 17.15, diko: 18.47, elam: 7.31, edek: 13.29,dipa: 3.67, kosp: 3.57, solid: 1.04, kekk: 2.58, others: 0.97 },
     kyrenia:   { disy: 24.30, akel: 24.47, diko: 15.00, elam: 5.53, edek: 5.16, dipa: 7.91, kosp: 5.03, solid: 1.94, kekk: 2.94, others: 2.60 },
-  }
+  },
+  // 2011 district vote shares — single source (eklektor.org), not cross-checked against a
+  // second independent table the way 2006 is. "others" is the residual to 100% (mostly
+  // ELAM's 2011 debut, LASOK, and independents, none broken out per district in the source).
+  "2011": {
+    nicosia:   { disy: 34.6, akel: 31.8, diko: 15.7, edek: 7.9,  euroko: 4.3, kosp: 3.2, others: 2.5 },
+    limassol:  { disy: 32.7, akel: 30.7, diko: 17.6, edek: 11.2, euroko: 3.8, kosp: 2.0, others: 2.0 },
+    famagusta: { disy: 40.2, akel: 37.0, diko: 9.9,  edek: 5.4,  euroko: 3.9, kosp: 1.6, others: 2.0 },
+    larnaca:   { disy: 34.4, akel: 35.9, diko: 15.1, edek: 8.5,  euroko: 2.9, kosp: 1.2, others: 2.0 },
+    paphos:    { disy: 25.6, akel: 24.1, diko: 23.3, edek: 19.3, euroko: 2.9, kosp: 1.1, others: 3.7 },
+    kyrenia:   { disy: 28.4, akel: 35.9, diko: 21.6, edek: 5.7,  euroko: 4.4, kosp: 2.2, others: 1.8 },
+  },
+  // 2006 district vote shares — cross-checked against the Cyprus Mail's independent
+  // district-results report (archive.cyprus-mail.com/2006/05/23). "others" is the residual
+  // to 100% (United Democrats, Free Citizens Movement, European Democracy, LASOK, indies).
+  "2006": {
+    nicosia:   { akel: 29.27, disy: 30.34, diko: 18.90, edek: 8.87,  euroko: 5.74, kosp: 2.60, others: 4.28 },
+    limassol:  { akel: 29.80, disy: 28.01, diko: 21.18, edek: 8.93,  euroko: 6.53, kosp: 1.87, others: 3.68 },
+    famagusta: { akel: 34.89, disy: 35.92, diko: 12.21, edek: 5.90,  euroko: 5.46, kosp: 1.49, others: 4.13 },
+    larnaca:   { akel: 37.34, disy: 34.02, diko: 11.12, edek: 9.84,  euroko: 3.91, kosp: 1.30, others: 2.47 },
+    paphos:    { akel: 24.37, disy: 23.54, diko: 23.51, edek: 17.35, euroko: 4.66, kosp: 0.99, others: 5.58 },
+    kyrenia:   { akel: 32.87, disy: 21.28, diko: 24.85, edek: 6.59,  euroko: 8.72, kosp: 2.10, others: 3.59 },
+  },
 };
 
 function generateDerivedBaseline(scenarioId) {

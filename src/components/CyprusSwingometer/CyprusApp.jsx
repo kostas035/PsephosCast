@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import {
   CY, CY_SCENARIOS, CY_SCENARIO_LABELS, CY_SCENARIO_TURNOUT,
-  CY_TURNOUT_IS_ESTIMATE, CY_RAW_DISTRICTS, DEM_RESET, CY_DISTRICT_BASELINES
+  CY_TURNOUT_IS_ESTIMATE, CY_RAW_DISTRICTS, DEM_RESET, CY_DISTRICT_BASELINES,
+  CY_SCENARIO_THRESHOLD,
 } from "./cyprus-data.js";
 import { cyAllocateAllSeats, cyApplySwing } from "./cyprus-engine.js";
 import { STYLES, S, MeanderBar, IconArrowLeft, IconCamera, IconPalette } from "./cyprus-ui.jsx";
@@ -66,6 +67,7 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
     setScenarioId(id);
     setParties(CY_SCENARIOS[id]);
     setDemSliders(DEM_RESET);
+    setThreshold(CY_SCENARIO_THRESHOLD[id] ?? CY.THRESHOLD);
   }, []);
 
   const handleToggleLock = useCallback(id => {
@@ -122,7 +124,7 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
   const resetAll = useCallback(() => {
     setParties(CY_SCENARIOS[scenarioId]);
     setDemSliders(DEM_RESET);
-    setThreshold(CY.THRESHOLD);
+    setThreshold(CY_SCENARIO_THRESHOLD[scenarioId] ?? CY.THRESHOLD);
   }, [scenarioId]);
 
   const handleGeneratePreview = async () => {
@@ -355,7 +357,7 @@ export default function CyprusApp({ isMobile, theme = "dark", setTheme }) {
               
               <div style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: 12, background: "var(--bg-mid)", borderRadius: 8, border: "1px solid var(--border)" }}>
                 <div style={{ fontSize: 20, lineHeight: 1 }}>🗺️</div>
-                <div><strong style={{ color: "var(--text-title)", display: "block", marginBottom: 2 }}>Explore the Map</strong> Hover over the map to see seat allocations per district. Use the map's dropdown to view background demographics like "Tertiary Edu".</div>
+                <div><strong style={{ color: "var(--text-title)", display: "block", marginBottom: 2 }}>Explore the Map</strong> Hover over the map to see seat allocations per district. Use the map mode menu to switch between the swingometer, margin of victory, runner-up party, and census layers like population or urbanization.</div>
               </div>
             </div>
             

@@ -79,9 +79,15 @@ export const CyControlPanel = memo(function CyControlPanel({
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 8, color: "var(--text-dim)", marginBottom: 5, fontFamily: "var(--ff-body)", letterSpacing: 1, textTransform: "uppercase" }}>Baseline</div>
         <select value={scenarioId} onChange={onScenarioChange} style={{ width: "100%", ...S.editInput, padding: "6px 8px", cursor: "pointer" }}>
-          <option value="2026">May 2026 Legistlative</option>
-          <option value="2021">May 2021 Legislative</option>
-          <option value="2016">May 2016 Legislative</option>
+          <optgroup label="3.6% Threshold">
+            <option value="2026">May 2026 Legislative</option>
+            <option value="2021">May 2021 Legislative</option>
+            <option value="2016">May 2016 Legislative</option>
+          </optgroup>
+          <optgroup label="1.8% Threshold">
+            <option value="2011">May 2011 Legislative</option>
+            <option value="2006">May 2006 Legislative</option>
+          </optgroup>
         </select>
       </div>
       <div style={{ marginBottom: 12, paddingBottom: 12, borderBottom: "1px solid var(--divider)" }}>

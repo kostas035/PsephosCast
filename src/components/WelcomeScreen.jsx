@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
+import { useNavigate } from "react-router-dom";
 import PrivacyModal from "./PrivacyModal";
 import CookiesModal from "./CookiesModal";
+
+const EuropeMap = lazy(() => import("./EuropeMap"));
 
 const IconClose = ({ size = 16 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -48,10 +51,10 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
   const [showPrivacy, setShowPrivacy]       = useState(false);
   const [showCookies, setShowCookies]       = useState(false);
   const [isTailwindLoaded, setIsTailwindLoaded] = useState(false);
+  const navigate = useNavigate();
 
-  // Fallback routing if react-router isn't set up yet
   const handleNavigation = (path) => {
-    window.location.href = path;
+    navigate(path);
   };
 
   // Dynamically inject Tailwind and the custom Config so it works with zero setup
@@ -284,6 +287,68 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
         .mono-data {
             font-family: 'IBM Plex Mono', monospace;
         }
+
+        .globe-popup .maplibregl-popup-content {
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+            border-radius: 0;
+        }
+        .globe-popup .maplibregl-popup-tip {
+            display: none;
+        }
+        .globe-popup-panel {
+            border-radius: 2px;
+            padding: 14px 16px 16px;
+            width: 220px;
+        }
+        .globe-popup-header {
+            margin-bottom: 12px;
+        }
+        .globe-popup-country {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: #ffffff;
+            line-height: 1.1;
+        }
+        .globe-popup-subtitle {
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            color: #8ea0c9;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .globe-popup-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.04);
+            border: 0.5px solid rgba(255,255,255,0.15);
+            border-radius: 2px;
+            padding: 9px 11px;
+            color: #fff;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .globe-popup-btn:hover {
+            background: rgba(180,197,255,0.12);
+        }
+        .globe-popup-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+            opacity: 0.8;
+        }
+        .maplibregl-canvas:focus,
+        .maplibregl-canvas:focus-visible {
+            outline: none;
+        }
       `}</style>
 
       {/* TopNavBar */}
@@ -332,103 +397,48 @@ export default function WelcomeScreen({ theme = 'dark', setTheme }) {
           </p>
         </section>
 
-        {/* Country Cards Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-grid-gutter w-full max-w-4xl">
-          
-          {/* Greece Card */}
-          <div onClick={() => handleNavigation('/greece')} className="hardware-module rounded-sm relative overflow-hidden card-hover group shadow-glass flex flex-col justify-between h-[220px] cursor-pointer">
-            <div className="screw-head screw-tl"></div>
-            <div className="screw-head screw-tr"></div>
-            <div className="screw-head screw-bl"></div>
-            <div className="screw-head screw-br"></div>
-            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary group-hover:w-[4px] transition-all"></div>
-            <div className="p-md flex-grow flex flex-col">
-              <div className="flex justify-between items-start mb-auto">
-                <div>
-                  <h2 className="font-headline-md text-headline-md text-white uppercase group-hover:text-primary transition-colors leading-none mb-1">GREECE</h2>
-                  <span className="font-label-sm text-label-sm text-on-surface-variant mono-data uppercase">HELLENIC_REPUBLIC</span>
-                </div>
-                <div className="flex items-center space-x-2 border border-white/10 rounded px-2 py-1 bg-black/20">
-                  <span className="indicator-dot bg-status-live shadow-[0_0_8px_rgba(220,38,38,0.6)]"></span>
-                  <span className="font-label-sm text-label-sm text-white mono-data uppercase">LIVE_MODEL</span>
-                </div>
-              </div>
-              <div className="divider-x my-md"></div>
-              <div className="flex h-12">
-                <div className="flex-1 pr-md">
-                  <div className="font-label-sm text-label-sm text-on-surface-variant mono-data mb-1">SEATS_TOTAL</div>
-                  <div className="font-label-md text-label-md text-white mono-data">300</div>
-                </div>
-                <div className="divider-y"></div>
-                <div className="flex-1 pl-md">
-                  <div className="font-label-sm text-label-sm text-on-surface-variant mono-data mb-1">ELEC_SYSTEM</div>
-                  <div className="font-label-md text-label-md text-white mono-data">REINFORCED_PR</div>
-                </div>
-              </div>
-            </div>
+        {/* Europe Globe Selector */}
+        <section className="hardware-module rounded-sm relative w-full max-w-xl shadow-glass p-sm md:p-md">
+          <div className="screw-head screw-tl"></div>
+          <div className="screw-head screw-tr"></div>
+          <div className="screw-head screw-bl"></div>
+          <div className="screw-head screw-br"></div>
+          <div className="text-center mb-xs">
+            <span className="font-label-sm text-label-sm text-on-surface-variant mono-data">
+              Select Country
+            </span>
           </div>
-
-          {/* Cyprus Card */}
-          <div onClick={() => handleNavigation('/cyprus')} className="hardware-module rounded-sm relative overflow-hidden card-hover group shadow-glass flex flex-col justify-between h-[220px] cursor-pointer">
-            <div className="screw-head screw-tl"></div>
-            <div className="screw-head screw-tr"></div>
-            <div className="screw-head screw-bl"></div>
-            <div className="screw-head screw-br"></div>
-            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary group-hover:w-[4px] transition-all"></div>
-            <div className="p-md flex-grow flex flex-col">
-              <div className="flex justify-between items-start mb-auto">
-                <div>
-                  <h2 className="font-headline-md text-headline-md text-white uppercase group-hover:text-secondary transition-colors leading-none mb-1">CYPRUS</h2>
-                  <span className="font-label-sm text-label-sm text-on-surface-variant mono-data uppercase">REPUBLIC_OF_CYPRUS</span>
-                </div>
+          <Suspense
+            fallback={
+              <div
+                className="mono-data"
+                style={{
+                  width: "100%",
+                  maxWidth: 640,
+                  aspectRatio: "1 / 1",
+                  margin: "0 auto",
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "0.5px solid rgba(255,255,255,0.1)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 11,
+                  letterSpacing: 2,
+                  color: "#8ea0c9",
+                  textTransform: "uppercase",
+                }}
+              >
+                LOADING_GLOBE…
               </div>
-              <div className="divider-x my-md"></div>
-              <div className="flex h-12">
-                <div className="flex-1 pr-md">
-                  <div className="font-label-sm text-label-sm text-on-surface-variant mono-data mb-1">SEATS_TOTAL</div>
-                  <div className="font-label-md text-label-md text-white mono-data">56</div>
-                </div>
-                <div className="divider-y"></div>
-                <div className="flex-1 pl-md">
-                  <div className="font-label-sm text-label-sm text-on-surface-variant mono-data mb-1">ELEC_SYSTEM</div>
-                  <div className="font-label-md text-label-md text-white mono-data">OPEN_LIST_PR</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Greek Regions Card */}
-          <div onClick={() => handleNavigation('/greece-regional')} className="hardware-module rounded-sm relative overflow-hidden card-hover group shadow-glass flex flex-col justify-between h-[220px] cursor-pointer md:col-span-2 md:w-1/2 md:mx-auto">
-            <div className="screw-head screw-tl"></div>
-            <div className="screw-head screw-tr"></div>
-            <div className="screw-head screw-bl"></div>
-            <div className="screw-head screw-br"></div>
-            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-tertiary group-hover:w-[4px] transition-all"></div>
-            <div className="p-md flex-grow flex flex-col">
-              <div className="flex justify-between items-start mb-auto">
-                <div>
-                  <h2 className="font-headline-md text-headline-md text-white uppercase group-hover:text-tertiary transition-colors leading-none mb-1">GREEK REGIONS</h2>
-                  <span className="font-label-sm text-label-sm text-on-surface-variant mono-data uppercase">REGIONAL_ELECTIONS</span>
-                </div>
-                <div className="flex items-center space-x-2 border border-white/10 rounded px-2 py-1 bg-black/20">
-                  <span className="material-symbols-outlined text-[14px] text-status-wip">construction</span>
-                  <span className="font-label-sm text-label-sm text-white mono-data uppercase">IN_DEV</span>
-                </div>
-              </div>
-              <div className="divider-x my-md"></div>
-              <div className="flex h-12">
-                <div className="flex-1 pr-md">
-                  <div className="font-label-sm text-label-sm text-on-surface-variant mono-data mb-1">REGIONS_TOTAL</div>
-                  <div className="font-label-md text-label-md text-white mono-data">13</div>
-                </div>
-                <div className="divider-y"></div>
-                <div className="flex-1 pl-md">
-                  <div className="font-label-sm text-label-sm text-on-surface-variant mono-data mb-1">ELEC_SYSTEM</div>
-                  <div className="font-label-md text-label-md text-white mono-data">TWO_ROUND_SYS</div>
-                </div>
-              </div>
-            </div>
-          </div>
+            }
+          >
+            <EuropeMap
+              onSelectGreece={(mode) => handleNavigation(mode === "regional" ? "/greece-regional" : "/greece")}
+              onSelectCyprus={() => handleNavigation("/cyprus")}
+              onSelectUSA={() => handleNavigation("/usa")}
+            />
+          </Suspense>
         </section>
       </main>
 
