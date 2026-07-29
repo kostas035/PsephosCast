@@ -37,6 +37,15 @@ export const STYLES = `
   .coalition-chip { transition: background 0.18s ${EASE_STD}, border-color 0.18s ${EASE_STD}, color 0.18s ${EASE_STD}, transform 0.12s ${EASE_SPRING} !important; }
   .coalition-chip:hover { transform: scale(1.04); }
   .coalition-chip:active { transform: scale(0.97); }
+  /* Map hover/pin feedback lives entirely in CSS so hovering never triggers a
+     React re-render of the (up to ~3,140-path) geography layer. Only the
+     directly-hovered path itself is restyled — no layer-wide "dim everyone
+     else" rule, since that forces the browser to keep ~3,140 siblings ready
+     to repaint on every hover-target change, which was the main non-JS
+     source of hover lag on the county map. */
+  .usa-geo-layer path.usa-geo-path { cursor: pointer; stroke: var(--map-stroke); stroke-opacity: 0.55; }
+  .usa-geo-layer path.usa-geo-path:hover { stroke: var(--map-stroke-hover) !important; stroke-width: 1.3px !important; stroke-opacity: 1 !important; }
+  .usa-geo-layer path.usa-geo-path.usa-geo-pinned { stroke: #fbbf24 !important; stroke-width: 2.4px !important; stroke-opacity: 1 !important; }
 `;
 
 export const S = {
@@ -60,6 +69,7 @@ export const IconMinus     = memo(({ size=12 }) => (<svg width={size} height={si
 export const IconCamera    = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>));
 export const IconMap       = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>));
 export const IconLayers    = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>));
+export const IconCheckSquare = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>));
 export const IconBallot    = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 12v8H4v-8"/><path d="M4 12l8-8 8 8"/><path d="M12 4v13"/></svg>));
 export const IconBarChart  = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>));
 export const IconMedal     = memo(({ size=14 }) => (<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="15" r="6"/><path d="M9 10.5 6 2h4l2 5 2-5h4l-3 8.5"/></svg>));

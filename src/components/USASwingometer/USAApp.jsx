@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useCallback, useTransition } from "react"
 import { useNavigate } from "react-router-dom";
 
 import {
-  USA, USA_SCENARIOS, USA_SCENARIO_LABELS, USA_SCENARIO_TURNOUT, USA_DEM_RESET,
+  USA, USA_SCENARIOS, USA_SCENARIO_TURNOUT, USA_DEMO_RESET, USA_DEMO_GROUPS,
 } from "./usa-data.js";
 import { usAllocateElectoralVotes, usFmtVotes } from "./usa-engine.js";
 import { STYLES, S, MeanderBar, IconArrowLeft, IconCamera } from "./usa-ui.jsx";
@@ -17,7 +17,9 @@ import CookiesModal from "../CookiesModal";
 const HOWTO = [
   { icon: "🎚️", title: "Adjust the Vote", text: "Use the sliders on the left to change the national GOP/DEM/Other percentages. Every state's result updates instantly via a logit swing from the selected baseline — swing states move the most, safe states barely move." },
   { icon: "🔒", title: "Lock a Candidate", text: "Click the padlock to freeze a candidate's score so it won't shift automatically when you move the others." },
-  { icon: "🗺️", title: "Explore the Map", text: "Hover any state (or flip on Counties for real county-level detail in the battleground/major states) to see its vote shares, margin, and electoral votes. Switch map modes to see margin of victory or demographic layers." },
+  { icon: "🗺️", title: "Explore the Map", text: "Hover any state or county (flip on Counties for real county-level detail everywhere but Alaska/DC) to see its exact vote counts and percentages. Switch map modes to see margin of victory or demographic layers." },
+  { icon: "✏️", title: "Edit One County or State", text: "Click a state or county to pin it and drag its own Local Swing bar — that county's real vote totals shift, and its parent state's total updates live, exactly like moving one seat on a real swingometer." },
+  { icon: "🖱️", title: "Edit Several at Once", text: "Turn on Multi-Select in the map toolbar, click as many states or counties as you want, then drag one shared bar to apply the same local swing to the whole selection at once." },
   { icon: "🎲", title: "Monte Carlo Forecast", text: "Scroll down to see thousands of simulated elections around your numbers, showing the range of Electoral College outcomes and each close state's win probability." },
 ];
 
@@ -25,8 +27,20 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
   const navigate = useNavigate();
   const [scenarioYear, setScenarioYear] = useState("2024");
   const [candidates, setCandidates] = useState(USA_SCENARIOS["2024"]);
-  const [demSliders, setDemSliders] = useState(USA_DEM_RESET);
+  const [demSliders, setDemSlidersRaw] = useState(USA_DEMO_RESET);
+  const [countyOverrides, setCountyOverridesRaw] = useState({});
+  const [stateOverrides, setStateOverridesRaw] = useState({});
+  const [countyTurnout, setCountyTurnoutRaw] = useState({});
+  const [stateTurnout, setStateTurnoutRaw] = useState({});
   const [isPending, startTransition] = useTransition();
+  // Every one of these drives a full ~3,140-county recompute + map recolor —
+  // routing them through startTransition lets React keep the slider itself
+  // responsive and interrupt/skip stale recomputes instead of queuing them up.
+  const setDemSliders = useCallback(v => startTransition(() => setDemSlidersRaw(v)), [startTransition]);
+  const setCountyOverrides = useCallback(v => startTransition(() => setCountyOverridesRaw(v)), [startTransition]);
+  const setStateOverrides = useCallback(v => startTransition(() => setStateOverridesRaw(v)), [startTransition]);
+  const setCountyTurnout = useCallback(v => startTransition(() => setCountyTurnoutRaw(v)), [startTransition]);
+  const setStateTurnout = useCallback(v => startTransition(() => setStateTurnoutRaw(v)), [startTransition]);
 
   const [showMethodology, setShowMethodology] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -56,8 +70,40 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
     const year = e.target.value;
     setScenarioYear(year);
     setCandidates(USA_SCENARIOS[year]);
-    setDemSliders({ ...USA_DEM_RESET });
+    setDemSlidersRaw({ ...USA_DEMO_RESET });
+    setCountyOverridesRaw({});
+    setStateOverridesRaw({});
+    setCountyTurnoutRaw({});
+    setStateTurnoutRaw({});
   }, []);
+
+  const handleSetCountyOverride = useCallback((fips, pts) => {
+    setCountyOverrides(prev => {
+      if (!pts) { const next = { ...prev }; delete next[fips]; return next; }
+      return { ...prev, [fips]: pts };
+    });
+  }, [setCountyOverrides]);
+  const handleSetStateOverride = useCallback((abbr, pts) => {
+    setStateOverrides(prev => {
+      if (!pts) { const next = { ...prev }; delete next[abbr]; return next; }
+      return { ...prev, [abbr]: pts };
+    });
+  }, [setStateOverrides]);
+  const handleSetCountyTurnout = useCallback((fips, pct) => {
+    setCountyTurnout(prev => {
+      if (!pct) { const next = { ...prev }; delete next[fips]; return next; }
+      return { ...prev, [fips]: pct };
+    });
+  }, [setCountyTurnout]);
+  const handleSetStateTurnout = useCallback((abbr, pct) => {
+    setStateTurnout(prev => {
+      if (!pct) { const next = { ...prev }; delete next[abbr]; return next; }
+      return { ...prev, [abbr]: pct };
+    });
+  }, [setStateTurnout]);
+  const handleClearAllOverrides = useCallback(() => {
+    setCountyOverrides({}); setStateOverrides({}); setCountyTurnout({}); setStateTurnout({});
+  }, [setCountyOverrides, setStateOverrides, setCountyTurnout, setStateTurnout]);
 
   const handleToggleLock = useCallback(id => {
     setCandidates(prev => prev.map(c => c.id === id ? { ...c, isLocked: !c.isLocked } : c));
@@ -98,16 +144,27 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
 
   const resetAll = useCallback(() => {
     setCandidates(USA_SCENARIOS[scenarioYear]);
-    setDemSliders({ ...USA_DEM_RESET });
+    setDemSlidersRaw({ ...USA_DEMO_RESET });
+    setCountyOverridesRaw({});
+    setStateOverridesRaw({});
+    setCountyTurnoutRaw({});
+    setStateTurnoutRaw({});
   }, [scenarioYear]);
 
-  const effectiveCandidates = useMemo(() => {
+  // Pure candidate-slider swing (no demographics baked in) — the engine
+  // applies demSliders itself, per county/state, geographically weighted by
+  // each area's real Census composition (see usa-engine.js), instead of the
+  // same flat delta landing on every county regardless of who actually lives there.
+  const effectiveCandidates = useMemo(() => candidates.map(c => ({ ...c, effectivePct: c.userPercentage })), [candidates]);
+
+  // Monte Carlo runs on the 51 state baselines only (not per-county), so it
+  // keeps the simpler pre-existing behaviour: demographic sliders blended in
+  // as one uniform national delta rather than geographically re-weighted.
+  const effectiveCandidatesForMC = useMemo(() => {
     let pre = candidates.map(c => {
       const s = c.sensitivities || {};
-      const delta = (demSliders.college / 10) * (s.college || 0) + (demSliders.seniors / 10) * (s.seniors || 0)
-        + (demSliders.urban / 10) * (s.urban || 0) + (demSliders.hispanic / 10) * (s.hispanic || 0)
-        + (demSliders.income / 10) * (s.income || 0) + (demSliders.gender / 10) * (s.gender || 0);
-      return { ...c, effectivePct: Math.max(0.05, c.userPercentage + delta) };
+      const delta = USA_DEMO_GROUPS.reduce((acc, g) => acc + (demSliders[g.key] / 10) * (s[g.key] || 0), 0);
+      return { ...c, effectivePct: Math.max(0.02, c.userPercentage + delta) };
     });
     const sum = pre.reduce((s, c) => s + c.effectivePct, 0);
     if (sum > 0) pre = pre.map(c => ({ ...c, effectivePct: (c.effectivePct / sum) * 100 }));
@@ -115,8 +172,10 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
   }, [candidates, demSliders]);
 
   const electionResult = useMemo(
-    () => usAllocateElectoralVotes(effectiveCandidates, scenarioYear, USA_SCENARIOS[scenarioYear]),
-    [effectiveCandidates, scenarioYear]
+    () => usAllocateElectoralVotes(effectiveCandidates, scenarioYear, USA_SCENARIOS[scenarioYear], {
+      countyOverrides, stateOverrides, countyTurnout, stateTurnout, demSliders,
+    }),
+    [effectiveCandidates, scenarioYear, countyOverrides, stateOverrides, countyTurnout, stateTurnout, demSliders]
   );
 
   const pendingClass = isPending ? "results-pending" : "results-ready";
@@ -152,7 +211,13 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
 
   const MapColumn = (
     <div className={pendingClass} style={{ display: "flex", flexDirection: "column", gap: 12, minWidth: 0 }}>
-      <USAMap electionResult={electionResult} scenarioYear={scenarioYear} />
+      <USAMap electionResult={electionResult} scenarioYear={scenarioYear}
+        countyOverrides={countyOverrides} stateOverrides={stateOverrides}
+        onSetCountyOverride={handleSetCountyOverride} onSetStateOverride={handleSetStateOverride}
+        countyTurnout={countyTurnout} stateTurnout={stateTurnout}
+        onSetCountyTurnout={handleSetCountyTurnout} onSetStateTurnout={handleSetStateTurnout}
+        onClearAllOverrides={handleClearAllOverrides}
+        demSliders={demSliders} baseCandidates={USA_SCENARIOS[scenarioYear]} />
       <USAResultsTable electionResult={electionResult} scenarioYear={scenarioYear} />
     </div>
   );
@@ -200,10 +265,6 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
           </div>
 
           <div style={{ textAlign: "right" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 5, justifyContent: "flex-end", marginBottom: 5 }}>
-              <div style={{ width: 5, height: 5, borderRadius: "50%", background: isPending ? "#F59E0B" : "#22C55E", boxShadow: isPending ? "0 0 6px #F59E0B" : "0 0 6px #22C55E" }} />
-              <span style={{ fontSize: 8, color: "var(--text-dim)", ...S.mono, letterSpacing: 1 }}>{isPending ? "COMPUTING…" : `LIVE — ${USA_SCENARIO_LABELS[scenarioYear]}`}</span>
-            </div>
             <div style={{ display: "flex", justifyContent: "flex-end", gap: 6 }}>
               <button className="icon-btn" onClick={handleGeneratePreview} style={{ ...S.ghostBtn, opacity: isGeneratingExport ? 0.6 : 1, cursor: isGeneratingExport ? "wait" : "pointer" }} disabled={isGeneratingExport}>
                 {isGeneratingExport ? "Generating…" : <><IconCamera size={10} /> Export</>}
@@ -237,7 +298,7 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
       </div>
 
       <div className={pendingClass} style={{ marginTop: 16 }}>
-        <USAMonteCarloPanel effectiveCandidates={effectiveCandidates} baseCandidates={USA_SCENARIOS[scenarioYear]} scenarioYear={scenarioYear} isMobile={isMobile} />
+        <USAMonteCarloPanel effectiveCandidates={effectiveCandidatesForMC} baseCandidates={USA_SCENARIOS[scenarioYear]} scenarioYear={scenarioYear} isMobile={isMobile} />
       </div>
 
       <div style={{ marginTop: 18 }}>
@@ -304,7 +365,9 @@ export default function USAApp({ isMobile, theme = "dark", setTheme }) {
 
       <div id="usa-export-container" style={{ position: "fixed", top: -9999, left: -9999, width: 1200, height: 800, background: "var(--bg-up)", display: "none", padding: 24, gap: 24, boxSizing: "border-box", zIndex: -100 }}>
         <div style={{ flex: 1.5, height: "100%", display: "flex", flexDirection: "column" }}>
-          <USAMap electionResult={electionResult} scenarioYear={scenarioYear} hideControls={true} />
+          <USAMap electionResult={electionResult} scenarioYear={scenarioYear} hideControls={true}
+            countyOverrides={countyOverrides} stateOverrides={stateOverrides}
+            demSliders={demSliders} baseCandidates={USA_SCENARIOS[scenarioYear]} />
         </div>
         <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 20 }}>
           <USAElectoralBar electionResult={electionResult} scenarioYear={scenarioYear} />

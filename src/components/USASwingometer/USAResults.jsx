@@ -4,7 +4,7 @@
 // of proportional seats.
 import { memo, useMemo, useState } from "react";
 import { USA, USA_STATE_NAMES, USA_CANDIDATE_DICT, USA_CANDIDATE_LABELS } from "./usa-data.js";
-import { usFmtEV } from "./usa-engine.js";
+import { usFmtEV, usFmtVotes, usFmtVotesExact } from "./usa-engine.js";
 import { S, EASE_SPRING, EASE_STD } from "./usa-ui.jsx";
 
 export const USAElectoralBar = memo(function USAElectoralBar({ electionResult, scenarioYear }) {
@@ -100,10 +100,10 @@ export const USAResultsTable = memo(function USAResultsTable({ electionResult, s
         </div>
       </div>
       <div style={{ overflowX: "auto", maxHeight: 420, overflowY: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 460 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 560 }}>
           <thead>
             <tr>
-              {["State", "EV", labels.gop, labels.dem, "Margin"].map(h => (
+              {["State", "EV", labels.gop, labels.dem, "Margin", "Total Votes"].map(h => (
                 <th key={h} style={{ position: "sticky", top: 0, background: "var(--bg-mid)", fontSize: 8, color: "var(--text-dim)", letterSpacing: 1.5, fontFamily: "var(--ff-body)", textAlign: h === "State" ? "left" : "right", padding: "4px 8px 8px", borderBottom: "1px solid var(--border)", textTransform: "uppercase", whiteSpace: "nowrap" }}>{h}</th>
               ))}
             </tr>
@@ -120,14 +120,18 @@ export const USAResultsTable = memo(function USAResultsTable({ electionResult, s
                     </div>
                   </td>
                   <td style={{ fontSize: 11, color: "var(--text-main)", ...S.mono, textAlign: "right", padding: "6px 8px", fontWeight: 700 }}>{r.ev}</td>
-                  <td style={{ fontSize: 10, color: USA_CANDIDATE_DICT.gop.color, ...S.mono, textAlign: "right", padding: "6px 8px" }}>{r.gop.toFixed(1)}%</td>
-                  <td style={{ fontSize: 10, color: USA_CANDIDATE_DICT.dem.color, ...S.mono, textAlign: "right", padding: "6px 8px" }}>{r.dem.toFixed(1)}%</td>
+                  <td style={{ fontSize: 10, color: USA_CANDIDATE_DICT.gop.color, ...S.mono, textAlign: "right", padding: "6px 8px", whiteSpace: "nowrap" }}>{usFmtVotes(r.votes?.gop)} ({r.gop.toFixed(1)}%)</td>
+                  <td style={{ fontSize: 10, color: USA_CANDIDATE_DICT.dem.color, ...S.mono, textAlign: "right", padding: "6px 8px", whiteSpace: "nowrap" }}>{usFmtVotes(r.votes?.dem)} ({r.dem.toFixed(1)}%)</td>
                   <td style={{ fontSize: 10, color: "var(--text-main)", ...S.mono, textAlign: "right", padding: "6px 8px", fontWeight: 700 }}>{r.margin.toFixed(1)}pt</td>
+                  <td style={{ fontSize: 9, color: "var(--text-dim)", ...S.mono, textAlign: "right", padding: "6px 8px" }}>{usFmtVotesExact(r.totalVotes)}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+      </div>
+      <div style={{ fontSize: 8, color: "var(--text-dim)", marginTop: 8, fontFamily: "var(--ff-body)" }}>
+        Click any state or county on the map above to see its full candidate breakdown (including third parties) and locally edit its result.
       </div>
     </div>
   );

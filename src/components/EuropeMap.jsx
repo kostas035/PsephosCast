@@ -1,8 +1,15 @@
 import { useEffect, useRef } from "react";
-import { MapLibreMap, Popup } from "maplibre-gl";
+import { MapLibreMap, Popup, setWorkerUrl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { feature } from "topojson-client";
 import worldTopology from "world-atlas/countries-110m.json";
+
+// MapLibre resolves its worker script at runtime via `import.meta.url` on its own
+// module, which points somewhere sensible in dev (real node_modules files) but at a
+// non-existent path once bundled into a hashed production chunk. Vite also can't
+// statically detect that dynamic reference to bundle the worker as an asset. Point it
+// at a copy served from /public (kept in sync with node_modules/maplibre-gl/dist/) instead.
+setWorkerUrl("/maplibre/maplibre-gl-worker.mjs");
 
 const GREECE_ID = 300;
 const CYPRUS_ID = 196;

@@ -1,11 +1,13 @@
 // usa-montecarlo.js — probabilistic layer over the deterministic engine.
-// Mirrors cyprus-montecarlo.js: perturbs the current national vote shares
-// thousands of times with a fat-tailed, partly-correlated error, but here the
-// error has THREE tiers (matching how real US election uncertainty behaves):
-//   national  — a single shared miss that moves every state together
-//   regional  — a regional-cluster miss (Northeast/Midwest/South/West)
-//   state     — an idiosyncratic per-state miss, scaled by that state's
-//               historical elasticity (USA_STATE_LEAN magnitude)
+// Perturbs the current national vote shares thousands of times with a
+// fat-tailed, partly-correlated error with THREE tiers (matching how real US
+// election uncertainty behaves): national, regional, and per-state
+// idiosyncratic (scaled by that state's historical elasticity). The random
+// shock is applied to the gop<->dem competitive axis only — third parties are
+// treated as comparatively stable and simply carry the user's slider-driven
+// central swing with no added noise, which keeps a 4000-iteration run fast
+// (this iterates only the 51 state baselines, not the full county set — the
+// deterministic map/results panel is where county-level detail lives).
 import { usToLogit, usFromLogit, USA_EV, USA_STATE_BASELINES, USA_STATE_REGION, USA_STATE_LEAN } from "./usa-data.js";
 
 function randn() {
@@ -28,7 +30,7 @@ function percentile(sorted, q) {
 const REGION_NAMES = ["Northeast", "Midwest", "South", "West"];
 
 /**
- * @param {Array}  effectiveCandidates  candidates with `effectivePct` (gop/dem/other)
+ * @param {Array}  effectiveCandidates  candidates with `effectivePct` (any ids)
  * @param {string} scenarioYear
  * @param {Array}  baseCandidates
  * @param {Object} opts { sigma=2.2, iterations=4000, df=5, national=0.45, regional=0.25 }
@@ -38,13 +40,14 @@ export function usRunMonteCarlo(effectiveCandidates, scenarioYear, baseCandidate
   const baselines = USA_STATE_BASELINES[scenarioYear];
   const abbrs = Object.keys(baselines);
   if (!abbrs.length) return null;
+  const ids = Object.keys(baselines[abbrs[0]]);
 
-  // Central (best-estimate) logit swing, identical to the deterministic engine.
+  // Central (best-estimate) logit swing per candidate, identical to the deterministic engine.
   const centralSwing = {};
   for (const bc of baseCandidates) {
     const ec = effectiveCandidates.find(p => p.id === bc.id);
-    const basePct = Math.max(0.05, bc.basePercentage);
-    const effPct = ec ? Math.max(0.05, ec.effectivePct) : basePct;
+    const basePct = Math.max(0.02, bc.basePercentage);
+    const effPct = ec ? Math.max(0.02, ec.effectivePct) : basePct;
     centralSwing[bc.id] = usToLogit(effPct) - usToLogit(basePct);
   }
 
@@ -65,17 +68,20 @@ export function usRunMonteCarlo(effectiveCandidates, scenarioYear, baseCandidate
     for (const abbr of abbrs) {
       const region = USA_STATE_REGION[abbr] || "South";
       const idio = studentT(df) * sigma * (1 - national - regional) * idiosyncraticScale[abbr];
-      const stateSwingGop = centralSwing.gop + natShock + regionShock[region] + idio;
-      const stateSwingDem = centralSwing.dem - (natShock + regionShock[region] + idio) * 0.85; // partial zero-sum vs 3rd party
+      const shockTotal = natShock + regionShock[region] + idio;
 
-      const baseGop = Math.max(0.05, baselines[abbr].gop);
-      const baseDem = Math.max(0.05, baselines[abbr].dem);
-      const gopLo = usToLogit(baseGop) + stateSwingGop;
-      const demLo = usToLogit(baseDem) + stateSwingDem;
-      let gop = usFromLogit(gopLo), dem = usFromLogit(demLo);
-      const tot = gop + dem;
-      gop = (gop / tot) * (100 - Math.max(0.5, baselines[abbr].other));
-      dem = (dem / tot) * (100 - Math.max(0.5, baselines[abbr].other));
+      const baseline = baselines[abbr];
+      let total = 0;
+      const adj = {};
+      for (const id of ids) {
+        const extra = id === "gop" ? shockTotal : id === "dem" ? -shockTotal * 0.85 : 0;
+        const basePct = Math.max(0.02, baseline[id] ?? 0.02);
+        const lo = usToLogit(basePct) + (centralSwing[id] ?? 0) + extra;
+        adj[id] = usFromLogit(lo);
+        total += adj[id];
+      }
+      let gop = total > 0 ? (adj.gop / total) * 100 : 0;
+      let dem = total > 0 ? (adj.dem / total) * 100 : 0;
 
       const ev = USA_EV[abbr] || 0;
       const margin = gop - dem; // positive = GOP
